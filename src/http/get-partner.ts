@@ -5,6 +5,16 @@ export type Partner = {
   id: string
   name: string
   email: string
+  establishments: {
+    id: string
+    name: string
+  }[]
+  subscriptions: {
+    id: string
+    status: string
+    endedAt: Date
+    createdAt: Date
+  }[]
 }
 
 interface GetPartnerResponse {

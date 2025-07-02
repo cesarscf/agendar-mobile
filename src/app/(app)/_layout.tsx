@@ -6,6 +6,7 @@ import { GestureHandlerRootView } from "react-native-gesture-handler"
 export default function AppLayout() {
   return (
     <Drawer
+      screenOptions={{ headerShown: false }}
       drawerContent={() => {
         return (
           <GestureHandlerRootView className="flex-1 pt-10">
@@ -16,7 +17,7 @@ export default function AppLayout() {
               }}
             />
             <DrawerItem
-              label="Clientes"
+              label="Serviços"
               onPress={() => {
                 router.push("/(app)/(tabs)/services")
               }}

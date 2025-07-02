@@ -12,6 +12,7 @@
   "dependencies": {
     "@hookform/resolvers": "^5.1.1",
     "@react-navigation/drawer": "^7.5.2",
+    "@tanstack/react-query": "^5.81.5",
     "axios": "^1.10.0",
     "clsx": "^2.1.1",
     "expo": "53.0.11",

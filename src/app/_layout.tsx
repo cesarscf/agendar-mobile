@@ -4,13 +4,18 @@ import { Stack } from "expo-router"
 import "../../global.css"
 import { StatusBar } from "expo-status-bar"
 
+import { queryClient } from "@/lib/react-query"
+import { QueryClientProvider } from "@tanstack/react-query"
+
 export default function RootLayout() {
   return (
-    <SessionProvider>
-      <StatusBar style="auto" />
-      <SplashScreenController />
-      <RootNavigator />
-    </SessionProvider>
+    <QueryClientProvider client={queryClient}>
+      <SessionProvider>
+        <StatusBar style="auto" />
+        <SplashScreenController />
+        <RootNavigator />
+      </SessionProvider>
+    </QueryClientProvider>
   )
 }
 

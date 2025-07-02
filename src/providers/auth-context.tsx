@@ -40,7 +40,7 @@ export function SessionProvider({ children }: React.PropsWithChildren) {
 
   async function loadPartner() {
     const { data, error } = await getPartner()
-
+    console.log(JSON.stringify(data?.partner))
     if (data) {
       setPartner(data.partner)
     }
