@@ -1,14 +1,14 @@
-import { Text } from "react-native";
-import { cn } from "../utils/cn";
+import { Text } from "react-native"
+import { cn } from "../utils/cn"
 
 type AppTextProps = {
-  children: React.ReactNode;
-  size?: "small" | "medium" | "large" | "heading";
-  bold?: boolean;
-  color?: "primary" | "secondary" | "tertiary";
-  center?: boolean;
-  className?: string;
-};
+  children: React.ReactNode
+  size?: "small" | "medium" | "large" | "heading"
+  bold?: boolean
+  color?: "primary" | "secondary" | "tertiary"
+  center?: boolean
+  className?: string
+}
 
 export function AppText({
   children,
@@ -30,10 +30,10 @@ export function AppText({
         color === "secondary" && "text-gray-500",
         color === "tertiary" && "text-gray-400",
         center && "text-center",
-        className,
+        className
       )}
     >
       {children}
     </Text>
-  );
+  )
 }

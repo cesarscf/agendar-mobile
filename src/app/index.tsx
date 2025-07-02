@@ -1,5 +1,6 @@
-import { View } from "react-native";
-import { AppText } from "@/components/AppText";
+import { View } from "react-native"
+import { AppText } from "@/components/app-text"
+import { Button } from "@/components/button"
 
 export default function IndexScreen() {
   return (
@@ -8,6 +9,7 @@ export default function IndexScreen() {
         Open up <AppText bold>app/index.tsx</AppText> to start working on your
         app!
       </AppText>
+      <Button title="Expo"/>
     </View>
-  );
+  )
 }

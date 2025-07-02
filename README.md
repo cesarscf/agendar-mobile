@@ -4,7 +4,6 @@ A plain project with the usual suspects set up:
 
 - Expo Router
 - Nativewind
-- ESLint & Prettier
 - TypeScript
 
 It also contains two components:

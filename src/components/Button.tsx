@@ -1,15 +1,13 @@
-import { Pressable, PressableProps, Text } from "react-native";
-import React from "react";
-import { cn } from "../utils/cn";
+import { Pressable, type PressableProps, Text } from "react-native"
+import { cn } from "../utils/cn"
 
 type ButtonProps = {
-  title: string;
-  onPress?: () => void;
-  theme?: "primary" | "secondary" | "tertiary";
-  disabled?: boolean;
-} & PressableProps;
+  title: string
+  onPress?: () => void
+  theme?: "primary" | "secondary" | "tertiary"
+  disabled?: boolean
+} & PressableProps
 
-// from SDK 53 (React 19) onwards, forwardRef is no longer needed, as ref is now a prop
 export function Button({
   title,
   onPress,
@@ -25,7 +23,7 @@ export function Button({
         theme === "primary" && "bg-[#007AFF] border-[#007AFF]",
         theme === "secondary" && "bg-white border-gray-300",
         theme === "tertiary" && "bg-transparent border-transparent",
-        disabled && "opacity-50",
+        disabled && "opacity-50"
       )}
       disabled={disabled}
       {...rest}
@@ -35,11 +33,11 @@ export function Button({
           "font-semibold text-lg tracking-wider",
           theme === "secondary" && "text-black",
           theme === "primary" && "text-white",
-          theme === "tertiary" && "text-gray-800",
+          theme === "tertiary" && "text-gray-800"
         )}
       >
         {title} {disabled}
       </Text>
     </Pressable>
-  );
+  )
 }
