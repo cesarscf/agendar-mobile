@@ -36,7 +36,7 @@ export function LoginForm() {
     }
 
     if (error) {
-      console.log(error)
+      // ...
     }
 
     setLoading(false)

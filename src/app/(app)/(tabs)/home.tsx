@@ -6,7 +6,7 @@ export default function Home() {
   const { signOut, partner } = useSession()
 
   return (
-    <View >
+    <View>
       <Button
         onPress={() => {
           // The `app/(app)/_layout.tsx` will redirect to the sign-in screen.

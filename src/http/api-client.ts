@@ -8,9 +8,13 @@ const api = axios.create({
 api.interceptors.request.use(
   async config => {
     const token = await SecureStore.getItemAsync("token")
+    const establishmentId = await SecureStore.getItemAsync("establishment-id")
 
     if (token && config.headers) {
       config.headers.Authorization = `Bearer ${token}`
+
+      if (establishmentId)
+        config.headers["x-establishment-id"] = establishmentId
     }
 
     return config

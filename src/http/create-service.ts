@@ -1,31 +1,23 @@
 import { AxiosError } from "axios"
 import { api } from "./api-client"
+import type { CreateServiceRequest } from "@/lib/validations/service"
 
-interface LoginRequest {
-  email: string
-  password: string
-}
-
-interface LoginResponse {
-  token: string
-}
-
-export async function login({ email, password }: LoginRequest) {
+export async function createService(inputs: CreateServiceRequest) {
   try {
-    const response = await api.post<LoginResponse>("/login", {
-      email: email,
-      password: password,
+    await api.post("/services", {
+      ...inputs,
     })
 
     return {
-      data: response.data,
+      data: true,
       error: null,
     }
   } catch (err) {
     if (err instanceof AxiosError) {
+      const message = err.message
       return {
         data: null,
-        error: err.message,
+        error: message,
       }
     }
 

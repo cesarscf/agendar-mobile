@@ -1,21 +1,10 @@
 import { AxiosError } from "axios"
 import { api } from "./api-client"
+import type { Service } from "@/lib/validations/service"
 
-interface LoginRequest {
-  email: string
-  password: string
-}
-
-interface LoginResponse {
-  token: string
-}
-
-export async function login({ email, password }: LoginRequest) {
+export async function getServices() {
   try {
-    const response = await api.post<LoginResponse>("/login", {
-      email: email,
-      password: password,
-    })
+    const response = await api.get<Service[]>("/services")
 
     return {
       data: response.data,
@@ -28,7 +17,6 @@ export async function login({ email, password }: LoginRequest) {
         error: err.message,
       }
     }
-
     return {
       data: null,
       error: "Erro inesperado, tente novamente em alguns minutos.",

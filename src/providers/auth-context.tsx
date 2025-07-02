@@ -27,6 +27,8 @@ export function useSession() {
 
 export function SessionProvider({ children }: React.PropsWithChildren) {
   const [[isLoading, session], setSession] = useStorageState("token")
+  const [[_, _establishmentId], setEstablishmentId] =
+    useStorageState("establishment-id")
   const [partner, setPartner] = React.useState<Partner | null>(null)
 
   function signOut() {
@@ -40,9 +42,10 @@ export function SessionProvider({ children }: React.PropsWithChildren) {
 
   async function loadPartner() {
     const { data, error } = await getPartner()
-    console.log(JSON.stringify(data?.partner))
+
     if (data) {
       setPartner(data.partner)
+      setEstablishmentId(data.partner.establishments[0].id)
     }
 
     if (error) {
