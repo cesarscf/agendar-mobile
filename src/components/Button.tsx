@@ -1,4 +1,9 @@
-import { Pressable, type PressableProps, Text } from "react-native"
+import {
+  ActivityIndicator,
+  Pressable,
+  type PressableProps,
+  Text,
+} from "react-native"
 import { cn } from "../utils/cn"
 
 type ButtonProps = {
@@ -6,6 +11,7 @@ type ButtonProps = {
   onPress?: () => void
   theme?: "primary" | "secondary" | "tertiary"
   disabled?: boolean
+  loading?: boolean
 } & PressableProps
 
 export function Button({
@@ -13,6 +19,7 @@ export function Button({
   onPress,
   theme = "primary",
   disabled,
+  loading,
   ...rest
 }: ButtonProps) {
   return (
@@ -36,7 +43,7 @@ export function Button({
           theme === "tertiary" && "text-gray-800"
         )}
       >
-        {title} {disabled}
+        {loading ? <ActivityIndicator className="size-6" /> : title}
       </Text>
     </Pressable>
   )
