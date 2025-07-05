@@ -12,7 +12,7 @@ export default function Establishment() {
     {
       label: "Serviços",
       description: "Gerencie os serviços oferecidos",
-      route: "/services",
+      route: "/(tabs)/establishment/services",
       icon: HammerIcon,
     },
     {

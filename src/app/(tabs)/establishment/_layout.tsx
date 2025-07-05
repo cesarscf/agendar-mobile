@@ -9,6 +9,14 @@ export default function Layout() {
           title: "LOJA",
         }}
       />
+
+      <Stack.Screen
+        name="services"
+        options={{
+          title: "SERVIÇOS",
+          headerShown: false,
+        }}
+      />
     </Stack>
   )
 }
