@@ -1,4 +1,4 @@
-import { Calendar, ChartArea, Settings } from "lucide-react-native"
+import { Calendar, ChartArea, Settings, Store } from "lucide-react-native"
 import { Tabs } from "expo-router"
 
 export default function Layout() {
@@ -25,7 +25,7 @@ export default function Layout() {
         options={{
           title: "Loja",
           headerShown: false,
-          tabBarIcon: ({ color }) => <Settings color={color} />,
+          tabBarIcon: ({ color }) => <Store color={color} />,
         }}
       />
       <Tabs.Screen
