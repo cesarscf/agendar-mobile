@@ -20,6 +20,7 @@ export function Button({
   theme = "primary",
   disabled,
   loading,
+  className,
   ...rest
 }: ButtonProps) {
   return (

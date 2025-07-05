@@ -22,3 +22,6 @@ bun create expo-app my-app --template https://github.com/kadikraman/expo-starter
 # with npm
 npx create-expo-app my-app --template https://github.com/kadikraman/expo-starter
 ```
+
+
+

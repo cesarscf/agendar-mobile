@@ -6,7 +6,8 @@
     "useIgnoreFile": false
   },
   "files": {
-    "ignoreUnknown": false
+    "ignoreUnknown": false,
+    "includes": ["ios", "android", ".expo"]
   },
   "formatter": {
     "indentStyle": "space",
