@@ -1,9 +1,9 @@
 import { Text, View } from "react-native"
 
-export default function Settings() {
+export default function Dashboard() {
   return (
     <View>
-      <Text>Settings Screen</Text>
+      <Text>Dashboard</Text>
     </View>
   )
 }
