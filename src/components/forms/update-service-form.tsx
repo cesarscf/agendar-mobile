@@ -1,4 +1,7 @@
-import { createServiceSchema } from "@/lib/validations/service"
+import {
+  type UpdateServiceRequest,
+  updateServiceSchema,
+} from "@/lib/validations/service"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Controller, useForm } from "react-hook-form"
 import {
@@ -6,6 +9,7 @@ import {
   KeyboardAvoidingView,
   Platform,
   ScrollView,
+  Switch,
   Text,
   View,
 } from "react-native"
@@ -13,27 +17,31 @@ import type { z } from "zod"
 import { Input } from "../input"
 import { Button } from "../button"
 import { ImagePickerControl } from "../image-picker"
-import { useCreateService } from "@/hooks/data/services"
-import { router } from "expo-router"
 import { StorageEntity, uploadImageToFirebase } from "@/lib/upload-image"
+import { useRouter } from "expo-router"
+
+import { useUpdateService } from "@/hooks/data/services"
 import React from "react"
 
-type Inputs = z.infer<typeof createServiceSchema>
+type Inputs = z.infer<typeof updateServiceSchema>
 
-export function CreateServiceForm() {
-  const { mutateAsync, isPending } = useCreateService()
+type EditServiceFormProps = {
+  service: Inputs
+}
+
+export function EditServiceForm({ service }: EditServiceFormProps) {
+  const { mutateAsync, isPending } = useUpdateService()
   const [loading, setLoading] = React.useState(false)
 
+  const router = useRouter()
+
   const form = useForm<Inputs>({
-    resolver: zodResolver(createServiceSchema),
+    resolver: zodResolver(updateServiceSchema),
     reValidateMode: "onBlur",
     defaultValues: {
-      name: "",
-      price: "",
-      active: true,
-      durationInMinutes: "",
-      description: "",
-      image: "",
+      ...service,
+      price: service.price?.replace(".", ","),
+      durationInMinutes: String(service.durationInMinutes),
     },
   })
 
@@ -49,30 +57,38 @@ export function CreateServiceForm() {
 
       if (!uploaded) {
         Alert.alert("Erro ao salvar imagem.")
+        setLoading(false)
         return
       }
 
       imageUrl = uploaded
     }
+
     try {
-      await mutateAsync({
+      const payload = {
         ...inputs,
         image: imageUrl,
-      })
+        durationInMinutes: inputs.durationInMinutes
+          ? Number(inputs.durationInMinutes)
+          : undefined,
+        price: inputs.price ? inputs.price.replace(",", ".") : undefined,
+      } as UpdateServiceRequest
+
+      await mutateAsync(payload)
 
       router.back()
-    } catch {
+    } catch (_) {
       Alert.alert("Erro ao atualizar serviço.")
     } finally {
       setLoading(false)
     }
   }
 
+  const currentImage = form.watch("image")
+
   function onImageChange(uri: string) {
     form.setValue("image", uri, { shouldValidate: true })
   }
-
-  const currentImage = form.watch("image")
 
   return (
     <KeyboardAvoidingView
@@ -97,9 +113,7 @@ export function CreateServiceForm() {
                 <Input
                   placeholder="Nome do serviço"
                   {...field}
-                  onBlur={field.onBlur}
                   onChangeText={field.onChange}
-                  value={field.value}
                 />
               )}
             />
@@ -120,9 +134,7 @@ export function CreateServiceForm() {
                   placeholder="Preço"
                   keyboardType="numeric"
                   {...field}
-                  onBlur={field.onBlur}
                   onChangeText={field.onChange}
-                  value={field.value}
                 />
               )}
             />
@@ -143,9 +155,7 @@ export function CreateServiceForm() {
                   placeholder="Duração em minutos"
                   keyboardType="numeric"
                   {...field}
-                  onBlur={field.onBlur}
-                  value={field.value}
-                  onChangeText={value => field.onChange(value)}
+                  onChangeText={field.onChange}
                 />
               )}
             />
@@ -168,9 +178,7 @@ export function CreateServiceForm() {
                   numberOfLines={5}
                   className="h-40"
                   {...field}
-                  onBlur={field.onBlur}
                   onChangeText={field.onChange}
-                  value={field.value}
                 />
               )}
             />
@@ -179,6 +187,24 @@ export function CreateServiceForm() {
                 {form.formState.errors.description.message}
               </Text>
             )}
+          </View>
+
+          <View className="gap-1">
+            <Text className="text-sm font-medium">Ativo</Text>
+            <Controller
+              control={form.control}
+              name="active"
+              render={({ field: { value, onChange } }) => (
+                <View className="flex-row items-center justify-between p-3 rounded">
+                  <Switch
+                    value={value}
+                    onValueChange={onChange}
+                    thumbColor={value ? "#10b981" : "#ccc"}
+                    trackColor={{ false: "#e5e7eb", true: "#e5e7eb" }}
+                  />
+                </View>
+              )}
+            />
           </View>
 
           <ImagePickerControl
@@ -192,7 +218,7 @@ export function CreateServiceForm() {
           <Button
             disabled={isPending || loading}
             loading={isPending || loading}
-            title="Cadastrar Serviço"
+            title="Salvar Alterações"
             theme="primary"
             onPress={form.handleSubmit(onSubmit)}
           />

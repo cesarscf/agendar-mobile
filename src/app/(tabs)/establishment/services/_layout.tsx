@@ -42,6 +42,22 @@ export default function Layout() {
           ),
         }}
       />
+
+      <Stack.Screen
+        name="[id]"
+        options={{
+          title: "EDITAR SERVIÇO",
+          headerLeft: () => (
+            <Pressable
+              onPress={() => {
+                router.back()
+              }}
+            >
+              <ChevronLeft />
+            </Pressable>
+          ),
+        }}
+      />
     </Stack>
   )
 }

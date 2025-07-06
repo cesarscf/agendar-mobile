@@ -1,4 +1,4 @@
-import { Link } from "expo-router"
+import { type Href, Link } from "expo-router"
 import {
   ChevronRight,
   HammerIcon,
@@ -12,19 +12,19 @@ export default function Establishment() {
     {
       label: "Serviços",
       description: "Gerencie os serviços oferecidos",
-      route: "/(tabs)/establishment/services",
+      route: "/(tabs)/establishment/services" as Href,
       icon: HammerIcon,
     },
     {
       label: "Funcionários",
       description: "Adicione ou edite sua equipe",
-      route: "/employees",
+      route: "/(tabs)/establishment" as Href,
       icon: Users,
     },
     {
       label: "Outros",
       description: "Configurações e mais opções",
-      route: "/others",
+      route: "/(tabs)/establishment" as Href,
       icon: MoreVertical,
     },
   ]
@@ -37,7 +37,7 @@ export default function Establishment() {
 
       <View className="mt-2 px-4">
         {items.map(item => (
-          <Link href={item.route} key={item.route} asChild>
+          <Link key={item.label} href={item.route} asChild>
             <Pressable className="flex-row items-center justify-between p-2 py-6 border-b border-gray-100">
               <View className="flex-row gap-4 flex-1 items-center">
                 <item.icon size={24} className="text-gray-700 mt-1" />

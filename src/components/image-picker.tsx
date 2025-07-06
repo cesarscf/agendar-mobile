@@ -68,7 +68,7 @@ export function ImagePickerControl({
         <TouchableOpacity
           onPress={pickImage}
           disabled={disabled}
-          className="bg-gray-300 w-full h-48 rounded-lg justify-center items-center"
+          className="border border-gray-300 w-full h-48 rounded-lg justify-center items-center"
         >
           <Text className="text-gray-600 font-semibold">Selecionar Imagem</Text>
         </TouchableOpacity>

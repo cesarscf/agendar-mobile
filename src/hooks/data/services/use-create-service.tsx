@@ -1,4 +1,5 @@
 import { createService } from "@/http/create-service"
+import { queryClient } from "@/lib/react-query"
 import type { CreateServiceRequest } from "@/lib/validations/service"
 import { useMutation } from "@tanstack/react-query"
 
@@ -12,6 +13,11 @@ export function useCreateService() {
       }
 
       return data!
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["services"],
+      })
     },
   })
 }

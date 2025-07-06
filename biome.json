@@ -6,8 +6,7 @@
     "useIgnoreFile": false
   },
   "files": {
-    "ignoreUnknown": false,
-    "includes": ["ios", "android", ".expo"]
+    "ignoreUnknown": false
   },
   "formatter": {
     "indentStyle": "space",
@@ -30,7 +29,8 @@
         "useValidAnchor": "off"
       },
       "correctness": {
-        "useExhaustiveDependencies": "off"
+        "useExhaustiveDependencies": "off",
+        "useHookAtTopLevel": "off"
       },
       "style": {
         "noNonNullAssertion": "off"
