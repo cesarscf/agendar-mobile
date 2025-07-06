@@ -1,5 +1,7 @@
 import { useStorageState } from "@/hooks/use-storage-state"
 import { getPartner, type Partner } from "@/http/get-partner"
+import { SubscriptionStatusEnum } from "@/lib/enums"
+import { router } from "expo-router"
 import React from "react"
 
 const AuthContext = React.createContext<{
@@ -46,6 +48,18 @@ export function SessionProvider({ children }: React.PropsWithChildren) {
     if (data) {
       setPartner(data.partner)
       setEstablishmentId(data.partner.establishments[0].id)
+    }
+
+    const currentSubscription = data?.partner.subscriptions[0]
+
+    const validSubscriptions =
+      !!currentSubscription &&
+      [SubscriptionStatusEnum.active, SubscriptionStatusEnum.trialing].includes(
+        currentSubscription.status as SubscriptionStatusEnum
+      )
+
+    if (!validSubscriptions) {
+      router.replace("/plans")
     }
 
     if (error) {
