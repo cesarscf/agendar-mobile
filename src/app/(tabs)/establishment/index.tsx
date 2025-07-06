@@ -18,7 +18,7 @@ export default function Establishment() {
     {
       label: "Funcionários",
       description: "Adicione ou edite sua equipe",
-      route: "/(tabs)/establishment" as Href,
+      route: "/(tabs)/establishment/employees" as Href,
       icon: Users,
     },
     {

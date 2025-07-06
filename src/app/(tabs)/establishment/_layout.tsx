@@ -17,6 +17,14 @@ export default function Layout() {
           headerShown: false,
         }}
       />
+
+      <Stack.Screen
+        name="employees"
+        options={{
+          title: "PROFISSIONAIS",
+          headerShown: false,
+        }}
+      />
     </Stack>
   )
 }
