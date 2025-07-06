@@ -1,11 +1,7 @@
-import { type Href, Link } from "expo-router"
-import {
-  ChevronRight,
-  HammerIcon,
-  MoreVertical,
-  Users,
-} from "lucide-react-native"
-import { Pressable, SafeAreaView, Text, View } from "react-native"
+import { ListItem } from "@/components/list-item"
+import type { Href } from "expo-router"
+import { HammerIcon, MoreVertical, Users } from "lucide-react-native"
+import { SafeAreaView, Text, View } from "react-native"
 
 export default function Establishment() {
   const items = [
@@ -37,22 +33,13 @@ export default function Establishment() {
 
       <View className="mt-2 px-4">
         {items.map(item => (
-          <Link key={item.label} href={item.route} asChild>
-            <Pressable className="flex-row items-center justify-between p-2 py-6 border-b border-gray-100">
-              <View className="flex-row gap-4 flex-1 items-center">
-                <item.icon size={24} className="text-gray-700 mt-1" />
-                <View className="flex-1">
-                  <Text className="text-base font-medium text-gray-900">
-                    {item.label}
-                  </Text>
-                  <Text className="text-sm text-gray-500">
-                    {item.description}
-                  </Text>
-                </View>
-              </View>
-              <ChevronRight size={20} className="text-gray-400 mt-1" />
-            </Pressable>
-          </Link>
+          <ListItem
+            key={item.label}
+            Icon={item.icon}
+            description={item.description}
+            label={item.label}
+            route={item.route}
+          />
         ))}
       </View>
     </SafeAreaView>
