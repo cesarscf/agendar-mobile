@@ -18,9 +18,9 @@ export default function Establishment() {
       icon: Users,
     },
     {
-      label: "Outros",
-      description: "Configurações e mais opções",
-      route: "/(tabs)/establishment" as Href,
+      label: "Geral",
+      description: "Configurações gerais de sua loja",
+      route: "/(tabs)/establishment/general" as Href,
       icon: MoreVertical,
     },
   ]

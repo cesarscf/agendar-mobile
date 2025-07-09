@@ -6,6 +6,7 @@ export const establishmentSchema = z.object({
   theme: z.string(),
   about: z.string(),
   bannerUrl: z.string(),
+  logoUrl: z.string(),
   phone: z.string(),
   servicesPerformed: z.string(),
   activeCustomers: z.string(),

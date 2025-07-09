@@ -25,6 +25,14 @@ export default function Layout() {
           headerShown: false,
         }}
       />
+
+      <Stack.Screen
+        name="general"
+        options={{
+          title: "GERAL",
+          headerShown: false,
+        }}
+      />
     </Stack>
   )
 }
