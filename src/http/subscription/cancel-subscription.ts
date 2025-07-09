@@ -1,12 +1,9 @@
 import { AxiosError } from "axios"
-import { api } from "./api-client"
-import type { CreateEmployeeRequest } from "@/lib/validations/employee"
+import { api } from "../api-client"
 
-export async function createEmployee(inputs: CreateEmployeeRequest) {
+export async function cancelSubscription() {
   try {
-    await api.post("/employees", {
-      ...inputs,
-    })
+    await api.delete<boolean>("/subscriptions/cancel")
 
     return {
       data: true,

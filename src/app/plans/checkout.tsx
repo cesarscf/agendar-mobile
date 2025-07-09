@@ -1,19 +1,17 @@
 import { Button } from "@/components/button"
 import { usePaymentMethods } from "@/hooks/data/plans/use-payment-method"
-import { createPartnerSubscribe } from "@/http/create-partner-subscribe"
-import { getPaymentMethods } from "@/http/get-payment-methods"
-import { getSetupIntent } from "@/http/get-setup-intent"
+
+import { getPaymentMethods } from "@/http/payment-methods/get-payment-methods"
+import { getSetupIntent } from "@/http/payment-methods/get-setup-intent"
+import { createPartnerSubscribe } from "@/http/subscription/create-partner-subscribe"
 import { useSession } from "@/providers/auth-context"
 import { sleep } from "@/utils"
 import { CardField, useStripe } from "@stripe/stripe-react-native"
 import { useLocalSearchParams } from "expo-router"
-import React from "react"
 import { Alert, View } from "react-native"
 
 export default function Checkout() {
   const { planId } = useLocalSearchParams()
-
-  const [cardDetails, setCardDetails] = React.useState(null)
 
   const { partner } = useSession()
   const { createPaymentMethod, confirmSetupIntent } = useStripe()
@@ -26,8 +24,6 @@ export default function Checkout() {
   }) {
     const { data: currentMethods } = await refetch()
     const initialCount = currentMethods?.length || 0
-
-    if (!cardDetails) return
 
     const { paymentMethod, error: paymentMethodError } =
       await createPaymentMethod({
@@ -52,7 +48,7 @@ export default function Checkout() {
       throw new Error(setupIntentError || "Erro ao criar SetupIntent")
     }
 
-    const { setupIntent: confirmedSetupIntent, error: confirmError } =
+    const { setupIntent: _confirmedSetupIntent, error: confirmError } =
       await confirmSetupIntent(setupIntent.clientSecret, {
         paymentMethodData: {
           paymentMethodId: paymentMethod.id,
@@ -103,9 +99,6 @@ export default function Checkout() {
         placeholders={{ number: "4242 4242 4242 4242" }}
         cardStyle={{ backgroundColor: "#FFFFFF", textColor: "#000000" }}
         style={{ height: 50, marginBottom: 10 }}
-        onCardChange={cardDetails => {
-          setCardDetails(cardDetails)
-        }}
       />
       <Button
         title="Pagar"

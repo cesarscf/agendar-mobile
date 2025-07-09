@@ -1,12 +1,18 @@
 import { AxiosError } from "axios"
-import { api } from "./api-client"
+import { api } from "../api-client"
 
-export async function cancelSubscription() {
+interface GetSetupIntent {
+  clientSecret: "string"
+}
+
+export async function getSetupIntent() {
   try {
-    await api.delete<boolean>("/subscriptions/cancel")
+    const result = await api.get<GetSetupIntent>(
+      "/payment-methods/setup-intent"
+    )
 
     return {
-      data: true,
+      data: result.data,
       error: null,
     }
   } catch (err) {

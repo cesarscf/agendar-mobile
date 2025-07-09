@@ -1,10 +1,20 @@
 import { AxiosError } from "axios"
-import { api } from "./api-client"
-import type { PaymentMethod } from "@/lib/validations/payment-method"
+import { api } from "../api-client"
 
-export async function getPaymentMethods() {
+export interface UpdateSubscriptionResponse {
+  newPlanName: string
+  status: string
+  currentPeriodEnd: string
+}
+
+export async function updateSubscription(newPlanId: string) {
   try {
-    const result = await api.get<PaymentMethod[]>("/payment-methods")
+    const result = await api.patch<UpdateSubscriptionResponse>(
+      "/subscriptions/change-plan",
+      {
+        newPlanId,
+      }
+    )
 
     return {
       data: result.data,

@@ -1,10 +1,10 @@
 import { AxiosError } from "axios"
-import { api } from "./api-client"
-import type { Employee } from "@/lib/validations/employee"
+import { api } from "../api-client"
+import type { Service } from "@/lib/validations/service"
 
-export async function getEmployees() {
+export async function getServices() {
   try {
-    const response = await api.get<Employee[]>("/employees")
+    const response = await api.get<Service[]>("/services")
 
     return {
       data: response.data,

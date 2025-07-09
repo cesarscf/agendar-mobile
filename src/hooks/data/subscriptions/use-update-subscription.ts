@@ -1,7 +1,7 @@
 import {
   updateSubscription,
   type UpdateSubscriptionResponse,
-} from "@/http/update-subscription"
+} from "@/http/subscription/update-subscription"
 import { queryClient } from "@/lib/react-query"
 import { useMutation } from "@tanstack/react-query"
 

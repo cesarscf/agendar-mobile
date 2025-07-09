@@ -1,19 +1,23 @@
 import { AxiosError } from "axios"
-import { api } from "./api-client"
+import { api } from "../api-client"
 
-export interface UpdateSubscriptionResponse {
-  newPlanName: string
+export interface CreatePartnerSubscribeRequest {
+  planId: string
+  cardId: string
+}
+
+export interface CreatePartnerSubscribeResponse {
   status: string
   currentPeriodEnd: string
 }
 
-export async function updateSubscription(newPlanId: string) {
+export async function createPartnerSubscribe(
+  inputs: CreatePartnerSubscribeRequest
+) {
   try {
-    const result = await api.patch<UpdateSubscriptionResponse>(
-      "/subscriptions/change-plan",
-      {
-        newPlanId,
-      }
+    const result = await api.post<CreatePartnerSubscribeResponse>(
+      "/subscriptions/subscribe",
+      inputs
     )
 
     return {

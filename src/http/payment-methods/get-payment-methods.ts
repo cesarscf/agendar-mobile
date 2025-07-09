@@ -1,17 +1,13 @@
 import { AxiosError } from "axios"
-import { api } from "./api-client"
-import type { CreateServiceRequest } from "@/lib/validations/service"
+import { api } from "../api-client"
+import type { PaymentMethod } from "@/lib/validations/payment-method"
 
-export async function createService(inputs: CreateServiceRequest) {
+export async function getPaymentMethods() {
   try {
-    await api.post("/services", {
-      ...inputs,
-      durationInMinutes: Number(inputs.durationInMinutes),
-      price: inputs.price.replace(",", "."),
-    })
+    const result = await api.get<PaymentMethod[]>("/payment-methods")
 
     return {
-      data: true,
+      data: result.data,
       error: null,
     }
   } catch (err) {

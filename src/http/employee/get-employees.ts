@@ -1,10 +1,10 @@
 import { AxiosError } from "axios"
-import { api } from "./api-client"
-import type { Plan } from "@/lib/validations/plans"
+import { api } from "../api-client"
+import type { Employee } from "@/lib/validations/employee"
 
-export async function getPlans() {
+export async function getEmployees() {
   try {
-    const response = await api.get<Plan[]>("/plans")
+    const response = await api.get<Employee[]>("/employees")
 
     return {
       data: response.data,
@@ -17,7 +17,6 @@ export async function getPlans() {
         error: err.message,
       }
     }
-
     return {
       data: null,
       error: "Erro inesperado, tente novamente em alguns minutos.",

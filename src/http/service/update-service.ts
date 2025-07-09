@@ -1,18 +1,15 @@
 import { AxiosError } from "axios"
-import { api } from "./api-client"
+import { api } from "../api-client"
+import type { UpdateServiceRequest } from "@/lib/validations/service"
 
-interface GetSetupIntent {
-  clientSecret: "string"
-}
-
-export async function getSetupIntent() {
+export async function updateService(inputs: UpdateServiceRequest) {
   try {
-    const result = await api.get<GetSetupIntent>(
-      "/payment-methods/setup-intent"
-    )
+    await api.put(`/services/${inputs.id}`, {
+      ...inputs,
+    })
 
     return {
-      data: result.data,
+      data: true,
       error: null,
     }
   } catch (err) {

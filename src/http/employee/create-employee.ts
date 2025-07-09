@@ -1,10 +1,10 @@
 import { AxiosError } from "axios"
-import { api } from "./api-client"
-import type { UpdateServiceRequest } from "@/lib/validations/service"
+import { api } from "../api-client"
+import type { CreateEmployeeRequest } from "@/lib/validations/employee"
 
-export async function updateService(inputs: UpdateServiceRequest) {
+export async function createEmployee(inputs: CreateEmployeeRequest) {
   try {
-    await api.put(`/services/${inputs.id}`, {
+    await api.post("/employees", {
       ...inputs,
     })
 

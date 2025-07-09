@@ -1,5 +1,5 @@
 import { AxiosError } from "axios"
-import { api } from "./api-client"
+import { api } from "../api-client"
 import type { Plan } from "@/lib/validations/plans"
 
 export async function getPlan(planId: string) {
