@@ -1,19 +1,19 @@
 import { useLocalSearchParams } from "expo-router"
 import { View, Text } from "react-native"
 
-import { EditServiceForm } from "@/components/forms/update-service-form"
-import { useService } from "@/hooks/data/services/use-service"
+import { useEmployee } from "@/hooks/data/employees"
+import { EditEmployeeForm } from "@/components/forms/update-employee-form"
 
 export default function EditServiceScreen() {
   const { id } = useLocalSearchParams()
 
   if (!id) return null
 
-  const { data: service } = useService(id as string)
+  const { data: employee } = useEmployee(id as string)
 
-  if (!service) return null
+  if (!employee) return null
 
-  if (!service) {
+  if (!employee) {
     return (
       <View className="flex-1 items-center justify-center bg-white">
         <Text>Carregando...</Text>
@@ -21,5 +21,5 @@ export default function EditServiceScreen() {
     )
   }
 
-  return <EditServiceForm service={service} />
+  return <EditEmployeeForm employee={employee} />
 }

@@ -1,4 +1,3 @@
-import { createEmployeeSchema } from "@/lib/validations/employee"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Controller, useForm } from "react-hook-form"
 import {
@@ -14,68 +13,73 @@ import type { z } from "zod"
 import { Input } from "../input"
 import { Button } from "../button"
 import { ImagePickerControl } from "../image-picker"
-import { useCreateEmployee } from "@/hooks/data/employees"
-import { router } from "expo-router"
 import { StorageEntity, uploadImageToFirebase } from "@/lib/upload-image"
+import { useRouter } from "expo-router"
+
 import React from "react"
+import { updateEmployeeSchema } from "@/lib/validations/employee"
+import { useUpdateEmployee } from "@/hooks/data/employees"
 
-type Inputs = z.infer<typeof createEmployeeSchema>
+type Inputs = z.infer<typeof updateEmployeeSchema>
 
-export function CreateEmployeeForm() {
-  const { mutateAsync, isPending } = useCreateEmployee()
+type EditEmployeeFormProps = {
+  employee: Inputs
+}
+
+export function EditEmployeeForm({ employee }: EditEmployeeFormProps) {
+  const { mutateAsync, isPending } = useUpdateEmployee()
   const [loading, setLoading] = React.useState(false)
 
+  const router = useRouter()
+
   const form = useForm<Inputs>({
-    resolver: zodResolver(createEmployeeSchema),
+    resolver: zodResolver(updateEmployeeSchema),
     reValidateMode: "onBlur",
     defaultValues: {
-      name: "",
-      email: "",
-      address: "",
-      phone: "",
-      biography: "",
-      active: true,
-      avatarUrl: "",
+      ...employee,
     },
   })
 
   async function onSubmit(inputs: Inputs) {
     setLoading(true)
-    let avatarUrl = inputs.avatarUrl
+    let imageUrl = inputs.avatarUrl
 
     if (inputs.avatarUrl && !inputs.avatarUrl.startsWith("http")) {
       const uploaded = await uploadImageToFirebase(
         inputs.avatarUrl,
-        StorageEntity.Employee
+        StorageEntity.Service
       )
 
       if (!uploaded) {
         Alert.alert("Erro ao salvar imagem.")
+        setLoading(false)
         return
       }
 
-      avatarUrl = uploaded
+      imageUrl = uploaded
     }
 
     try {
-      await mutateAsync({
+      const payload = {
         ...inputs,
-        avatarUrl,
-      })
+        image: imageUrl,
+      }
+
+      await mutateAsync(payload)
 
       router.back()
-    } catch (_e) {
-      Alert.alert("Erro ao cadastrar funcionário.")
+    } catch (_) {
+      Alert.alert("Erro ao atualizar serviço.")
     } finally {
       setLoading(false)
     }
   }
 
+  const currentImage = form.watch("avatarUrl")
+
   function onImageChange(uri: string) {
     form.setValue("avatarUrl", uri, { shouldValidate: true })
   }
-
-  const currentImage = form.watch("avatarUrl")
 
   return (
     <KeyboardAvoidingView
@@ -98,11 +102,9 @@ export function CreateEmployeeForm() {
               name="name"
               render={({ field }) => (
                 <Input
-                  placeholder="Nome do funcionário"
+                  placeholder="Nome do serviço"
                   {...field}
-                  onBlur={field.onBlur}
                   onChangeText={field.onChange}
-                  value={field.value}
                 />
               )}
             />
@@ -114,7 +116,7 @@ export function CreateEmployeeForm() {
           </View>
 
           <View className="gap-1">
-            <Text className="text-sm font-medium">E-mail</Text>
+            <Text className="text-sm font-medium">Preço</Text>
             <Controller
               control={form.control}
               name="email"
@@ -138,18 +140,15 @@ export function CreateEmployeeForm() {
           </View>
 
           <View className="gap-1">
-            <Text className="text-sm font-medium">Telefone</Text>
+            <Text className="text-sm font-medium">Duração (min)</Text>
             <Controller
               control={form.control}
               name="phone"
               render={({ field }) => (
                 <Input
-                  placeholder="(11) 99999-9999"
-                  keyboardType="phone-pad"
+                  placeholder="Duração em minutos"
                   {...field}
-                  onBlur={field.onBlur}
                   onChangeText={field.onChange}
-                  value={field.value}
                 />
               )}
             />
@@ -161,17 +160,18 @@ export function CreateEmployeeForm() {
           </View>
 
           <View className="gap-1">
-            <Text className="text-sm font-medium">Endereço</Text>
+            <Text className="text-sm font-medium">Descrição</Text>
             <Controller
               control={form.control}
               name="address"
               render={({ field }) => (
                 <Input
-                  placeholder="Endereço completo"
+                  placeholder="Descrição do serviço"
+                  multiline
+                  numberOfLines={5}
+                  className="h-40"
                   {...field}
-                  onBlur={field.onBlur}
                   onChangeText={field.onChange}
-                  value={field.value}
                 />
               )}
             />
@@ -180,6 +180,24 @@ export function CreateEmployeeForm() {
                 {form.formState.errors.address.message}
               </Text>
             )}
+          </View>
+
+          <View className="gap-1">
+            <Text className="text-sm font-medium">Ativo</Text>
+            <Controller
+              control={form.control}
+              name="active"
+              render={({ field: { value, onChange } }) => (
+                <View className="flex-row items-center justify-between p-3 rounded">
+                  <Switch
+                    value={value}
+                    onValueChange={onChange}
+                    thumbColor={value ? "#10b981" : "#ccc"}
+                    trackColor={{ false: "#e5e7eb", true: "#e5e7eb" }}
+                  />
+                </View>
+              )}
+            />
           </View>
 
           <View className="gap-1">
@@ -200,30 +218,12 @@ export function CreateEmployeeForm() {
                 />
               )}
             />
-            {form.formState.errors.biography && (
-              <Text className="text-red-500 text-xs">
-                {form.formState.errors.biography.message}
-              </Text>
-            )}
-          </View>
-
-          <View className="gap-1">
-            <Controller
-              control={form.control}
-              name="active"
-              render={({ field: { value, onChange } }) => (
-                <View className="flex-row items-center justify-between p-3 rounded ">
-                  <Text>{value ? "Ativo" : "Inativo"}</Text>
-                  <Switch value={value} onValueChange={onChange} />
-                </View>
-              )}
-            />
           </View>
 
           <ImagePickerControl
             value={currentImage}
             onChange={onImageChange}
-            label="Foto do funcionário"
+            label="Imagem do serviço"
           />
         </ScrollView>
 
@@ -231,7 +231,7 @@ export function CreateEmployeeForm() {
           <Button
             disabled={isPending || loading}
             loading={isPending || loading}
-            title="Cadastrar Funcionário"
+            title="Salvar Alterações"
             theme="primary"
             onPress={form.handleSubmit(onSubmit)}
           />

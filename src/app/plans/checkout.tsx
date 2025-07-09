@@ -108,7 +108,6 @@ export default function Checkout() {
 
       Alert.alert("Erro", "Tempo limite ao aguardar o cartão ser cadastrado.")
     } catch (error) {
-      console.log("Erro no handlePayment:", error)
       Alert.alert("Erro", String(error))
     } finally {
       setLoading(false)

@@ -30,13 +30,6 @@ export default function Checkout() {
     }
   }
 
-  console.log({
-    selectedPlan,
-    paymentMethodDefault,
-    loadingPlans,
-    loadingMethods,
-  })
-
   if (
     !selectedPlan ||
     !paymentMethodDefault ||
