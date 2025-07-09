@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query"
-import { getServices } from "@/http/get-services"
+import { getServices } from "@/http/service/get-services"
 import type { Service } from "@/lib/validations/service"
 
 export function useServices() {

@@ -1,5 +1,6 @@
 import { useStorageState } from "@/hooks/use-storage-state"
-import { getPartner, type Partner } from "@/http/get-partner"
+import { getPartner, type Partner } from "@/http/auth/get-partner"
+
 import { SubscriptionStatusEnum } from "@/lib/enums"
 import { router } from "expo-router"
 import React from "react"

@@ -2,15 +2,24 @@ import { usePlans } from "@/hooks/data/plans"
 import { Text, View, ScrollView } from "react-native"
 import { Button } from "@/components/button"
 import { router } from "expo-router"
+import { useSession } from "@/providers/auth-context"
 
 export default function Plans() {
   const { data: plans } = usePlans()
+  const { signOut } = useSession()
 
   return (
     <ScrollView className="flex-1 p-4">
       <Text className="text-xl font-bold mb-4 text-center">
         Planos disponíveis
       </Text>
+      <Button
+        title="Sair"
+        onPress={() => {
+          signOut()
+        }}
+        className="mt-3"
+      />
 
       {plans?.map(plan => (
         <View

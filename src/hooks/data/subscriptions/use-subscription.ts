@@ -1,7 +1,7 @@
 import {
   getSubscription,
   type GetSubscriptionResponse,
-} from "@/http/get-subscription"
+} from "@/http/subscription/get-subscription"
 import { useQuery } from "@tanstack/react-query"
 
 export function useSubscription(subscriptionId: string) {

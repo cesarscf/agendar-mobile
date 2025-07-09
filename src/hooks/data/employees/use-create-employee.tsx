@@ -1,4 +1,4 @@
-import { createEmployee } from "@/http/create-employee"
+import { createEmployee } from "@/http/employee/create-employee"
 import { queryClient } from "@/lib/react-query"
 import type { CreateEmployeeRequest } from "@/lib/validations/employee"
 import { useMutation } from "@tanstack/react-query"

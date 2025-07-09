@@ -1,4 +1,4 @@
-import { cancelSubscription } from "@/http/cancel-subscription"
+import { cancelSubscription } from "@/http/subscription/cancel-subscription"
 
 import { queryClient } from "@/lib/react-query"
 import { useMutation } from "@tanstack/react-query"

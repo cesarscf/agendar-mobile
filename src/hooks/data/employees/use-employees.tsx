@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query"
 
-import { getEmployees } from "@/http/get-employees"
+import { getEmployees } from "@/http/employee/get-employees"
 import type { Employee } from "@/lib/validations/employee"
 
 export function useEmployees() {

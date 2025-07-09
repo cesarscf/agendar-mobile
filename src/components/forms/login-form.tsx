@@ -1,11 +1,11 @@
-import { login } from "@/http/login"
+import { login } from "@/http/auth/login"
 import { loginSchema } from "@/lib/validations/auth"
 import { useSession } from "@/providers/auth-context"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { router } from "expo-router"
 import React from "react"
 import { Controller, useForm } from "react-hook-form"
-import { Text, View } from "react-native"
+import { Alert, Text, View } from "react-native"
 import type { z } from "zod"
 import { Input } from "../input"
 import { Button } from "../button"
@@ -36,7 +36,7 @@ export function LoginForm() {
     }
 
     if (error) {
-      // ...
+      Alert.alert(error)
     }
 
     setLoading(false)

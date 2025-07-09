@@ -13,8 +13,9 @@ api.interceptors.request.use(
     if (token && config.headers) {
       config.headers.Authorization = `Bearer ${token}`
 
-      if (establishmentId)
+      if (establishmentId) {
         config.headers["x-establishment-id"] = establishmentId
+      }
     }
 
     return config

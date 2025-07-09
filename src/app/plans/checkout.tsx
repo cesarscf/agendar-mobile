@@ -8,6 +8,7 @@ import { useSession } from "@/providers/auth-context"
 import { sleep } from "@/utils"
 import { CardField, useStripe } from "@stripe/stripe-react-native"
 import { useLocalSearchParams } from "expo-router"
+import React from "react"
 import { Alert, View } from "react-native"
 
 export default function Checkout() {
@@ -16,12 +17,14 @@ export default function Checkout() {
   const { partner } = useSession()
   const { createPaymentMethod, confirmSetupIntent } = useStripe()
   const { refetch } = usePaymentMethods()
+  const [loading, setLoading] = React.useState(false)
 
   async function handlePayment(data: {
     name: string
     email: string
     phone: string
   }) {
+    setLoading(true)
     const { data: currentMethods } = await refetch()
     const initialCount = currentMethods?.length || 0
 
@@ -67,6 +70,7 @@ export default function Checkout() {
       await sleep(5000)
 
       const { data: updatedMethods, error } = await getPaymentMethods()
+
       if (error) {
         console.warn("Erro ao buscar métodos de pagamento:", error)
         continue
@@ -77,7 +81,7 @@ export default function Checkout() {
         continue
       }
 
-      const lastMethod = updatedMethods[updatedMethods.length - 1]
+      const lastMethod = updatedMethods[0]
 
       const { data: subscribe, error: subscribeError } =
         await createPartnerSubscribe({
@@ -90,6 +94,7 @@ export default function Checkout() {
     }
 
     Alert.alert("Erro", "Tempo limite ao aguardar o cartão ser cadastrado.")
+    setLoading(false)
   }
 
   return (
@@ -101,6 +106,7 @@ export default function Checkout() {
         style={{ height: 50, marginBottom: 10 }}
       />
       <Button
+        loading={loading}
         title="Pagar"
         onPress={() => {
           if (!partner) return

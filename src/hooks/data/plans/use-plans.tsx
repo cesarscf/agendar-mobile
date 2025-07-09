@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query"
 
 import type { Plan } from "@/lib/validations/plans"
-import { getPlans } from "@/http/get-plans"
+import { getPlans } from "@/http/plan/get-plans"
 
 export function usePlans() {
   return useQuery<Plan[], string>({
