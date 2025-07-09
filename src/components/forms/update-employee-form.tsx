@@ -116,7 +116,7 @@ export function EditEmployeeForm({ employee }: EditEmployeeFormProps) {
           </View>
 
           <View className="gap-1">
-            <Text className="text-sm font-medium">Preço</Text>
+            <Text className="text-sm font-medium">Email</Text>
             <Controller
               control={form.control}
               name="email"
@@ -140,7 +140,7 @@ export function EditEmployeeForm({ employee }: EditEmployeeFormProps) {
           </View>
 
           <View className="gap-1">
-            <Text className="text-sm font-medium">Duração (min)</Text>
+            <Text className="text-sm font-medium">Telefone</Text>
             <Controller
               control={form.control}
               name="phone"
@@ -160,7 +160,7 @@ export function EditEmployeeForm({ employee }: EditEmployeeFormProps) {
           </View>
 
           <View className="gap-1">
-            <Text className="text-sm font-medium">Descrição</Text>
+            <Text className="text-sm font-medium">Endereço</Text>
             <Controller
               control={form.control}
               name="address"
