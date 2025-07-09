@@ -24,4 +24,9 @@ npx create-expo-app my-app --template https://github.com/kadikraman/expo-starter
 ```
 
 
+[ ] - Verificar formato do price
+[ ] - Checkin
+[ ] - Ligar employees no service
+
+
 
