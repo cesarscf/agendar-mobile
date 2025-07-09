@@ -20,6 +20,7 @@ export default function Billing() {
 
   const { mutateAsync: cancelSubscription } = useCancelSubscription()
   const [isCancelling, setIsCancelling] = useState(false)
+  console.log(subscription, isLoading)
 
   if (isLoading || !subscription) {
     return (

@@ -10,13 +10,12 @@ export async function getSetupIntent() {
     const result = await api.get<GetSetupIntent>(
       "/payment-methods/setup-intent"
     )
-    console.log(result)
+
     return {
       data: result.data,
       error: null,
     }
   } catch (err) {
-    console.log(err)
     if (err instanceof AxiosError) {
       const message = err.message
       return {

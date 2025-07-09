@@ -25,11 +25,17 @@ export default function Checkout() {
 
       Alert.alert("Sucesso", "Plano atualizado com sucesso!")
       router.push("/settings/billing")
-    } catch (e) {
-      console.log(e)
+    } catch (_e) {
       Alert.alert("Erro", "Falha ao atualizar plano.")
     }
   }
+
+  console.log({
+    selectedPlan,
+    paymentMethodDefault,
+    loadingPlans,
+    loadingMethods,
+  })
 
   if (
     !selectedPlan ||

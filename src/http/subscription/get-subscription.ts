@@ -20,12 +20,12 @@ export async function getSubscription(id: string) {
     const result = await api.get<GetSubscriptionResponse>(
       `/subscriptions/${id}`
     )
+
     return {
       data: result.data,
       error: null,
     }
   } catch (err) {
-    console.log(err)
     if (err instanceof AxiosError) {
       const message = err.message
       return {

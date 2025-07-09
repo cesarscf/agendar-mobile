@@ -6,7 +6,7 @@ import { useQuery } from "@tanstack/react-query"
 
 export function useSubscription(subscriptionId: string) {
   return useQuery<GetSubscriptionResponse, string>({
-    queryKey: ["subscription"],
+    queryKey: [subscriptionId],
     enabled: !!subscriptionId,
     queryFn: async () => {
       const { data, error } = await getSubscription(subscriptionId)

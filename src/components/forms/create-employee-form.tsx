@@ -64,7 +64,8 @@ export function CreateEmployeeForm() {
       })
 
       router.back()
-    } catch {
+    } catch (e) {
+      console.log(e)
       Alert.alert("Erro ao cadastrar funcionário.")
     } finally {
       setLoading(false)
