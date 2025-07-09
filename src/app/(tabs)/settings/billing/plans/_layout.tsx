@@ -10,11 +10,10 @@ export default function Layout() {
           headerShown: false,
         }}
       />
-
       <Stack.Screen
-        name="plans"
+        name="checkout"
         options={{
-          title: "SERVIÇOS",
+          title: "ATUALIZAR PLANO",
           headerShown: false,
         }}
       />
