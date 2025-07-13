@@ -33,6 +33,13 @@ export default function Layout() {
           headerShown: false,
         }}
       />
+      <Stack.Screen
+        name="packages"
+        options={{
+          title: "PACOTES",
+          headerShown: false,
+        }}
+      />
     </Stack>
   )
 }

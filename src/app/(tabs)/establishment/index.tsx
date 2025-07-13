@@ -1,6 +1,6 @@
 import { ListItem } from "@/components/list-item"
 import type { Href } from "expo-router"
-import { HammerIcon, MoreVertical, Users } from "lucide-react-native"
+import { HammerIcon, MoreVertical, Package, Users } from "lucide-react-native"
 import { SafeAreaView, Text, View } from "react-native"
 
 export default function Establishment() {
@@ -16,6 +16,12 @@ export default function Establishment() {
       description: "Adicione ou edite sua equipe",
       route: "/(tabs)/establishment/employees" as Href,
       icon: Users,
+    },
+    {
+      label: "Pacotes de serviços",
+      description: "Adicione ou edite pacotes de serviços",
+      route: "/(tabs)/establishment/packages" as Href,
+      icon: Package,
     },
     {
       label: "Geral",
