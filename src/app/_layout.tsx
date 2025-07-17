@@ -3,9 +3,17 @@ import { SessionProvider, useSession } from "@/providers/auth-context"
 import { Stack } from "expo-router"
 import "../../global.css"
 import { StatusBar } from "expo-status-bar"
+import messaging from "@react-native-firebase/messaging"
 
 import { queryClient } from "@/lib/react-query"
 import { QueryClientProvider } from "@tanstack/react-query"
+import { PermissionsAndroid } from "react-native"
+
+PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS)
+
+messaging().setBackgroundMessageHandler(async remoteMessage => {
+  console.log("Message handled in the background!", remoteMessage)
+})
 
 export default function RootLayout() {
   return (

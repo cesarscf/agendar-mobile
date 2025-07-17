@@ -4,6 +4,8 @@ import { getPartner, type Partner } from "@/http/auth/get-partner"
 import { SubscriptionStatusEnum } from "@/lib/enums"
 import { router } from "expo-router"
 import React from "react"
+import messaging from "@react-native-firebase/messaging"
+import { saveToken } from "@/http/push/save-token"
 
 const AuthContext = React.createContext<{
   signIn: (token: string) => void
@@ -49,6 +51,7 @@ export function SessionProvider({ children }: React.PropsWithChildren) {
     if (data) {
       setPartner(data.partner)
       setEstablishmentId(data.partner.establishments[0].id)
+      savePartnerFcmToken(data.partner.id)
     }
 
     const currentSubscription = data?.partner.subscriptions[0]
@@ -65,6 +68,17 @@ export function SessionProvider({ children }: React.PropsWithChildren) {
 
     if (error) {
       signOut()
+    }
+  }
+
+  async function savePartnerFcmToken(id: string) {
+    const token = await messaging().getToken()
+
+    if (token) {
+      await saveToken({
+        token,
+        userId: id,
+      })
     }
   }
 
