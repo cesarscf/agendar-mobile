@@ -7,7 +7,7 @@ export default function Layout() {
       <Tabs.Screen
         name="index"
         options={{
-          title: "Home",
+          title: "Agenda",
           headerShown: false,
           tabBarIcon: ({ color }) => <Calendar color={color} />,
         }}

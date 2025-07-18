@@ -79,7 +79,7 @@ export default function Appointments() {
                 </Text>
               </View>
             )}
-            scrollEnabled={false} // Scroll será controlado pelo ScrollView
+            scrollEnabled={false}
           />
         )}
 
