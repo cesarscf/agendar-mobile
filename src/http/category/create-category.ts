@@ -1,8 +1,8 @@
 import { AxiosError } from "axios"
 import { api } from "../api-client"
-import type { UpdateCategoryRequest } from "@/lib/validations/category"
+import type { CreateCategoryRequest } from "@/lib/validations/category"
 
-export async function createCategory(inpus: UpdateCategoryRequest) {
+export async function createCategory(inpus: CreateCategoryRequest) {
   try {
     const createCategory = await api.post<{ id: string }>(`/categories`, {
       name: inpus.name,

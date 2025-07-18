@@ -19,6 +19,14 @@ export default function Layout() {
       />
 
       <Stack.Screen
+        name="categories"
+        options={{
+          title: "CATEGORIAS",
+          headerShown: false,
+        }}
+      />
+
+      <Stack.Screen
         name="employees"
         options={{
           title: "PROFISSIONAIS",
