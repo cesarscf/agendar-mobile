@@ -1,13 +1,13 @@
 import { AxiosError } from "axios"
 import { api } from "../api-client"
-import type { CreateServiceRequest } from "@/lib/validations/service"
+import type { UpdatePackageItemRequest } from "@/lib/validations/packages"
 
-export async function createService(inputs: CreateServiceRequest) {
+export async function updatePackageItem(
+  inputs: UpdatePackageItemRequest & { packageId: string }
+) {
   try {
-    await api.post("/packages", {
+    await api.post(`/packages/${inputs.packageId}/items`, {
       ...inputs,
-      durationInMinutes: Number(inputs.durationInMinutes),
-      price: inputs.price.replace(",", "."),
     })
 
     return {
