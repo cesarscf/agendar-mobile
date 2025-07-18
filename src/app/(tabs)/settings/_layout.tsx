@@ -8,15 +8,6 @@ export default function Layout() {
         name="index"
         options={{
           title: "CONFIGURAÇÕES",
-          headerLeft: () => (
-            <Pressable
-              onPress={() => {
-                router.back()
-              }}
-            >
-              <ChevronLeft />
-            </Pressable>
-          ),
         }}
       />
 
