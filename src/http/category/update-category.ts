@@ -2,10 +2,10 @@ import { AxiosError } from "axios"
 import { api } from "../api-client"
 import type { UpdateCategoryRequest } from "@/lib/validations/category"
 
-export async function updateCategory(inpus: UpdateCategoryRequest) {
+export async function updateCategory(inputs: UpdateCategoryRequest) {
   try {
-    await api.put(`/categories/${inpus.id}`, {
-      name: inpus.name,
+    await api.put(`/categories/${inputs.id}`, {
+      ...inputs,
     })
 
     return {
