@@ -24,6 +24,12 @@ export default function Establishment() {
       icon: Package,
     },
     {
+      label: "Clientes",
+      description: "Configurações clientes de sua loja",
+      route: "/(tabs)/establishment/customers" as Href,
+      icon: Users,
+    },
+    {
       label: "Geral",
       description: "Configurações gerais de sua loja",
       route: "/(tabs)/establishment/general" as Href,

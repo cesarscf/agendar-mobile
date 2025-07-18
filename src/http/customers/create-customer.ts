@@ -4,12 +4,12 @@ import type { CreateCustomerRequest } from "@/lib/validations/customer"
 
 export async function createCustomer(inputs: CreateCustomerRequest) {
   try {
-    await api.post("/customers", {
+    const customerData = await api.post<{ id: string }>("/customers", {
       ...inputs,
     })
 
     return {
-      data: true,
+      data: customerData.data,
       error: null,
     }
   } catch (err) {
