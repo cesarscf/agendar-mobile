@@ -1,6 +1,6 @@
-import { AxiosError } from "axios"
 import { api } from "../api-client"
 import type { UpdateServiceRequest } from "@/lib/validations/service"
+import { handleApiError } from "@/utils"
 
 export async function updateService(inputs: UpdateServiceRequest) {
   try {
@@ -13,17 +13,11 @@ export async function updateService(inputs: UpdateServiceRequest) {
       error: null,
     }
   } catch (err) {
-    if (err instanceof AxiosError) {
-      const message = err.message
-      return {
-        data: null,
-        error: message,
-      }
-    }
+    const { error } = handleApiError(err)
 
     return {
       data: null,
-      error: "Erro inesperado, tente novamente em alguns minutos.",
+      error,
     }
   }
 }

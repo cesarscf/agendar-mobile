@@ -1,5 +1,5 @@
-import { AxiosError } from "axios"
 import { api } from "../api-client"
+import { handleApiError } from "@/utils"
 
 interface GetSetupIntent {
   clientSecret: "string"
@@ -16,17 +16,11 @@ export async function getSetupIntent() {
       error: null,
     }
   } catch (err) {
-    if (err instanceof AxiosError) {
-      const message = err.message
-      return {
-        data: null,
-        error: message,
-      }
-    }
+    const { error } = handleApiError(err)
 
     return {
       data: null,
-      error: "Erro inesperado, tente novamente em alguns minutos.",
+      error,
     }
   }
 }

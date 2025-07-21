@@ -60,3 +60,24 @@ export function formatPhoneNumber(value: string) {
 
   return `(${onlyDigits.slice(0, 2)}) ${onlyDigits.slice(2, 7)}-${onlyDigits.slice(7, 11)}`
 }
+
+import { AxiosError } from "axios"
+
+interface ApiErrorResult {
+  error: string
+}
+
+export function handleApiError(err: unknown): ApiErrorResult {
+  if (err instanceof AxiosError) {
+    const message =
+      err.response?.data?.message ?? "Erro inesperado no servidor."
+
+    return {
+      error: message,
+    }
+  }
+
+  return {
+    error: "Erro desconhecido. Tente novamente mais tarde.",
+  }
+}

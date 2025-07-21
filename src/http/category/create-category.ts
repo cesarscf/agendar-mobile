@@ -1,6 +1,6 @@
-import { AxiosError } from "axios"
 import { api } from "../api-client"
 import type { CreateCategoryRequest } from "@/lib/validations/category"
+import { handleApiError } from "@/utils"
 
 export async function createCategory(inpus: CreateCategoryRequest) {
   try {
@@ -13,17 +13,11 @@ export async function createCategory(inpus: CreateCategoryRequest) {
       error: null,
     }
   } catch (err) {
-    if (err instanceof AxiosError) {
-      const message = err.message
-      return {
-        data: null,
-        error: message,
-      }
-    }
+    const { error } = handleApiError(err)
 
     return {
       data: null,
-      error: "Erro inesperado, tente novamente em alguns minutos.",
+      error,
     }
   }
 }

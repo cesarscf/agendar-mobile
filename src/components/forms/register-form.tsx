@@ -22,6 +22,8 @@ export function RegisterForm() {
       name: "",
       email: "",
       password: "",
+      city: "",
+      state: "",
     },
   })
 
@@ -99,6 +101,7 @@ export function RegisterForm() {
           />
         )}
       />
+
       {form.formState.errors.password && (
         <Text className="text-red-500 text-xs">
           {form.formState.errors.password.message}
@@ -110,7 +113,6 @@ export function RegisterForm() {
         loading={loading}
         title="Entrar"
         onPress={form.handleSubmit(onSubmit)}
-        // loading={loading}
       />
     </View>
   )

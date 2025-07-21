@@ -21,4 +21,6 @@ export const registerSchema = loginSchema.extend({
     .refine(value => value.trim().includes(" "), {
       message: "Por favor, insira seu nome completo",
     }),
+  state: z.string().optional(),
+  city: z.string().optional(),
 })

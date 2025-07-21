@@ -1,6 +1,6 @@
-import { AxiosError } from "axios"
 import { api } from "../api-client"
 import type { Customer } from "@/lib/validations/customer"
+import { handleApiError } from "@/utils"
 
 export async function getCustomers() {
   try {
@@ -11,15 +11,11 @@ export async function getCustomers() {
       error: null,
     }
   } catch (err) {
-    if (err instanceof AxiosError) {
-      return {
-        data: null,
-        error: err.message,
-      }
-    }
+    const { error } = handleApiError(err)
+
     return {
       data: null,
-      error: "Erro inesperado, tente novamente em alguns minutos.",
+      error,
     }
   }
 }

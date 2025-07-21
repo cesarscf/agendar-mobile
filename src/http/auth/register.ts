@@ -19,13 +19,15 @@ export async function register({ name, email, password }: RegisterRequest) {
       password,
     })
 
+    console.log(response)
     return {
       data: response.data,
       error: null,
     }
   } catch (err) {
     if (err instanceof AxiosError) {
-      const message = err.message
+      const message = err.response?.data.message
+
       return {
         data: null,
         error: message,

@@ -1,6 +1,6 @@
-import { AxiosError } from "axios"
 import { api } from "../api-client"
 import type { GetAppointmentsResponse } from "@/lib/validations/appointment"
+import { handleApiError } from "@/utils"
 
 export type GetAppointmentsParams = {
   page?: number
@@ -34,15 +34,11 @@ export async function getAppointments(params: GetAppointmentsParams = {}) {
       error: null,
     }
   } catch (err) {
-    if (err instanceof AxiosError) {
-      return {
-        data: null,
-        error: err.message,
-      }
-    }
+    const { error } = handleApiError(err)
+
     return {
       data: null,
-      error: "Erro inesperado, tente novamente em alguns minutos.",
+      error,
     }
   }
 }
