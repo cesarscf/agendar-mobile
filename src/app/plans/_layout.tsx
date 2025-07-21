@@ -1,9 +1,12 @@
+import { useSession } from "@/providers/auth-context"
 import { StripeProvider } from "@stripe/stripe-react-native"
 import { router, Stack } from "expo-router"
-import { ChevronLeft } from "lucide-react-native"
+import { ChevronLeft, LogOut } from "lucide-react-native"
 import { Pressable } from "react-native"
 
 export default function Layout() {
+  const { signOut } = useSession()
+
   return (
     <StripeProvider
       publishableKey={process.env.EXPO_PUBLIC_STRIPE_PUBLISHABLE_KEY as string}
@@ -13,6 +16,15 @@ export default function Layout() {
           name="index"
           options={{
             title: "PLANOS",
+            headerLeft: () => (
+              <Pressable
+                onPress={() => {
+                  signOut()
+                }}
+              >
+                <LogOut />
+              </Pressable>
+            ),
           }}
         />
         <Stack.Screen

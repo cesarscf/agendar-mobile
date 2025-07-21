@@ -4,7 +4,7 @@ import { handleApiError } from "@/utils"
 
 export async function getPlan(planId: string) {
   try {
-    const response = await api.get<Plan>(`/plan/${planId}`)
+    const response = await api.get<Plan>(`/plans/${planId}`)
 
     return {
       data: response.data,
