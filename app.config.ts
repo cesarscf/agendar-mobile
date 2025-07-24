@@ -62,6 +62,21 @@ const config: ExpoConfig = {
           "The app accesses your photos to let you share them with your friends.",
       },
     ],
+    [
+      "expo-splash-screen",
+      {
+        ios: {
+          backgroundColor: "#001240",
+          image: "./assets/icon.png",
+          resizeMode: "cover",
+        },
+        android: {
+          backgroundColor: "#001240",
+          image: "./assets/icon.png",
+          imageWidth: 150,
+        },
+      },
+    ],
   ],
   extra: {
     eas: {

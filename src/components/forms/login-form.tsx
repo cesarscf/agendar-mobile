@@ -44,7 +44,7 @@ export function LoginForm() {
 
   return (
     <View className="p-4 gap-3 w-full">
-      <Text className="text-sm font-medium">Email</Text>
+      <Text className="text-sm font-medium text-white">Email</Text>
       <Controller
         control={form.control}
         name="email"
@@ -64,7 +64,7 @@ export function LoginForm() {
         </Text>
       )}
 
-      <Text className="text-sm font-medium">Senha</Text>
+      <Text className="text-sm font-medium text-white">Senha</Text>
       <Controller
         control={form.control}
         name="password"
@@ -91,7 +91,6 @@ export function LoginForm() {
         title="Entrar"
         theme="primary"
         onPress={form.handleSubmit(onSubmit)}
-        // loading={loading}
       />
     </View>
   )
