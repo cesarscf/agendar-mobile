@@ -1,4 +1,4 @@
-import { Button } from "@/components/button"
+import { AppButton } from "@/components/button"
 import { useSession } from "@/providers/auth-context"
 import { useAppointments } from "@/hooks/data/appointment/use-appointments"
 
@@ -84,7 +84,7 @@ export default function Appointments() {
         )}
 
         <View className="mt-6">
-          <Button onPress={signOut} title="Sair" />
+          <AppButton onPress={signOut} title="Sair" />
         </View>
       </ScrollView>
     </SafeAreaView>

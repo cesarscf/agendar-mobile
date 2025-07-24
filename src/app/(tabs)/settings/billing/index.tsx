@@ -1,4 +1,4 @@
-import { Button } from "@/components/button"
+import { AppButton } from "@/components/button"
 import { useSubscription } from "@/hooks/data/subscriptions/use-subscription"
 import { useCancelSubscription } from "@/hooks/data/subscriptions/use-cancel-subscription"
 import { useSession } from "@/providers/auth-context"
@@ -90,7 +90,7 @@ export default function Billing() {
         )}
       </Text>
 
-      <Button
+      <AppButton
         title="Atualizar plano"
         onPress={() => {
           router.push("/(tabs)/settings/billing/plans")
@@ -98,7 +98,7 @@ export default function Billing() {
         className="mb-3"
       />
 
-      <Button
+      <AppButton
         title={isCancelling ? "Cancelando..." : "Cancelar assinatura"}
         onPress={handleCancel}
         theme="secondary"

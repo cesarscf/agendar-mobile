@@ -3,7 +3,7 @@ import { usePaymentMethods } from "@/hooks/data/plans/use-payment-method"
 import { useUpdateSubscription } from "@/hooks/data/subscriptions/use-update-subscription"
 import { Stack, useLocalSearchParams, useRouter } from "expo-router"
 import { Text, View, ActivityIndicator, Alert } from "react-native"
-import { Button } from "@/components/button"
+import { AppButton } from "@/components/button"
 
 export default function Checkout() {
   const router = useRouter()
@@ -74,7 +74,7 @@ export default function Checkout() {
         </Text>
       </View>
 
-      <Button
+      <AppButton
         onPress={onUpdateSubscription}
         disabled={isPending}
         loading={isPending}

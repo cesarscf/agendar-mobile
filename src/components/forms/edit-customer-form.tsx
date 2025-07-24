@@ -11,7 +11,7 @@ import {
   View,
 } from "react-native"
 import { Input } from "../input"
-import { Button } from "../button"
+import { AppButton } from "../button"
 
 import { router } from "expo-router"
 import type { z } from "zod"
@@ -300,7 +300,7 @@ export function EditCustomerForm({ customer }: Props) {
         </ScrollView>
 
         <View className="p-4 border-t border-gray-200 bg-white">
-          <Button
+          <AppButton
             disabled={isPending || loading}
             loading={isPending || loading}
             title="Atualizar Cliente"

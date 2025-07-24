@@ -8,7 +8,7 @@ import { Controller, useForm } from "react-hook-form"
 import { Alert, Text, View } from "react-native"
 import type { z } from "zod"
 import { Input } from "../input"
-import { Button } from "../button"
+import { AppButton } from "../button"
 
 type Inputs = z.infer<typeof registerSchema>
 
@@ -108,7 +108,7 @@ export function RegisterForm() {
         </Text>
       )}
 
-      <Button
+      <AppButton
         disabled={loading}
         loading={loading}
         title="Entrar"

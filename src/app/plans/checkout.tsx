@@ -12,7 +12,7 @@ import { CardField, useStripe } from "@stripe/stripe-react-native"
 import { router, useLocalSearchParams } from "expo-router"
 import { DollarSign, Gift, Users } from "lucide-react-native"
 
-import { Button } from "@/components/button"
+import { AppButton } from "@/components/button"
 import { usePaymentMethods } from "@/hooks/data/plans/use-payment-method"
 import { usePlan } from "@/hooks/data/plans/use-plan"
 import { getPaymentMethods } from "@/http/payment-methods/get-payment-methods"
@@ -191,7 +191,7 @@ export default function Checkout() {
       </ScrollView>
 
       <View className="absolute bottom-0 w-full px-5 py-4 bg-white border-t border-gray-200">
-        <Button
+        <AppButton
           loading={loading}
           title="Subscribe Now"
           onPress={() => {

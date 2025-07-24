@@ -11,7 +11,7 @@ import {
 } from "react-native"
 import type { z } from "zod"
 import { Input } from "../input"
-import { Button } from "../button"
+import { AppButton } from "../button"
 import { useCreateCategory } from "@/hooks/data/category/use-create-category"
 import { router } from "expo-router"
 
@@ -67,7 +67,7 @@ export function CreateCategoryForm() {
         </View>
 
         <View className="mt-4">
-          <Button
+          <AppButton
             disabled={isPending}
             loading={isPending}
             title="Criar Categoria"

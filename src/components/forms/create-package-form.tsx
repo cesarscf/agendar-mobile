@@ -10,7 +10,7 @@ import {
 } from "react-native"
 import type { z } from "zod"
 import { Input } from "../input"
-import { Button } from "../button"
+import { AppButton } from "../button"
 import { ImagePickerControl } from "../image-picker"
 import { router } from "expo-router"
 import { StorageEntity, uploadImageToFirebase } from "@/lib/upload-image"
@@ -164,7 +164,7 @@ export function CreatePackageForm() {
         </ScrollView>
 
         <View className="p-4 border-t border-gray-200 bg-white">
-          <Button
+          <AppButton
             disabled={isPending || loading}
             loading={isPending || loading}
             title="Cadastrar Serviço"

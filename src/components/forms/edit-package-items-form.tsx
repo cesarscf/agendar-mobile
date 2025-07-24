@@ -2,7 +2,7 @@ import { useForm, Controller, useFieldArray } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { updatePackageItemsSchema } from "@/lib/validations/packages"
 import { Input } from "../input"
-import { Button } from "../button"
+import { AppButton } from "../button"
 import { View, Text, ScrollView, TouchableOpacity } from "react-native"
 import { Picker } from "@react-native-picker/picker"
 import { useUpdatePackageItem } from "@/hooks/data/packages/use-update-package-item"
@@ -113,7 +113,7 @@ export function EditPackageItemsForm({ packageId, items, services }: Props) {
       </ScrollView>
 
       <View className="p-4 border-t border-gray-200">
-        <Button
+        <AppButton
           title="Salvar Itens"
           onPress={handleSubmit(onSubmit)}
           loading={isPending}

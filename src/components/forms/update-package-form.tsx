@@ -3,7 +3,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { Controller, useForm } from "react-hook-form"
 import { Alert, ScrollView, Text, View } from "react-native"
 import { Input } from "../input"
-import { Button } from "../button"
+import { AppButton } from "../button"
 import { ImagePickerControl } from "../image-picker"
 import { uploadImageToFirebase, StorageEntity } from "@/lib/upload-image"
 import { useUpdatePackage } from "@/hooks/data/packages/use-update-package"
@@ -112,7 +112,7 @@ export function EditPackageForm({ data }: Props) {
         label="Imagem do pacote"
       />
 
-      <Button
+      <AppButton
         title="Salvar Alterações"
         onPress={form.handleSubmit(onSubmit)}
         loading={loading || isPending}

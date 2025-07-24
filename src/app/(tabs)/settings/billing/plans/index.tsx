@@ -1,6 +1,6 @@
 import { usePlans } from "@/hooks/data/plans"
 import { Text, View, ScrollView, TouchableOpacity } from "react-native"
-import { Button } from "@/components/button"
+import { AppButton } from "@/components/button"
 import { router } from "expo-router"
 import { useState } from "react"
 import { CheckCircle } from "lucide-react-native"
@@ -91,7 +91,7 @@ export default function Plans() {
                 </View>
               )}
 
-              <Button
+              <AppButton
                 title="Selecionar plano"
                 onPress={() => {
                   router.push(

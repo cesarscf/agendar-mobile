@@ -6,7 +6,7 @@ import {
 } from "react-native"
 import { cn } from "../utils/cn"
 
-type ButtonProps = {
+type AppButtonProps = {
   title: string
   onPress?: () => void
   theme?: "primary" | "secondary" | "tertiary"
@@ -14,7 +14,7 @@ type ButtonProps = {
   loading?: boolean
 } & PressableProps
 
-export function Button({
+export function AppButton({
   title,
   onPress,
   theme = "primary",
@@ -22,7 +22,7 @@ export function Button({
   loading,
   className,
   ...rest
-}: ButtonProps) {
+}: AppButtonProps) {
   return (
     <Pressable
       onPress={onPress}

@@ -20,7 +20,7 @@ import {
 } from "@/lib/validations/establishment"
 import { Input } from "@/components/input"
 import { ImagePickerControl } from "@/components/image-picker"
-import { Button } from "@/components/button"
+import { AppButton } from "@/components/button"
 
 type Inputs = UpdateEstablishmentRequest
 
@@ -316,7 +316,7 @@ export function UpdateEstablishmentForm({
         </ScrollView>
 
         <View className="p-4 border-t border-gray-200 bg-white">
-          <Button
+          <AppButton
             disabled={isPending || loading}
             loading={isPending || loading}
             title="Salvar Alterações"

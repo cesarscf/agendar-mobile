@@ -11,7 +11,7 @@ import {
 } from "react-native"
 import type { z } from "zod"
 import { Input } from "../input"
-import { Button } from "../button"
+import { AppButton } from "../button"
 import { useRouter } from "expo-router"
 
 import { useUpdateCategory } from "@/hooks/data/category/use-update-category"
@@ -77,7 +77,7 @@ export function EditCategoryForm({ category }: EditCategoryFormProps) {
         </View>
 
         <View className="mt-4">
-          <Button
+          <AppButton
             disabled={isPending}
             loading={isPending}
             title="Salvar Alterações"

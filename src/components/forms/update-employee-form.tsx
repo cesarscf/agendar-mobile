@@ -11,7 +11,7 @@ import {
 } from "react-native"
 import type { z } from "zod"
 import { Input } from "../input"
-import { Button } from "../button"
+import { AppButton } from "../button"
 import { ImagePickerControl } from "../image-picker"
 import { StorageEntity, uploadImageToFirebase } from "@/lib/upload-image"
 import { useRouter } from "expo-router"
@@ -228,7 +228,7 @@ export function EditEmployeeForm({ employee }: EditEmployeeFormProps) {
         </ScrollView>
 
         <View className="p-4 border-t border-gray-200 bg-white">
-          <Button
+          <AppButton
             disabled={isPending || loading}
             loading={isPending || loading}
             title="Salvar Alterações"
