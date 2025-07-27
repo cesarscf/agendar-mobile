@@ -1,3 +1,5 @@
+import { startOfMonth, endOfMonth } from "date-fns"
+
 export function sleep(ms: number) {
   return new Promise(resolve => setTimeout(resolve, ms))
 }
@@ -80,4 +82,13 @@ export function handleApiError(err: unknown): ApiErrorResult {
   return {
     error: "Erro desconhecido. Tente novamente mais tarde.",
   }
+}
+
+export function getCurrentMonthRange() {
+  const now = new Date()
+
+  const startDate = startOfMonth(now).toISOString()
+  const endDate = endOfMonth(now).toISOString()
+
+  return { startDate, endDate }
 }

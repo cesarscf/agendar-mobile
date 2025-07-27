@@ -66,7 +66,7 @@ export default function Checkout() {
         throw new Error(setupIntentError || "Erro ao criar SetupIntent.")
       }
 
-      const { setupIntent: confirmedSetupIntent, error: confirmError } =
+      const { setupIntent: _confirmedSetupIntent, error: confirmError } =
         await confirmSetupIntent(setupIntent.clientSecret, {
           paymentMethodData: {
             paymentMethodId: paymentMethod.id,
@@ -101,7 +101,7 @@ export default function Checkout() {
 
         const latestMethod = updatedMethods[0]
 
-        const { data: subscription, error: subscriptionError } =
+        const { data: _subscription, error: subscriptionError } =
           await createPartnerSubscribe({
             cardId: latestMethod.id,
             planId: planId as string,
