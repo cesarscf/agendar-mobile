@@ -31,7 +31,8 @@ export function AppButton({
         theme === "primary" && "bg-[#fbdd65] border-[#f7d139]",
         theme === "secondary" && "bg-white border-gray-300",
         theme === "tertiary" && "bg-transparent border-transparent",
-        disabled && "opacity-50"
+        disabled && "opacity-50",
+        className
       )}
       disabled={disabled}
       {...rest}

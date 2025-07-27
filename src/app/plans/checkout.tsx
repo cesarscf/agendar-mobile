@@ -55,7 +55,7 @@ export default function Checkout() {
 
       if (paymentMethodError) {
         throw new Error(
-          paymentMethodError.message || "Error creating payment method."
+          paymentMethodError.message || "Erro ao criar método de pagamento."
         )
       }
 
@@ -63,7 +63,7 @@ export default function Checkout() {
         await getSetupIntent()
 
       if (setupIntentError || !setupIntent) {
-        throw new Error(setupIntentError || "Error creating SetupIntent.")
+        throw new Error(setupIntentError || "Erro ao criar SetupIntent.")
       }
 
       const { setupIntent: confirmedSetupIntent, error: confirmError } =
@@ -76,7 +76,9 @@ export default function Checkout() {
 
       if (confirmError) {
         console.log(confirmError)
-        throw new Error(confirmError.message || "Error confirming SetupIntent.")
+        throw new Error(
+          confirmError.message || "Erro ao confirmar SetupIntent."
+        )
       }
 
       let attempts = 0
@@ -106,17 +108,17 @@ export default function Checkout() {
           })
 
         if (subscriptionError) {
-          throw new Error("Error creating subscription.")
+          throw new Error("Erro ao criar assinatura.")
         }
 
-        Alert.alert("Success", "Subscription successfully created!")
+        Alert.alert("Sucesso", "Assinatura criada com sucesso!")
 
         router.replace("/(tabs)")
 
         return
       }
 
-      Alert.alert("Error", "Timeout while waiting for card registration.")
+      Alert.alert("Erro", "Tempo excedido ao esperar o cartão ser registrado.")
     } catch (error) {
       Alert.alert(String(error).replace("Error: ", ""))
     } finally {
@@ -150,32 +152,34 @@ export default function Checkout() {
 
         <View className="flex-row items-center mb-5 space-x-3">
           <DollarSign size={22} color="#4B5563" />
-          <Text className="font-semibold text-gray-800 w-28">Price:</Text>
+          <Text className="font-semibold text-gray-800 w-28">Preço:</Text>
           <Text className="text-gray-700">
-            ${plan.price} /{" "}
-            {plan.intervalMonth > 1 ? `${plan.intervalMonth} months` : "month"}
+            R${plan.price} /{" "}
+            {plan.intervalMonth > 1 ? `${plan.intervalMonth} meses` : "mês"}
           </Text>
         </View>
 
         <View className="flex-row items-center mb-5 space-x-3">
           <Gift size={22} color="#4B5563" />
-          <Text className="font-semibold text-gray-800 w-28">Free Trial:</Text>
-          <Text className="text-gray-700">{plan.trialPeriodDays} days</Text>
+          <Text className="font-semibold text-gray-800 w-28">
+            Período grátis:
+          </Text>
+          <Text className="text-gray-700">{plan.trialPeriodDays} dias</Text>
         </View>
 
         <View className="flex-row items-center mb-5 space-x-3">
           <Users size={22} color="#4B5563" />
           <Text className="font-semibold text-gray-800 w-28">
-            Professionals:
+            Profissionais:
           </Text>
           <Text className="text-gray-700">
-            {plan.minimumProfessionalsIncluded} to{" "}
+            De {plan.minimumProfessionalsIncluded} até{" "}
             {plan.maximumProfessionalsIncluded}
           </Text>
         </View>
 
         <Text className="text-2xl font-bold text-gray-900 mt-10 mb-4">
-          Card Information
+          Informações do Cartão
         </Text>
 
         <CardField
@@ -193,7 +197,7 @@ export default function Checkout() {
       <View className="absolute bottom-0 w-full px-5 py-4 bg-white border-t border-gray-200">
         <AppButton
           loading={loading}
-          title="Subscribe Now"
+          title="Assinar agora"
           onPress={() => {
             if (!partner) return
             handlePayment({
