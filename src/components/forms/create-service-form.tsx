@@ -4,7 +4,6 @@ import { Controller, useForm } from "react-hook-form"
 import {
   Alert,
   KeyboardAvoidingView,
-  Platform,
   ScrollView,
   Text,
   View,
@@ -75,10 +74,7 @@ export function CreateServiceForm() {
   const currentImage = form.watch("image")
 
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === "ios" ? "padding" : undefined}
-      className="flex-1 bg-white"
-    >
+    <KeyboardAvoidingView behavior="padding" className="flex-1 bg-white">
       <View className="flex-1">
         <ScrollView
           contentContainerStyle={{

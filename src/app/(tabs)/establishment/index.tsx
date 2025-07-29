@@ -8,7 +8,7 @@ import {
   Tag,
   Users,
 } from "lucide-react-native"
-import { SafeAreaView, Text, View } from "react-native"
+import { SafeAreaView, View } from "react-native"
 
 export default function Establishment() {
   const items = [
@@ -52,10 +52,6 @@ export default function Establishment() {
 
   return (
     <SafeAreaView className="flex-1 bg-white">
-      <View className="p-6 border-b border-gray-200">
-        <Text className="text-xl font-bold text-gray-900">Estabelecimento</Text>
-      </View>
-
       <View className="mt-2 px-4">
         {items.map(item => (
           <ListItem

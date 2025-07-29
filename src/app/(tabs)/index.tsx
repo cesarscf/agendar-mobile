@@ -1,5 +1,3 @@
-import { AppButton } from "@/components/button"
-import { useSession } from "@/providers/auth-context"
 import { useAppointments } from "@/hooks/data/appointment/use-appointments"
 
 import {
@@ -21,7 +19,6 @@ import {
 import { useState } from "react"
 
 export default function Appointments() {
-  const { signOut } = useSession()
   const [filter, setFilter] = useState<"today" | "week">("today")
 
   const now = new Date()
@@ -42,7 +39,7 @@ export default function Appointments() {
   })
 
   return (
-    <SafeAreaView className="flex-1 bg-white">
+    <SafeAreaView className="flex-1 bg-white pt-10">
       <ScrollView contentContainerStyle={{ padding: 16, flexGrow: 1 }}>
         <View className="flex-row justify-around mb-4">
           <TouchableOpacity onPress={() => setFilter("today")}>
@@ -82,10 +79,6 @@ export default function Appointments() {
             scrollEnabled={false}
           />
         )}
-
-        <View className="mt-6">
-          <AppButton onPress={signOut} title="Sair" />
-        </View>
       </ScrollView>
     </SafeAreaView>
   )

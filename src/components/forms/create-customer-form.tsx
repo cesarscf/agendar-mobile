@@ -5,7 +5,6 @@ import React from "react"
 import {
   Alert,
   KeyboardAvoidingView,
-  Platform,
   ScrollView,
   Text,
   View,
@@ -70,10 +69,7 @@ export function CreateCustomerForm() {
   }
 
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === "ios" ? "padding" : undefined}
-      className="flex-1 bg-white"
-    >
+    <KeyboardAvoidingView behavior="padding" className="flex-1 bg-white">
       <View className="flex-1">
         <ScrollView
           contentContainerStyle={{ padding: 16, paddingBottom: 32, gap: 16 }}

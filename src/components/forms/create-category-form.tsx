@@ -4,7 +4,6 @@ import { Controller, useForm } from "react-hook-form"
 import {
   Alert,
   KeyboardAvoidingView,
-  Platform,
   ScrollView,
   Text,
   View,
@@ -36,10 +35,7 @@ export function CreateCategoryForm() {
   }
 
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === "ios" ? "padding" : undefined}
-      className="flex-1 bg-white"
-    >
+    <KeyboardAvoidingView behavior="padding" className="flex-1 bg-white">
       <ScrollView
         contentContainerStyle={{ padding: 16, paddingBottom: 32, gap: 16 }}
         keyboardShouldPersistTaps="handled"

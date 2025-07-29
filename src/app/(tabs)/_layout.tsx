@@ -16,7 +16,6 @@ export default function Layout() {
         name="dashboard"
         options={{
           title: "Dashboard",
-          headerShown: false,
           tabBarIcon: ({ color }) => <ChartArea color={color} />,
         }}
       />

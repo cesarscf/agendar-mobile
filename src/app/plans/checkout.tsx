@@ -6,7 +6,6 @@ import {
   ScrollView,
   ActivityIndicator,
   KeyboardAvoidingView,
-  Platform,
 } from "react-native"
 import { CardField, useStripe } from "@stripe/stripe-react-native"
 import { router, useLocalSearchParams } from "expo-router"
@@ -137,7 +136,7 @@ export default function Checkout() {
   return (
     <KeyboardAvoidingView
       className="flex-1 bg-white"
-      behavior={Platform.OS === "ios" ? "padding" : undefined}
+      behavior="padding"
       keyboardVerticalOffset={100}
     >
       <ScrollView

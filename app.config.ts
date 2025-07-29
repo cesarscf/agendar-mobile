@@ -29,6 +29,7 @@ const config: ExpoConfig = {
     bundleIdentifier,
     googleServicesFile: googleServicesFileIos,
   },
+
   android: {
     adaptiveIcon: {
       foregroundImage: "./assets/adaptive-icon.png",
@@ -37,6 +38,7 @@ const config: ExpoConfig = {
     edgeToEdgeEnabled: true,
     package: bundleIdentifier,
     googleServicesFile: googleServicesFileAndroid,
+    softwareKeyboardLayoutMode: "resize",
   },
   web: {
     bundler: "metro",
