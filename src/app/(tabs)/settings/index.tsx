@@ -1,7 +1,7 @@
 import { ListItem } from "@/components/list-item"
 import { useSession } from "@/providers/auth-context"
 import type { Href } from "expo-router"
-import { ChevronRight, CreditCard, LogOut } from "lucide-react-native"
+import { ChevronRight, Headset, LogOut } from "lucide-react-native"
 import { Pressable, Text, View } from "react-native"
 
 export default function Settings() {
@@ -9,19 +9,15 @@ export default function Settings() {
 
   const items = [
     {
-      label: "Plano",
-      description: "Gerencie seu plano",
+      label: "Suporte",
+      description: "Fale com o suporte",
       route: "/(tabs)/settings/billing" as Href,
-      icon: CreditCard,
+      icon: Headset,
     },
   ]
 
   return (
     <View className="flex-1 bg-white">
-      {/* <View className="p-6 border-b border-gray-200">
-        <Text className="text-xl font-bold text-gray-900">...</Text>
-      </View> */}
-
       <View className="mt-2 px-4">
         {items.map(item => (
           <ListItem

@@ -1,11 +1,9 @@
 import { useStorageState } from "@/hooks/use-storage-state"
 import { getPartner, type Partner } from "@/http/auth/get-partner"
 
-import { SubscriptionStatusEnum } from "@/lib/enums"
-import { router } from "expo-router"
-import React from "react"
 import messaging from "@react-native-firebase/messaging"
 import { saveToken } from "@/http/push/save-token"
+import React from "react"
 
 const AuthContext = React.createContext<{
   signIn: (token: string) => void
@@ -52,18 +50,6 @@ export function SessionProvider({ children }: React.PropsWithChildren) {
       setPartner(data.partner)
       setEstablishmentId(data.partner.establishments[0].id)
       savePartnerFcmToken(data.partner.id)
-    }
-
-    const currentSubscription = data?.partner.subscriptions[0]
-
-    const validSubscriptions =
-      !!currentSubscription &&
-      [SubscriptionStatusEnum.active, SubscriptionStatusEnum.trialing].includes(
-        currentSubscription.status as SubscriptionStatusEnum
-      )
-
-    if (!validSubscriptions) {
-      router.replace("/plans")
     }
 
     if (error) {
