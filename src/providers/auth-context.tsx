@@ -5,6 +5,7 @@ import messaging from "@react-native-firebase/messaging"
 import { saveToken } from "@/http/push/save-token"
 import React from "react"
 import { router } from "expo-router"
+import { useQueryClient } from "@tanstack/react-query"
 
 const AuthContext = React.createContext<{
   signIn: (token: string) => void
@@ -30,6 +31,7 @@ export function useSession() {
 }
 
 export function SessionProvider({ children }: React.PropsWithChildren) {
+  const queryClient = useQueryClient()
   const [[isLoading, session], setSession] = useStorageState("token")
   const [[_, _establishmentId], setEstablishmentId] =
     useStorageState("establishment-id")
@@ -38,13 +40,12 @@ export function SessionProvider({ children }: React.PropsWithChildren) {
   function signOut() {
     setSession(null)
     setPartner(null)
+    queryClient.invalidateQueries()
   }
 
   function signIn(token: string) {
     setSession(token)
   }
-
-  console.log(partner)
 
   async function loadPartner() {
     const { data, error } = await getPartner()
