@@ -36,7 +36,10 @@ function RootNavigator() {
     <Stack>
       <Stack.Protected guard={isLoggedIn}>
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="plans" options={{ headerShown: false }} />
+        <Stack.Screen
+          name="not_subscription"
+          options={{ headerShown: false }}
+        />
       </Stack.Protected>
 
       <Stack.Protected guard={!isLoggedIn}>

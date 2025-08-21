@@ -39,7 +39,6 @@ export default function Login() {
 
     if (data) {
       signIn(data.token)
-      router.replace("/")
     }
 
     if (error) {
