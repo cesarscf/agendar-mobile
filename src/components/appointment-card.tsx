@@ -1,0 +1,76 @@
+import { View, Text, TouchableOpacity } from "react-native"
+import { format } from "date-fns"
+import { ptBR } from "date-fns/locale"
+import { Clock, Briefcase, User, Users } from "lucide-react-native"
+import { Badge } from "./badge"
+import type { Appointment } from "@/hooks/data/appointment/use-appointments"
+
+interface AppointmentCardProps {
+  appointment: Appointment
+  onCheckIn?: (appointmentId: string) => void
+}
+
+const statusLabels: Record<Appointment["status"], string> = {
+  scheduled: "Agendado",
+  completed: "Concluído",
+  canceled: "Cancelado",
+}
+
+export function AppointmentCard({
+  appointment,
+  onCheckIn,
+}: AppointmentCardProps) {
+  const formattedDate = format(appointment.startTime, "dd 'de' MMMM", {
+    locale: ptBR,
+  })
+  const formattedTime = format(appointment.startTime, "HH:mm", {
+    locale: ptBR,
+  })
+
+  const showCheckInButton = appointment.status === "scheduled"
+
+  return (
+    <View className="mb-4 p-4 bg-white border border-gray-200 rounded-lg shadow-sm">
+      <View className="mb-3">
+        <Badge variant={appointment.status as Appointment["status"]}>
+          {statusLabels[appointment.status]}
+        </Badge>
+      </View>
+
+      <View className="flex-row items-center mb-2">
+        <Clock size={16} color="#6B7280" />
+        <Text className="ml-2 text-gray-700 font-medium">
+          {formattedDate} às {formattedTime}
+        </Text>
+      </View>
+
+      <View className="flex-row items-center mb-2">
+        <Briefcase size={16} color="#6B7280" />
+        <Text className="ml-2 text-gray-700">{appointment.service.name}</Text>
+      </View>
+
+      <View className="flex-row items-center mb-2">
+        <User size={16} color="#6B7280" />
+        <Text className="ml-2 text-gray-700">
+          {appointment.professional.name}
+        </Text>
+      </View>
+
+      <View className="flex-row items-center mb-3">
+        <Users size={16} color="#6B7280" />
+        <Text className="ml-2 text-gray-700 font-semibold">
+          {appointment.customer.name}
+        </Text>
+      </View>
+
+      {showCheckInButton && (
+        <TouchableOpacity
+          onPress={() => onCheckIn?.(appointment.id)}
+          className="bg-blue-600 py-3 rounded-lg items-center"
+        >
+          <Text className="text-white font-semibold">Fazer Check-in</Text>
+        </TouchableOpacity>
+      )}
+    </View>
+  )
+}

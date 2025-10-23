@@ -1,20 +1,21 @@
+import type { GetAppointmentsReponse } from "@/hooks/data/appointment/use-appointments"
 import { api } from "../api-client"
-import type { GetAppointmentsResponse } from "@/lib/validations/appointment"
+
 import { handleApiError } from "@/utils"
 
 export interface GetAppointmentsParams {
-  page?: number;
-  perPage?: number;
-  startDate?: string;
-  endDate?: string;
-  status?: "scheduled" | "completed" | "canceled";
-  employeeId?: string;
-  serviceId?: string;
+  page?: number
+  perPage?: number
+  startDate?: string
+  endDate?: string
+  status?: "scheduled" | "completed" | "canceled"
+  employeeId?: string
+  serviceId?: string
 }
 
 export async function getAppointments(params: GetAppointmentsParams = {}) {
   try {
-    const response = await api.get<GetAppointmentsResponse>(
+    const response = await api.get<GetAppointmentsReponse>(
       "/establishments/appointments",
       {
         params: {

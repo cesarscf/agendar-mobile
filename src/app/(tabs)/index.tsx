@@ -1,14 +1,9 @@
 import { useAppointments } from "@/hooks/data/appointment/use-appointments"
 import { useEmployees } from "@/hooks/data/employees/use-employees"
 import { useServices } from "@/hooks/data/services/use-services"
+import { AppointmentCard } from "@/components/appointment-card"
 
-import {
-  format,
-  startOfDay,
-  endOfDay,
-  startOfWeek,
-  endOfWeek,
-} from "date-fns"
+import { format, startOfDay, endOfDay, startOfWeek, endOfWeek } from "date-fns"
 import {
   View,
   Text,
@@ -25,8 +20,15 @@ export default function Appointments() {
   const [filter, setFilter] = useState<"today" | "week">("today")
   const [selectedEmployee, setSelectedEmployee] = useState<string>("")
   const [selectedService, setSelectedService] = useState<string>("")
-  const [selectedStatus, setSelectedStatus] = useState<"scheduled" | "completed" | "canceled" | "">("scheduled")
+  const [selectedStatus, setSelectedStatus] = useState<
+    "scheduled" | "completed" | "canceled" | ""
+  >("scheduled")
   const [showFilters, setShowFilters] = useState(false)
+
+  const handleCheckIn = (appointmentId: string) => {
+    // TODO: Implementar lógica de check-in
+    console.log("Check-in para agendamento:", appointmentId)
+  }
 
   const { data: employees } = useEmployees()
   const { data: services } = useServices()
@@ -39,7 +41,10 @@ export default function Appointments() {
           endDate: format(endOfDay(now), "yyyy-MM-dd"),
         }
       : {
-          startDate: format(startOfWeek(now, { weekStartsOn: 1 }), "yyyy-MM-dd"),
+          startDate: format(
+            startOfWeek(now, { weekStartsOn: 1 }),
+            "yyyy-MM-dd"
+          ),
           endDate: format(endOfWeek(now, { weekStartsOn: 1 }), "yyyy-MM-dd"),
         }
 
@@ -70,7 +75,6 @@ export default function Appointments() {
           </TouchableOpacity>
         </View>
 
-
         <View className="mb-4">
           <TouchableOpacity
             onPress={() => setShowFilters(!showFilters)}
@@ -95,9 +99,7 @@ export default function Appointments() {
                   <TouchableOpacity
                     onPress={() => setSelectedStatus("")}
                     className={`px-4 py-2 rounded-full ${
-                      selectedStatus === ""
-                        ? "bg-blue-600"
-                        : "bg-gray-200"
+                      selectedStatus === "" ? "bg-blue-600" : "bg-gray-200"
                     }`}
                   >
                     <Text
@@ -178,16 +180,12 @@ export default function Appointments() {
                   <TouchableOpacity
                     onPress={() => setSelectedEmployee("")}
                     className={`px-4 py-2 rounded-full ${
-                      selectedEmployee === ""
-                        ? "bg-blue-600"
-                        : "bg-gray-200"
+                      selectedEmployee === "" ? "bg-blue-600" : "bg-gray-200"
                     }`}
                   >
                     <Text
                       className={
-                        selectedEmployee === ""
-                          ? "text-white"
-                          : "text-gray-700"
+                        selectedEmployee === "" ? "text-white" : "text-gray-700"
                       }
                     >
                       Todos
@@ -229,16 +227,12 @@ export default function Appointments() {
                   <TouchableOpacity
                     onPress={() => setSelectedService("")}
                     className={`px-4 py-2 rounded-full ${
-                      selectedService === ""
-                        ? "bg-blue-600"
-                        : "bg-gray-200"
+                      selectedService === "" ? "bg-blue-600" : "bg-gray-200"
                     }`}
                   >
                     <Text
                       className={
-                        selectedService === ""
-                          ? "text-white"
-                          : "text-gray-700"
+                        selectedService === "" ? "text-white" : "text-gray-700"
                       }
                     >
                       Todos
@@ -281,13 +275,7 @@ export default function Appointments() {
             keyExtractor={item => item.id}
             ListEmptyComponent={<Text>Nenhum agendamento encontrado.</Text>}
             renderItem={({ item }) => (
-              <View className="mb-4 p-3 border rounded-lg">
-                <Text className="font-semibold">{item.customer.name}</Text>
-                <Text>{item.service.name}</Text>
-                <Text>
-                  {item.startTime.toString()} - {item.endTime}
-                </Text>
-              </View>
+              <AppointmentCard appointment={item} onCheckIn={handleCheckIn} />
             )}
             scrollEnabled={false}
           />
