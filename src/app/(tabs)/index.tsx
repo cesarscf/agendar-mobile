@@ -1,7 +1,7 @@
 import { useAppointments } from "@/hooks/data/appointment/use-appointments"
 
 import {
-  formatISO,
+  format,
   startOfDay,
   endOfDay,
   startOfWeek,
@@ -25,12 +25,12 @@ export default function Appointments() {
   const dateRange =
     filter === "today"
       ? {
-          startDate: formatISO(startOfDay(now)),
-          endDate: formatISO(endOfDay(now)),
+          startDate: format(startOfDay(now), "yyyy-MM-dd"),
+          endDate: format(endOfDay(now), "yyyy-MM-dd"),
         }
       : {
-          startDate: formatISO(startOfWeek(now, { weekStartsOn: 1 })),
-          endDate: formatISO(endOfWeek(now, { weekStartsOn: 1 })),
+          startDate: format(startOfWeek(now, { weekStartsOn: 1 }), "yyyy-MM-dd"),
+          endDate: format(endOfWeek(now, { weekStartsOn: 1 }), "yyyy-MM-dd"),
         }
 
   const { data, isLoading, error } = useAppointments({

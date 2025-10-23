@@ -1,6 +1,7 @@
 import { AppButton } from "@/components/button"
 import { StatusBar } from "expo-status-bar"
-import { Linking, Platform, Text, View } from "react-native"
+import { Linking, Platform, Text, TouchableOpacity, View } from "react-native"
+import { router } from "expo-router"
 
 export default function RegisterRedirect() {
   const WEB_REGISTER_URL = "https://test.com.br/register"
@@ -33,6 +34,12 @@ export default function RegisterRedirect() {
           ? "Será aberto no Safari."
           : "Será aberto no navegador padrão."}
       </Text>
+
+      <TouchableOpacity onPress={() => router.push("/login")}>
+        <Text className="text-white text-sm mt-4 underline">
+          Voltar para o login
+        </Text>
+      </TouchableOpacity>
     </View>
   )
 }
