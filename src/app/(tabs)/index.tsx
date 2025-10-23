@@ -1,4 +1,6 @@
 import { useAppointments } from "@/hooks/data/appointment/use-appointments"
+import { useEmployees } from "@/hooks/data/employees/use-employees"
+import { useServices } from "@/hooks/data/services/use-services"
 
 import {
   format,
@@ -16,10 +18,18 @@ import {
   SafeAreaView,
   FlatList,
 } from "react-native"
+import { ChevronDown, ChevronUp } from "lucide-react-native"
 import { useState } from "react"
 
 export default function Appointments() {
   const [filter, setFilter] = useState<"today" | "week">("today")
+  const [selectedEmployee, setSelectedEmployee] = useState<string>("")
+  const [selectedService, setSelectedService] = useState<string>("")
+  const [selectedStatus, setSelectedStatus] = useState<"scheduled" | "completed" | "canceled" | "">("scheduled")
+  const [showFilters, setShowFilters] = useState(false)
+
+  const { data: employees } = useEmployees()
+  const { data: services } = useServices()
 
   const now = new Date()
   const dateRange =
@@ -35,7 +45,9 @@ export default function Appointments() {
 
   const { data, isLoading, error } = useAppointments({
     ...dateRange,
-    status: "scheduled",
+    status: selectedStatus || undefined,
+    employeeId: selectedEmployee || undefined,
+    serviceId: selectedService || undefined,
   })
 
   return (
@@ -56,6 +68,207 @@ export default function Appointments() {
               Semana
             </Text>
           </TouchableOpacity>
+        </View>
+
+
+        <View className="mb-4">
+          <TouchableOpacity
+            onPress={() => setShowFilters(!showFilters)}
+            className="flex-row items-center justify-between bg-gray-100 p-3 rounded-lg"
+          >
+            <Text className="font-semibold text-gray-700">Filtros</Text>
+            {showFilters ? (
+              <ChevronUp size={20} color="#374151" />
+            ) : (
+              <ChevronDown size={20} color="#374151" />
+            )}
+          </TouchableOpacity>
+
+          {showFilters && (
+            <View className="mt-3 gap-4">
+              {/* Filtro de Status */}
+              <View>
+                <Text className="text-sm font-medium text-gray-700 mb-2">
+                  Status
+                </Text>
+                <View className="flex-row flex-wrap gap-2">
+                  <TouchableOpacity
+                    onPress={() => setSelectedStatus("")}
+                    className={`px-4 py-2 rounded-full ${
+                      selectedStatus === ""
+                        ? "bg-blue-600"
+                        : "bg-gray-200"
+                    }`}
+                  >
+                    <Text
+                      className={
+                        selectedStatus === "" ? "text-white" : "text-gray-700"
+                      }
+                    >
+                      Todos
+                    </Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    onPress={() => setSelectedStatus("scheduled")}
+                    className={`px-4 py-2 rounded-full ${
+                      selectedStatus === "scheduled"
+                        ? "bg-blue-600"
+                        : "bg-gray-200"
+                    }`}
+                  >
+                    <Text
+                      className={
+                        selectedStatus === "scheduled"
+                          ? "text-white"
+                          : "text-gray-700"
+                      }
+                    >
+                      Agendado
+                    </Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    onPress={() => setSelectedStatus("completed")}
+                    className={`px-4 py-2 rounded-full ${
+                      selectedStatus === "completed"
+                        ? "bg-blue-600"
+                        : "bg-gray-200"
+                    }`}
+                  >
+                    <Text
+                      className={
+                        selectedStatus === "completed"
+                          ? "text-white"
+                          : "text-gray-700"
+                      }
+                    >
+                      Concluído
+                    </Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    onPress={() => setSelectedStatus("canceled")}
+                    className={`px-4 py-2 rounded-full ${
+                      selectedStatus === "canceled"
+                        ? "bg-blue-600"
+                        : "bg-gray-200"
+                    }`}
+                  >
+                    <Text
+                      className={
+                        selectedStatus === "canceled"
+                          ? "text-white"
+                          : "text-gray-700"
+                      }
+                    >
+                      Cancelado
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+
+              {/* Filtro de Profissional */}
+              <View>
+                <Text className="text-sm font-medium text-gray-700 mb-2">
+                  Profissional
+                </Text>
+                <ScrollView
+                  horizontal
+                  showsHorizontalScrollIndicator={false}
+                  className="flex-row gap-2"
+                >
+                  <TouchableOpacity
+                    onPress={() => setSelectedEmployee("")}
+                    className={`px-4 py-2 rounded-full ${
+                      selectedEmployee === ""
+                        ? "bg-blue-600"
+                        : "bg-gray-200"
+                    }`}
+                  >
+                    <Text
+                      className={
+                        selectedEmployee === ""
+                          ? "text-white"
+                          : "text-gray-700"
+                      }
+                    >
+                      Todos
+                    </Text>
+                  </TouchableOpacity>
+                  {employees?.map(employee => (
+                    <TouchableOpacity
+                      key={employee.id}
+                      onPress={() => setSelectedEmployee(employee.id)}
+                      className={`px-4 py-2 rounded-full ${
+                        selectedEmployee === employee.id
+                          ? "bg-blue-600"
+                          : "bg-gray-200"
+                      }`}
+                    >
+                      <Text
+                        className={
+                          selectedEmployee === employee.id
+                            ? "text-white"
+                            : "text-gray-700"
+                        }
+                      >
+                        {employee.name}
+                      </Text>
+                    </TouchableOpacity>
+                  ))}
+                </ScrollView>
+              </View>
+
+              <View>
+                <Text className="text-sm font-medium text-gray-700 mb-2">
+                  Serviço
+                </Text>
+                <ScrollView
+                  horizontal
+                  showsHorizontalScrollIndicator={false}
+                  className="flex-row gap-2"
+                >
+                  <TouchableOpacity
+                    onPress={() => setSelectedService("")}
+                    className={`px-4 py-2 rounded-full ${
+                      selectedService === ""
+                        ? "bg-blue-600"
+                        : "bg-gray-200"
+                    }`}
+                  >
+                    <Text
+                      className={
+                        selectedService === ""
+                          ? "text-white"
+                          : "text-gray-700"
+                      }
+                    >
+                      Todos
+                    </Text>
+                  </TouchableOpacity>
+                  {services?.map(service => (
+                    <TouchableOpacity
+                      key={service.id}
+                      onPress={() => setSelectedService(service.id)}
+                      className={`px-4 py-2 rounded-full ${
+                        selectedService === service.id
+                          ? "bg-blue-600"
+                          : "bg-gray-200"
+                      }`}
+                    >
+                      <Text
+                        className={
+                          selectedService === service.id
+                            ? "text-white"
+                            : "text-gray-700"
+                        }
+                      >
+                        {service.name}
+                      </Text>
+                    </TouchableOpacity>
+                  ))}
+                </ScrollView>
+              </View>
+            </View>
+          )}
         </View>
 
         {isLoading ? (
