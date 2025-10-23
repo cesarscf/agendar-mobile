@@ -55,7 +55,9 @@ export function SessionProvider({ children }: React.PropsWithChildren) {
       setEstablishmentId(data.partner.establishments[0].id)
       savePartnerFcmToken(data.partner.id)
 
-      if (data.partner?.subscriptions[0].status !== "active") {
+      const subscriptionStatus  = data.partner?.subscriptions[0].status
+
+      if (subscriptionStatus !== "active" && subscriptionStatus !== "trialing") {
         router.replace("/not_subscription")
       } else {
         router.replace("/")

@@ -1,7 +1,7 @@
 import { View, Text, TouchableOpacity } from "react-native"
 import { format } from "date-fns"
 import { ptBR } from "date-fns/locale"
-import { Clock, Briefcase, User, Users } from "lucide-react-native"
+import { Clock, Briefcase, User, Users, Package } from "lucide-react-native"
 import { Badge } from "./badge"
 import type { Appointment } from "@/hooks/data/appointment/use-appointments"
 
@@ -31,10 +31,30 @@ export function AppointmentCard({
 
   return (
     <View className="mb-4 p-4 bg-white border border-gray-200 rounded-lg shadow-sm">
-      <View className="mb-3">
+      <View className="mb-3 flex-row flex-wrap gap-2">
         <Badge variant={appointment.status as Appointment["status"]}>
           {statusLabels[appointment.status]}
         </Badge>
+        {appointment.package && (
+          <View
+            className={`flex-row items-center px-3 py-1 rounded-full ${
+              appointment.package.paid
+                ? "bg-green-100"
+                : "bg-amber-100"
+            }`}
+          >
+            <Package size={12} color={appointment.package.paid ? "#15803d" : "#b45309"} />
+            <Text
+              className={`ml-1 text-xs font-semibold ${
+                appointment.package.paid
+                  ? "text-green-800"
+                  : "text-amber-800"
+              }`}
+            >
+              {appointment.package.name} ({appointment.package.remainingSessions}/{appointment.package.totalSessions})
+            </Text>
+          </View>
+        )}
       </View>
 
       <View className="flex-row items-center mb-2">

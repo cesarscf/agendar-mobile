@@ -1,7 +1,9 @@
 import { useAppointments } from "@/hooks/data/appointment/use-appointments"
+import type { Appointment } from "@/hooks/data/appointment/use-appointments"
 import { useEmployees } from "@/hooks/data/employees/use-employees"
 import { useServices } from "@/hooks/data/services/use-services"
 import { AppointmentCard } from "@/components/appointment-card"
+import { CheckinDialog } from "@/components/checkin-dialog"
 
 import { format, startOfDay, endOfDay, startOfWeek, endOfWeek } from "date-fns"
 import {
@@ -24,10 +26,21 @@ export default function Appointments() {
     "scheduled" | "completed" | "canceled" | ""
   >("scheduled")
   const [showFilters, setShowFilters] = useState(false)
+  const [checkinDialogVisible, setCheckinDialogVisible] = useState(false)
+  const [selectedAppointment, setSelectedAppointment] =
+    useState<Appointment | null>(null)
 
   const handleCheckIn = (appointmentId: string) => {
-    // TODO: Implementar lógica de check-in
-    console.log("Check-in para agendamento:", appointmentId)
+    const appointment = data?.appointments.find(a => a.id === appointmentId)
+    if (appointment) {
+      setSelectedAppointment(appointment)
+      setCheckinDialogVisible(true)
+    }
+  }
+
+  const handleCloseCheckinDialog = () => {
+    setCheckinDialogVisible(false)
+    setSelectedAppointment(null)
   }
 
   const { data: employees } = useEmployees()
@@ -281,6 +294,15 @@ export default function Appointments() {
           />
         )}
       </ScrollView>
+
+      <CheckinDialog
+        visible={checkinDialogVisible}
+        appointment={selectedAppointment}
+        onClose={handleCloseCheckinDialog}
+        onSuccess={() => {
+          // Dialog already closes on success, just need to trigger any additional logic if needed
+        }}
+      />
     </SafeAreaView>
   )
 }
