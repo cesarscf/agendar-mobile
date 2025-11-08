@@ -35,12 +35,12 @@ export function CreateCustomerForm() {
       name: "",
       phoneNumber: "",
       birthDate: undefined,
-      email: null,
-      cpf: null,
-      address: null,
-      city: null,
-      state: null,
-      notes: null,
+      email: "",
+      cpf: "",
+      address: "",
+      city: "",
+      state: "",
+      notes: "",
     },
   })
 

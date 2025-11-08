@@ -36,11 +36,19 @@ export function EditCustomerForm({ customer }: Props) {
     resolver: zodResolver(updateCustomerSchema),
     reValidateMode: "onBlur",
     defaultValues: {
-      ...customer,
+      id: customer.id,
+      name: customer.name ?? "",
+      phoneNumber: customer.phoneNumber ?? "",
       birthDate:
         typeof customer.birthDate === "string" && customer.birthDate
           ? new Date(customer.birthDate)
           : customer.birthDate,
+      email: customer.email ?? "",
+      cpf: customer.cpf ?? "",
+      address: customer.address ?? "",
+      city: customer.city ?? "",
+      state: customer.state ?? "",
+      notes: customer.notes ?? "",
     },
   })
 

@@ -20,6 +20,7 @@ import {
 import { Input } from "@/components/input"
 import { ImagePickerControl } from "@/components/image-picker"
 import { AppButton } from "@/components/button"
+import { formatPhoneNumber } from "@/utils"
 
 type Inputs = UpdateEstablishmentRequest
 
@@ -44,7 +45,18 @@ export function UpdateEstablishmentForm({
     resolver: zodResolver(updateEstablishmentSchema),
     reValidateMode: "onBlur",
     defaultValues: {
-      ...data,
+      id: data.id,
+      name: data.name ?? "",
+      theme: data.theme ?? "",
+      about: data.about ?? "",
+      bannerUrl: data.bannerUrl ?? "",
+      logoUrl: data.logoUrl ?? "",
+      phone: data.phone ?? "",
+      servicesPerformed: data.servicesPerformed ?? "",
+      activeCustomers: data.activeCustomers ?? "",
+      experienceTime: data.experienceTime ?? "",
+      googleMapsLink: data.googleMapsLink ?? "",
+      address: data.address ?? "",
     },
   })
 
@@ -176,19 +188,29 @@ export function UpdateEstablishmentForm({
             <Controller
               control={form.control}
               name="phone"
-              render={({ field }) => (
-                <Input
-                  placeholder="Telefone"
-                  {...field}
-                  onChangeText={field.onChange}
-                />
-              )}
+              render={({ field }) => {
+                const formattedValue = formatPhoneNumber(field.value ?? "")
+                return (
+                  <>
+                    <Input
+                      placeholder="Telefone"
+                      keyboardType="phone-pad"
+                      value={formattedValue}
+                      onChangeText={text => {
+                        const digitsOnly = text.replace(/\D/g, "")
+                        field.onChange(digitsOnly)
+                      }}
+                      onBlur={field.onBlur}
+                    />
+                    {form.formState.errors.phone && (
+                      <Text className="text-red-500 text-xs">
+                        {form.formState.errors.phone.message}
+                      </Text>
+                    )}
+                  </>
+                )
+              }}
             />
-            {form.formState.errors.phone && (
-              <Text className="text-red-500 text-xs">
-                {form.formState.errors.phone.message}
-              </Text>
-            )}
           </View>
 
           <View className="gap-1">
@@ -198,7 +220,7 @@ export function UpdateEstablishmentForm({
               name="servicesPerformed"
               render={({ field }) => (
                 <Input
-                  placeholder="Ex: Corte, Barba, Sobrancelha..."
+                  placeholder="Ex: +1000"
                   {...field}
                   onChangeText={field.onChange}
                 />
