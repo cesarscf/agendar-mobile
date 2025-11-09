@@ -16,6 +16,7 @@ import { ImagePickerControl } from "../image-picker"
 import { useCreateEmployee } from "@/hooks/data/employees"
 import { router } from "expo-router"
 import { StorageEntity, uploadImageToFirebase } from "@/lib/upload-image"
+import { formatPhoneNumber } from "@/utils"
 import React from "react"
 
 type Inputs = z.infer<typeof createEmployeeSchema>
@@ -138,22 +139,29 @@ export function CreateEmployeeForm() {
             <Controller
               control={form.control}
               name="phone"
-              render={({ field }) => (
-                <Input
-                  placeholder="(11) 99999-9999"
-                  keyboardType="phone-pad"
-                  {...field}
-                  onBlur={field.onBlur}
-                  onChangeText={field.onChange}
-                  value={field.value}
-                />
-              )}
+              render={({ field }) => {
+                const formattedValue = formatPhoneNumber(field.value ?? "")
+                return (
+                  <>
+                    <Input
+                      placeholder="(11) 99999-9999"
+                      keyboardType="phone-pad"
+                      value={formattedValue}
+                      onChangeText={text => {
+                        const digitsOnly = text.replace(/\D/g, "")
+                        field.onChange(digitsOnly)
+                      }}
+                      onBlur={field.onBlur}
+                    />
+                    {form.formState.errors.phone && (
+                      <Text className="text-red-500 text-xs">
+                        {form.formState.errors.phone.message}
+                      </Text>
+                    )}
+                  </>
+                )
+              }}
             />
-            {form.formState.errors.phone && (
-              <Text className="text-red-500 text-xs">
-                {form.formState.errors.phone.message}
-              </Text>
-            )}
           </View>
 
           <View className="gap-1">
