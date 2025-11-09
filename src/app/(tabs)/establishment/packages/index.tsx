@@ -1,6 +1,6 @@
 import { usePackages } from "@/hooks/data/packages/use-packages"
 import { useRouter } from "expo-router"
-import { ChevronRight } from "lucide-react-native"
+import { ChevronRight, Package } from "lucide-react-native"
 import {
   ActivityIndicator,
   Image,
@@ -9,6 +9,7 @@ import {
   Text,
   View,
 } from "react-native"
+import { Empty } from "@/components/empty"
 
 export default function Packages() {
   const { data: packages, isLoading } = usePackages()
@@ -19,6 +20,17 @@ export default function Packages() {
       <View className="flex-1 justify-center items-center">
         <ActivityIndicator />
       </View>
+    )
+  }
+
+  if (!packages || packages.length === 0) {
+    return (
+      <SafeAreaView className="flex-1 bg-white">
+        <Empty
+          message="Nenhum pacote cadastrado"
+          icon={<Package size={48} color="#9CA3AF" />}
+        />
+      </SafeAreaView>
     )
   }
 

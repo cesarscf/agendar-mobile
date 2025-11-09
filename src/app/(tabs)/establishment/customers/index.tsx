@@ -1,6 +1,6 @@
 import { useCustomers } from "@/hooks/data/customers/use-customers"
 import { Link } from "expo-router"
-import { ChevronRight, Phone, Mail } from "lucide-react-native"
+import { ChevronRight, Phone, Mail, UserX } from "lucide-react-native"
 import {
   ActivityIndicator,
   SafeAreaView,
@@ -8,6 +8,7 @@ import {
   View,
   Pressable,
 } from "react-native"
+import { Empty } from "@/components/empty"
 
 export default function Customers() {
   const { data: customers, isLoading } = useCustomers()
@@ -17,6 +18,17 @@ export default function Customers() {
       <View className="flex-1 justify-center items-center">
         <ActivityIndicator />
       </View>
+    )
+  }
+
+  if (!customers || customers.length === 0) {
+    return (
+      <SafeAreaView className="flex-1 bg-white">
+        <Empty
+          message="Nenhum cliente cadastrado"
+          icon={<UserX size={48} color="#9CA3AF" />}
+        />
+      </SafeAreaView>
     )
   }
 

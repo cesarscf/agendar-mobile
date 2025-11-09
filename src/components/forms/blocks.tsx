@@ -16,6 +16,8 @@ import { BlockCard, RecurringBlockCard } from "@/components/block-card"
 import { CreateEmployeeBlockForm } from "@/components/forms/create-employee-block-form"
 import { CreateEmployeeRecurringBlockForm } from "@/components/forms/create-employee-recurring-block-form"
 import { AppButton } from "@/components/button"
+import { Empty } from "@/components/empty"
+import { CalendarOff } from "lucide-react-native"
 
 interface EmployeeBlocksTabProps {
   employeeId: string
@@ -126,11 +128,10 @@ export function EmployeeBlocksTab({ employeeId }: EmployeeBlocksTabProps) {
             )}
 
             {!isLoadingBlocks && blocks && blocks.length === 0 && (
-              <View className="py-10">
-                <Text className="text-center text-gray-500">
-                  Nenhum bloqueio pontual cadastrado
-                </Text>
-              </View>
+              <Empty
+                message="Nenhum bloqueio pontual cadastrado"
+                icon={<CalendarOff size={48} color="#9CA3AF" />}
+              />
             )}
 
             {!isLoadingBlocks &&
@@ -156,11 +157,10 @@ export function EmployeeBlocksTab({ employeeId }: EmployeeBlocksTabProps) {
             {!isLoadingRecurringBlocks &&
               recurringBlocks &&
               recurringBlocks.length === 0 && (
-                <View className="py-10">
-                  <Text className="text-center text-gray-500">
-                    Nenhum bloqueio recorrente cadastrado
-                  </Text>
-                </View>
+                <Empty
+                  message="Nenhum bloqueio recorrente cadastrado"
+                  icon={<CalendarOff size={48} color="#9CA3AF" />}
+                />
               )}
 
             {!isLoadingRecurringBlocks &&

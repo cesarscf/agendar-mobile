@@ -1,6 +1,6 @@
 import { useEmployees } from "@/hooks/data/employees"
 import { Link } from "expo-router"
-import { ChevronRight } from "lucide-react-native"
+import { ChevronRight, Users } from "lucide-react-native"
 import {
   ActivityIndicator,
   Image,
@@ -9,6 +9,7 @@ import {
   Text,
   View,
 } from "react-native"
+import { Empty } from "@/components/empty"
 
 export default function Employees() {
   const { data: employees, isLoading } = useEmployees()
@@ -18,6 +19,17 @@ export default function Employees() {
       <View className="flex-1 justify-center items-center">
         <ActivityIndicator />
       </View>
+    )
+  }
+
+  if (!employees || employees.length === 0) {
+    return (
+      <SafeAreaView className="flex-1 bg-white">
+        <Empty
+          message="Nenhum colaborador cadastrado"
+          icon={<Users size={48} color="#9CA3AF" />}
+        />
+      </SafeAreaView>
     )
   }
 

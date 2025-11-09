@@ -4,6 +4,7 @@ import { useEmployees } from "@/hooks/data/employees/use-employees"
 import { useServices } from "@/hooks/data/services/use-services"
 import { AppointmentCard } from "@/components/appointment-card"
 import { CheckinDialog } from "@/components/checkin-dialog"
+import { Empty } from "@/components/empty"
 
 import { format, startOfDay, endOfDay, startOfWeek, endOfWeek } from "date-fns"
 import {
@@ -15,7 +16,7 @@ import {
   SafeAreaView,
   FlatList,
 } from "react-native"
-import { ChevronDown, ChevronUp } from "lucide-react-native"
+import { ChevronDown, ChevronUp, CalendarX } from "lucide-react-native"
 import { useState } from "react"
 
 export default function Appointments() {
@@ -286,7 +287,12 @@ export default function Appointments() {
           <FlatList
             data={data?.appointments || []}
             keyExtractor={item => item.id}
-            ListEmptyComponent={<Text>Nenhum agendamento encontrado.</Text>}
+            ListEmptyComponent={
+              <Empty
+                message="Nenhum agendamento encontrado"
+                icon={<CalendarX size={48} color="#9CA3AF" />}
+              />
+            }
             renderItem={({ item }) => (
               <AppointmentCard appointment={item} onCheckIn={handleCheckIn} />
             )}

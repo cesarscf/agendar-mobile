@@ -1,6 +1,6 @@
 import { useServices } from "@/hooks/data/services"
 import { Link } from "expo-router"
-import { ChevronRight } from "lucide-react-native"
+import { ChevronRight, Scissors } from "lucide-react-native"
 import {
   ActivityIndicator,
   Image,
@@ -9,6 +9,7 @@ import {
   Text,
   View,
 } from "react-native"
+import { Empty } from "@/components/empty"
 
 export default function Services() {
   const { data: services, isLoading } = useServices()
@@ -18,6 +19,17 @@ export default function Services() {
       <View className="flex-1 justify-center items-center">
         <ActivityIndicator />
       </View>
+    )
+  }
+
+  if (!services || services.length === 0) {
+    return (
+      <SafeAreaView className="flex-1 bg-white">
+        <Empty
+          message="Nenhum serviço cadastrado"
+          icon={<Scissors size={48} color="#9CA3AF" />}
+        />
+      </SafeAreaView>
     )
   }
 

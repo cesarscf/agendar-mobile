@@ -1,6 +1,6 @@
 import { useCategories } from "@/hooks/data/category/use-categories"
 import { Link } from "expo-router"
-import { ChevronRight } from "lucide-react-native"
+import { ChevronRight, FolderOpen } from "lucide-react-native"
 import {
   ActivityIndicator,
   Pressable,
@@ -8,6 +8,7 @@ import {
   Text,
   View,
 } from "react-native"
+import { Empty } from "@/components/empty"
 
 export default function Categories() {
   const { data: categories, isLoading } = useCategories()
@@ -17,6 +18,17 @@ export default function Categories() {
       <View className="flex-1 justify-center items-center">
         <ActivityIndicator size="large" />
       </View>
+    )
+  }
+
+  if (!categories || categories.length === 0) {
+    return (
+      <SafeAreaView className="flex-1 bg-white">
+        <Empty
+          message="Nenhuma categoria cadastrada"
+          icon={<FolderOpen size={48} color="#9CA3AF" />}
+        />
+      </SafeAreaView>
     )
   }
 
