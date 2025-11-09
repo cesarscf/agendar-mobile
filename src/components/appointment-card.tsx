@@ -38,20 +38,21 @@ export function AppointmentCard({
         {appointment.package && (
           <View
             className={`flex-row items-center px-3 py-1 rounded-full ${
-              appointment.package.paid
-                ? "bg-green-100"
-                : "bg-amber-100"
+              appointment.package.paid ? "bg-green-100" : "bg-amber-100"
             }`}
           >
-            <Package size={12} color={appointment.package.paid ? "#15803d" : "#b45309"} />
+            <Package
+              size={12}
+              color={appointment.package.paid ? "#15803d" : "#b45309"}
+            />
             <Text
               className={`ml-1 text-xs font-semibold ${
-                appointment.package.paid
-                  ? "text-green-800"
-                  : "text-amber-800"
+                appointment.package.paid ? "text-green-800" : "text-amber-800"
               }`}
             >
-              {appointment.package.name} ({appointment.package.remainingSessions}/{appointment.package.totalSessions})
+              {appointment.package.name} (
+              {appointment.package.remainingSessions}/
+              {appointment.package.totalSessions})
             </Text>
           </View>
         )}

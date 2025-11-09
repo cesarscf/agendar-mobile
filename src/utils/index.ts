@@ -92,3 +92,35 @@ export function getCurrentMonthRange() {
 
   return { startDate, endDate }
 }
+
+export function convertLocalTimeToUTC(time: string): string {
+  if (!time) return ""
+
+  const [hours, minutes] = time.split(":").map(Number)
+
+  // Cria Date com horário local
+  const localDate = new Date()
+  localDate.setHours(hours, minutes, 0, 0)
+
+  // Extrai horário UTC (aplica offset automaticamente)
+  const utcHours = localDate.getUTCHours().toString().padStart(2, "0")
+  const utcMinutes = localDate.getUTCMinutes().toString().padStart(2, "0")
+
+  return `${utcHours}:${utcMinutes}`
+}
+
+export function convertUTCToLocalTime(time: string): string {
+  if (!time) return ""
+
+  const [hours, minutes] = time.split(":").map(Number)
+
+  // Cria Date com horário UTC
+  const utcDate = new Date()
+  utcDate.setUTCHours(hours, minutes, 0, 0)
+
+  // Extrai horário local (aplica offset automaticamente)
+  const localHours = utcDate.getHours().toString().padStart(2, "0")
+  const localMinutes = utcDate.getMinutes().toString().padStart(2, "0")
+
+  return `${localHours}:${localMinutes}`
+}
