@@ -138,3 +138,15 @@ export const weekdays = [
   "Sexta-feira",
   "Sábado",
 ]
+
+export function formatPriceFromCents(valueInCents: number): string {
+  const valueInReais = valueInCents / 100
+  return new Intl.NumberFormat("pt-BR", {
+    style: "currency",
+    currency: "BRL",
+  }).format(valueInReais)
+}
+
+export function formatNumber(value: number): string {
+  return new Intl.NumberFormat("pt-BR").format(value)
+}
