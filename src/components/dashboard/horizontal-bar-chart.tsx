@@ -68,7 +68,7 @@ export function HorizontalBarChart({
               </View>
               <View className="h-8 bg-gray-100 rounded-lg overflow-hidden">
                 <View
-                  className="h-full bg-black rounded-lg justify-center px-2"
+                  className="h-full bg-[#3B82F6] rounded-lg justify-center px-2"
                   style={{ width: `${Math.max(percentage, 5)}%` }}
                 >
                   <Text className="text-xs text-white font-medium">

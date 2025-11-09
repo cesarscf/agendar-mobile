@@ -16,13 +16,13 @@ type PieChartCardProps = {
 }
 
 const CHART_COLORS = [
-  "#000000",
   "#3B82F6",
   "#8B5CF6",
   "#EC4899",
   "#F59E0B",
   "#10B981",
   "#6366F1",
+  "#000000",
 ]
 
 export function PieChartCard({

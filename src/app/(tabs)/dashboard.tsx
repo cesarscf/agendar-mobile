@@ -1,5 +1,11 @@
 import { useState } from "react"
-import { View, Text, Pressable, ScrollView, ActivityIndicator } from "react-native"
+import {
+  View,
+  Text,
+  Pressable,
+  ScrollView,
+  ActivityIndicator,
+} from "react-native"
 import { cn } from "@/utils/cn"
 import { useDashboardFilters } from "@/hooks/use-dashboard-filters"
 import { DashboardFilters } from "@/components/dashboard/dashboard-filters"
@@ -16,7 +22,9 @@ import { EmployeeCommissionChart } from "@/components/dashboard/employee-commiss
 import { ServicesByEmployeeChart } from "@/components/dashboard/services-by-employee-chart"
 
 export default function Dashboard() {
-  const [activeTab, setActiveTab] = useState<"overview" | "employees">("overview")
+  const [activeTab, setActiveTab] = useState<"overview" | "employees">(
+    "overview"
+  )
   const {
     startDate,
     endDate,
@@ -42,7 +50,7 @@ export default function Dashboard() {
             onPress={() => setActiveTab("overview")}
             className={cn(
               "flex-1 py-3 rounded-lg mx-1",
-              activeTab === "overview" ? "bg-black" : "bg-gray-100"
+              activeTab === "overview" ? "bg-[#3B82F6]" : "bg-gray-100"
             )}
           >
             <Text
@@ -51,7 +59,7 @@ export default function Dashboard() {
                 activeTab === "overview" ? "text-white" : "text-gray-600"
               )}
             >
-              Vis„o Geral
+              Vis√£o Geral
             </Text>
           </Pressable>
 
@@ -59,7 +67,7 @@ export default function Dashboard() {
             onPress={() => setActiveTab("employees")}
             className={cn(
               "flex-1 py-3 rounded-lg mx-1",
-              activeTab === "employees" ? "bg-black" : "bg-gray-100"
+              activeTab === "employees" ? "bg-[#3B82F6]" : "bg-gray-100"
             )}
           >
             <Text
@@ -68,7 +76,7 @@ export default function Dashboard() {
                 activeTab === "employees" ? "text-white" : "text-gray-600"
               )}
             >
-              Funcion·rios
+              Funcion√°rios
             </Text>
           </Pressable>
         </View>
@@ -99,7 +107,10 @@ export default function Dashboard() {
                 <AverageTicketCard startDate={startDate} endDate={endDate} />
               </View>
               <View className="flex-1">
-                <AppointmentsCountCard startDate={startDate} endDate={endDate} />
+                <AppointmentsCountCard
+                  startDate={startDate}
+                  endDate={endDate}
+                />
               </View>
             </View>
 
