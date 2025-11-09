@@ -13,7 +13,7 @@ export function useUpdatePackageItem() {
   >({
     mutationFn: async inputs => {
       const { data, error } = await updatePackageItem(inputs)
-      console.log({ data, error })
+
       if (error) {
         throw error
       }

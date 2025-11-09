@@ -12,8 +12,6 @@ export async function getReport(params: GetReportParams) {
       params,
     })
 
-    console.log(`Report: ${params.type} => ${response.data.data}`)
-
     return {
       data: response.data,
       error: null,

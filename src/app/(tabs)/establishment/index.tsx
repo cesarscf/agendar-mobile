@@ -1,6 +1,7 @@
 import { ListItem } from "@/components/list-item"
 import type { Href } from "expo-router"
 import {
+  DoorOpen,
   Hammer,
   HammerIcon,
   Package,
@@ -47,6 +48,12 @@ export default function Establishment() {
       description: "Configurações gerais de sua loja",
       route: "/(tabs)/establishment/general" as Href,
       icon: Store,
+    },
+    {
+      label: "Funcionamento",
+      description: "Configurações de funcionamento de sua loja",
+      route: "/(tabs)/establishment/availabilities" as Href,
+      icon: DoorOpen,
     },
   ]
 

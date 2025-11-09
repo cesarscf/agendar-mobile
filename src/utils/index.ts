@@ -73,7 +73,7 @@ export function handleApiError(err: unknown): ApiErrorResult {
   if (err instanceof AxiosError) {
     const message =
       err.response?.data?.message ?? "Erro inesperado no servidor."
-    console.log(message)
+
     return {
       error: message,
     }

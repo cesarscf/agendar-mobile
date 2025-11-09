@@ -5,7 +5,6 @@ import { handleApiError } from "@/utils"
 export async function getPackage(packageId: string) {
   try {
     const { data } = await api.get<PackageWithItems>(`/packages/${packageId}`)
-    console.log(data)
     return {
       data: data,
       error: null,

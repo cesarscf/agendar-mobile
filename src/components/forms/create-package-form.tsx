@@ -58,8 +58,7 @@ export function CreatePackageForm() {
       })
 
       router.push(`/(tabs)/establishment/packages/${packageCreated.id}`)
-    } catch (e) {
-      console.log(e)
+    } catch (_e) {
       Alert.alert("Erro ao atualizar serviço.")
     } finally {
       setLoading(false)

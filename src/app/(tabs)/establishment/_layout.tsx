@@ -55,6 +55,13 @@ export default function Layout() {
           headerShown: false,
         }}
       />
+      <Stack.Screen
+        name="availabilities"
+        options={{
+          title: "Funcionamento",
+          headerShown: false,
+        }}
+      />
     </Stack>
   )
 }

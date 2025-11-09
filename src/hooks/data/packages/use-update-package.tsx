@@ -7,7 +7,6 @@ export function useUpdatePackage() {
   return useMutation<boolean, string, UpdatePackageRequest>({
     mutationFn: async inputs => {
       const { data, error } = await updatePackage(inputs)
-      console.log({ data, error })
       if (error) {
         throw error
       }

@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from "react"
+import { useEffect, useMemo } from "react"
 import {
   View,
   Text,
@@ -51,7 +51,7 @@ export function CheckinDialog({
   )
 
   const isPackageAlreadyPaid = useMemo(
-    () => appointment?.package && appointment.package.paid,
+    () => appointment?.package?.paid,
     [appointment]
   )
 
@@ -153,7 +153,6 @@ export function CheckinDialog({
 
   const onSubmit = async (data: CheckinFormData) => {
     if (!appointment?.id) return
-    console.log({data})
     try {
       await createCheckin({
         ...data,
@@ -222,7 +221,9 @@ export function CheckinDialog({
                   ✓ Pacote já pago
                 </Text>
                 <Text className="text-green-700 text-sm">
-                  Esta sessão já está coberta pelo pacote "{appointment.package.name}". Não é necessário pagamento adicional.
+                  Esta sessão já está coberta pelo pacote "
+                  {appointment.package.name}". Não é necessário pagamento
+                  adicional.
                 </Text>
               </View>
             ) : isFirstPackageSession ? (
@@ -231,7 +232,9 @@ export function CheckinDialog({
                   ⚠ Primeira sessão do pacote
                 </Text>
                 <Text className="text-amber-700 text-sm">
-                  Esta é a primeira sessão do pacote "{appointment.package.name}". O valor total do pacote (R$ {appointment.package.price}) deve ser pago agora.
+                  Esta é a primeira sessão do pacote "{appointment.package.name}
+                  ". O valor total do pacote (R$ {appointment.package.price})
+                  deve ser pago agora.
                 </Text>
               </View>
             ) : (
@@ -240,135 +243,135 @@ export function CheckinDialog({
                   📦 Sessão do pacote
                 </Text>
                 <Text className="text-blue-700 text-sm">
-                  Pacote: {appointment.package.name} ({appointment.package.remainingSessions}/{appointment.package.totalSessions} sessões restantes)
+                  Pacote: {appointment.package.name} (
+                  {appointment.package.remainingSessions}/
+                  {appointment.package.totalSessions} sessões restantes)
                 </Text>
               </View>
             )}
           </View>
         )}
 
-   
-          <ScrollView
-            contentContainerStyle={{ padding: 16, gap: 16 }}
-            keyboardShouldPersistTaps="handled"
-          >
-            {/* Appointment Info */}
-            <View className="bg-gray-50 p-4 rounded-lg gap-2">
-              <Text className="text-lg font-semibold">
-                {appointment.customer.name}
-              </Text>
-              <Text className="text-gray-600">{appointment.service.name}</Text>
-              <Text className="text-gray-600">
-                Profissional: {appointment.professional.name}
-              </Text>
-              {appointment.package && (
-                <View className="mt-2 pt-2 border-t border-gray-200">
-                  <Text className="text-sm font-medium text-blue-600">
-                    Pacote: {appointment.package.name}
-                  </Text>
-                  <Text className="text-sm text-gray-500">
-                    Sessões restantes: {appointment.package.remainingSessions}/
-                    {appointment.package.totalSessions}
-                  </Text>
-                  <Text className="text-sm text-gray-500">
-                    Status: {appointment.package.paid ? "Pago" : "Pendente"}
-                  </Text>
-                </View>
-              )}
-            </View>
-
-            {/* Payment Type Select */}
-            <View className="gap-2">
-              <Text className="text-sm font-medium text-gray-700">
-                Tipo de Pagamento
-              </Text>
-              <Controller
-                control={form.control}
-                name="paymentType"
-                render={({ field }) => (
-                  <Select
-                    value={field.value}
-                    onValueChange={handlePaymentTypeChange}
-                    options={paymentTypeOptions}
-                    placeholder="Selecione o tipo de pagamento"
-                    disabled={isSelectDisabled}
-                  />
-                )}
-              />
-              {form.formState.errors.paymentType && (
-                <Text className="text-red-500 text-xs">
-                  {form.formState.errors.paymentType.message}
+        <ScrollView
+          contentContainerStyle={{ padding: 16, gap: 16 }}
+          keyboardShouldPersistTaps="handled"
+        >
+          {/* Appointment Info */}
+          <View className="bg-gray-50 p-4 rounded-lg gap-2">
+            <Text className="text-lg font-semibold">
+              {appointment.customer.name}
+            </Text>
+            <Text className="text-gray-600">{appointment.service.name}</Text>
+            <Text className="text-gray-600">
+              Profissional: {appointment.professional.name}
+            </Text>
+            {appointment.package && (
+              <View className="mt-2 pt-2 border-t border-gray-200">
+                <Text className="text-sm font-medium text-blue-600">
+                  Pacote: {appointment.package.name}
                 </Text>
-              )}
-            </View>
-
-            {/* Payment Amount */}
-            <View className="gap-2">
-              <Text className="text-sm font-medium text-gray-700">
-                Valor do Pagamento
-              </Text>
-              <Controller
-                control={form.control}
-                name="paymentAmount"
-                render={({ field }) => (
-                  <Input
-                    placeholder="0.00"
-                    keyboardType="decimal-pad"
-                    value={field.value}
-                    onChangeText={field.onChange}
-                    editable={!shouldDisablePaymentAmount}
-                  />
-                )}
-              />
-              {form.formState.errors.paymentAmount && (
-                <Text className="text-red-500 text-xs">
-                  {form.formState.errors.paymentAmount.message}
+                <Text className="text-sm text-gray-500">
+                  Sessões restantes: {appointment.package.remainingSessions}/
+                  {appointment.package.totalSessions}
                 </Text>
-              )}
-            </View>
-
-            {/* Notes */}
-            <View className="gap-2">
-              <Text className="text-sm font-medium text-gray-700">
-                Observações (opcional)
-              </Text>
-              <Controller
-                control={form.control}
-                name="notes"
-                render={({ field }) => (
-                  <Input
-                    placeholder="Observações sobre o pagamento"
-                    value={field.value}
-                    onChangeText={field.onChange}
-                    multiline
-                    numberOfLines={3}
-                    style={{ height: 80, textAlignVertical: "top" }}
-                  />
-                )}
-              />
-              {form.formState.errors.notes && (
-                <Text className="text-red-500 text-xs">
-                  {form.formState.errors.notes.message}
+                <Text className="text-sm text-gray-500">
+                  Status: {appointment.package.paid ? "Pago" : "Pendente"}
                 </Text>
+              </View>
+            )}
+          </View>
+
+          {/* Payment Type Select */}
+          <View className="gap-2">
+            <Text className="text-sm font-medium text-gray-700">
+              Tipo de Pagamento
+            </Text>
+            <Controller
+              control={form.control}
+              name="paymentType"
+              render={({ field }) => (
+                <Select
+                  value={field.value}
+                  onValueChange={handlePaymentTypeChange}
+                  options={paymentTypeOptions}
+                  placeholder="Selecione o tipo de pagamento"
+                  disabled={isSelectDisabled}
+                />
               )}
-            </View>
+            />
+            {form.formState.errors.paymentType && (
+              <Text className="text-red-500 text-xs">
+                {form.formState.errors.paymentType.message}
+              </Text>
+            )}
+          </View>
 
-            <View className="gap-3 mt-4">
-              <AppButton
-                title="Confirmar Check-in"
-                onPress={form.handleSubmit(onSubmit)}
-                loading={isSubmitting}
-                disabled={isSubmitting}
-              />
-              <AppButton
-                title="Cancelar"
-                onPress={handleClose}
-                disabled={isSubmitting}
-                theme="secondary"
-              />
-            </View>
-          </ScrollView>
+          {/* Payment Amount */}
+          <View className="gap-2">
+            <Text className="text-sm font-medium text-gray-700">
+              Valor do Pagamento
+            </Text>
+            <Controller
+              control={form.control}
+              name="paymentAmount"
+              render={({ field }) => (
+                <Input
+                  placeholder="0.00"
+                  keyboardType="decimal-pad"
+                  value={field.value}
+                  onChangeText={field.onChange}
+                  editable={!shouldDisablePaymentAmount}
+                />
+              )}
+            />
+            {form.formState.errors.paymentAmount && (
+              <Text className="text-red-500 text-xs">
+                {form.formState.errors.paymentAmount.message}
+              </Text>
+            )}
+          </View>
 
+          {/* Notes */}
+          <View className="gap-2">
+            <Text className="text-sm font-medium text-gray-700">
+              Observações (opcional)
+            </Text>
+            <Controller
+              control={form.control}
+              name="notes"
+              render={({ field }) => (
+                <Input
+                  placeholder="Observações sobre o pagamento"
+                  value={field.value}
+                  onChangeText={field.onChange}
+                  multiline
+                  numberOfLines={3}
+                  style={{ height: 80, textAlignVertical: "top" }}
+                />
+              )}
+            />
+            {form.formState.errors.notes && (
+              <Text className="text-red-500 text-xs">
+                {form.formState.errors.notes.message}
+              </Text>
+            )}
+          </View>
+
+          <View className="gap-3 mt-4">
+            <AppButton
+              title="Confirmar Check-in"
+              onPress={form.handleSubmit(onSubmit)}
+              loading={isSubmitting}
+              disabled={isSubmitting}
+            />
+            <AppButton
+              title="Cancelar"
+              onPress={handleClose}
+              disabled={isSubmitting}
+              theme="secondary"
+            />
+          </View>
+        </ScrollView>
       </View>
     </Modal>
   )

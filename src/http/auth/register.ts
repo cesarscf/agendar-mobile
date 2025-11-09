@@ -19,7 +19,6 @@ export async function register({ name, email, password }: RegisterRequest) {
       password,
     })
 
-    console.log(response)
     return {
       data: response.data,
       error: null,
