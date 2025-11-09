@@ -1,6 +1,3 @@
-import { ServiceCountCard } from "@/components/reports/service-count-card"
-
-import { TotalRevenueCard } from "@/components/reports/total-revenue-card"
 import { ScrollView, SafeAreaView, View } from "react-native"
 
 export default function Dashboard() {
@@ -8,8 +5,8 @@ export default function Dashboard() {
     <SafeAreaView style={{ flex: 1 }}>
       <ScrollView contentContainerStyle={{ padding: 16 }}>
         <View style={{ gap: 16 }}>
-          <TotalRevenueCard />
-          <ServiceCountCard />
+          {/* <TotalRevenueCard />
+          <ServiceCountCard /> */}
         </View>
       </ScrollView>
     </SafeAreaView>
