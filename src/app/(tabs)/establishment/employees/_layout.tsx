@@ -46,7 +46,7 @@ export default function Layout() {
       <Stack.Screen
         name="[id]"
         options={{
-          title: "EDITAR PROFISSIONAL",
+          title: "PROFISSIONAL",
           headerLeft: () => (
             <Pressable
               onPress={() => {

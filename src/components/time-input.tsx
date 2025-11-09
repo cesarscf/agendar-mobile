@@ -1,5 +1,4 @@
-import { cn } from "@/utils/cn"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import {
   TextInput,
   View,
@@ -10,6 +9,7 @@ import {
   type TextInputProps,
 } from "react-native"
 import DateTimePicker from "@react-native-community/datetimepicker"
+import { cn } from "@/utils/cn"
 
 type TimeInputProps = {
   value: string
@@ -28,14 +28,27 @@ export function TimeInput({
 }: TimeInputProps) {
   const [showPicker, setShowPicker] = useState(false)
   const [tempDate, setTempDate] = useState(() => {
-    if (value) {
+    if (value?.includes(":")) {
       const [hours, minutes] = value.split(":").map(Number)
-      const date = new Date()
-      date.setHours(hours, minutes, 0, 0)
-      return date
+      if (!Number.isNaN(hours) && !Number.isNaN(minutes)) {
+        const date = new Date()
+        date.setHours(hours, minutes, 0, 0)
+        return date
+      }
     }
     return new Date()
   })
+
+  useEffect(() => {
+    if (value?.includes(":")) {
+      const [hours, minutes] = value.split(":").map(Number)
+      if (!Number.isNaN(hours) && !Number.isNaN(minutes)) {
+        const date = new Date()
+        date.setHours(hours, minutes, 0, 0)
+        setTempDate(date)
+      }
+    }
+  }, [value])
 
   const handleChange = (text: string) => {
     const numbers = text.replace(/\D/g, "")
@@ -81,7 +94,7 @@ export function TimeInput({
     <View className="gap-1">
       {label && <Text className="text-sm font-medium">{label}</Text>}
 
-      <Pressable onPress={() => setShowPicker(true)}>
+      <View>
         <TextInput
           className={cn(
             "h-16 rounded-md border-2 border-gray-300 bg-white text-black px-4 py-5 text-base",
@@ -97,10 +110,14 @@ export function TimeInput({
           placeholder={placeholder}
           keyboardType="numeric"
           maxLength={5}
-          editable={Platform.OS === "web"}
+          onFocus={() => {
+            if (Platform.OS !== "web") {
+              setShowPicker(true)
+            }
+          }}
           {...props}
         />
-      </Pressable>
+      </View>
 
       {showPicker && Platform.OS === "ios" && (
         <Modal transparent animationType="slide">

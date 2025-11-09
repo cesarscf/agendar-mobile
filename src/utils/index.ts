@@ -98,11 +98,9 @@ export function convertLocalTimeToUTC(time: string): string {
 
   const [hours, minutes] = time.split(":").map(Number)
 
-  // Cria Date com horário local
   const localDate = new Date()
   localDate.setHours(hours, minutes, 0, 0)
 
-  // Extrai horário UTC (aplica offset automaticamente)
   const utcHours = localDate.getUTCHours().toString().padStart(2, "0")
   const utcMinutes = localDate.getUTCMinutes().toString().padStart(2, "0")
 
@@ -114,13 +112,29 @@ export function convertUTCToLocalTime(time: string): string {
 
   const [hours, minutes] = time.split(":").map(Number)
 
-  // Cria Date com horário UTC
   const utcDate = new Date()
   utcDate.setUTCHours(hours, minutes, 0, 0)
 
-  // Extrai horário local (aplica offset automaticamente)
   const localHours = utcDate.getHours().toString().padStart(2, "0")
   const localMinutes = utcDate.getMinutes().toString().padStart(2, "0")
 
   return `${localHours}:${localMinutes}`
 }
+
+export function convertLocalDateToUTC(localDate: Date): string {
+  return localDate.toISOString()
+}
+
+export function convertUTCStringToLocalDate(utcString: string): Date {
+  return new Date(utcString)
+}
+
+export const weekdays = [
+  "Domingo",
+  "Segunda-feira",
+  "Terça-feira",
+  "Quarta-feira",
+  "Quinta-feira",
+  "Sexta-feira",
+  "Sábado",
+]

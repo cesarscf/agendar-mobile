@@ -1,19 +1,21 @@
+import { useState } from "react"
 import { useLocalSearchParams } from "expo-router"
-import { View, Text } from "react-native"
-
+import { View, Text, Pressable } from "react-native"
 import { useEmployee } from "@/hooks/data/employees"
+import { cn } from "@/utils/cn"
 import { EditEmployeeForm } from "@/components/forms/update-employee-form"
+import { EmployeeBlocksTab } from "../../../../components/forms/blocks"
 
-export default function EditServiceScreen() {
+export default function EmployeeDetailScreen() {
   const { id } = useLocalSearchParams()
+  const employeeId = Array.isArray(id) ? id[0] : (id as string)
+  const [activeTab, setActiveTab] = useState<"general" | "blocks">("general")
 
-  if (!id) return null
+  if (!employeeId) return null
 
-  const { data: employee } = useEmployee(id as string)
+  const { data: employee, isLoading } = useEmployee(employeeId)
 
-  if (!employee) return null
-
-  if (!employee) {
+  if (isLoading || !employee) {
     return (
       <View className="flex-1 items-center justify-center bg-white">
         <Text>Carregando...</Text>
@@ -21,5 +23,48 @@ export default function EditServiceScreen() {
     )
   }
 
-  return <EditEmployeeForm employee={employee} />
+  return (
+    <View className="flex-1 bg-white">
+      <View className="border-b border-gray-200 bg-white">
+        <View className="flex-row p-2">
+          <Pressable
+            onPress={() => setActiveTab("general")}
+            className={cn(
+              "flex-1 py-3 rounded-lg mx-1",
+              activeTab === "general" ? "bg-[#fbdd65]" : "bg-gray-100"
+            )}
+          >
+            <Text
+              className={cn(
+                "text-center font-semibold",
+                activeTab === "general" ? "text-black" : "text-gray-600"
+              )}
+            >
+              Geral
+            </Text>
+          </Pressable>
+
+          <Pressable
+            onPress={() => setActiveTab("blocks")}
+            className={cn(
+              "flex-1 py-3 rounded-lg mx-1",
+              activeTab === "blocks" ? "bg-[#fbdd65]" : "bg-gray-100"
+            )}
+          >
+            <Text
+              className={cn(
+                "text-center font-semibold",
+                activeTab === "blocks" ? "text-black" : "text-gray-600"
+              )}
+            >
+              Bloqueios
+            </Text>
+          </Pressable>
+        </View>
+      </View>
+
+      {activeTab === "general" && <EditEmployeeForm employee={employee} />}
+      {activeTab === "blocks" && <EmployeeBlocksTab employeeId={employeeId} />}
+    </View>
+  )
 }
