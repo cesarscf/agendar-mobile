@@ -7,6 +7,7 @@ import {
   ScrollView,
   Text,
   View,
+  TouchableOpacity,
 } from "react-native"
 
 import { StorageEntity, uploadImageToFirebase } from "@/lib/upload-image"
@@ -21,6 +22,8 @@ import { Input } from "@/components/input"
 import { ImagePickerControl } from "@/components/image-picker"
 import { AppButton } from "@/components/button"
 import { formatPhoneNumber } from "@/utils"
+import * as Clipboard from "expo-clipboard"
+import { Copy } from "lucide-react-native"
 
 type Inputs = UpdateEstablishmentRequest
 
@@ -41,12 +44,25 @@ export function UpdateEstablishmentForm({
   const [loading, setLoading] = React.useState(false)
   const router = useRouter()
 
+  async function copyStoreLink() {
+    const slug = form.watch("slug")
+    if (slug) {
+      const link = `https://agendar-web-omega.vercel.app/${slug}`
+      await Clipboard.setStringAsync(link)
+      Alert.alert(
+        "Link copiado!",
+        "O link da loja foi copiado para a área de transferência."
+      )
+    }
+  }
+
   const form = useForm<Inputs>({
     resolver: zodResolver(updateEstablishmentSchema),
     reValidateMode: "onBlur",
     defaultValues: {
       id: data.id,
       name: data.name ?? "",
+      slug: data.slug ?? "",
       theme: data.theme ?? "",
       about: data.about ?? "",
       bannerUrl: data.bannerUrl ?? "",
@@ -125,6 +141,36 @@ export function UpdateEstablishmentForm({
             {form.formState.errors.name && (
               <Text className="text-red-500 text-xs">
                 {form.formState.errors.name.message}
+              </Text>
+            )}
+          </View>
+
+          <View className="gap-1">
+            <View className="flex-row items-center justify-between">
+              <Text className="text-sm font-medium">Link da loja</Text>
+              <TouchableOpacity
+                onPress={copyStoreLink}
+                className="flex-row items-center gap-1 px-3 py-1.5 bg-gray-100 rounded-md"
+              >
+                <Copy size={16} color="#374151" />
+                <Text className="text-xs text-gray-700">Copiar link</Text>
+              </TouchableOpacity>
+            </View>
+            <Controller
+              control={form.control}
+              name="slug"
+              render={({ field }) => (
+                <Input
+                  placeholder="slug-do-estabelecimento"
+                  {...field}
+                  onChangeText={field.onChange}
+                  autoCapitalize="none"
+                />
+              )}
+            />
+            {form.formState.errors.slug && (
+              <Text className="text-red-500 text-xs">
+                {form.formState.errors.slug.message}
               </Text>
             )}
           </View>

@@ -19,7 +19,7 @@ export default function RootLayout() {
   return (
     <QueryClientProvider client={queryClient}>
       <SessionProvider>
-        <StatusBar style="auto" />
+        <StatusBar style="dark" />
         <SplashScreenController />
         <RootNavigator />
       </SessionProvider>

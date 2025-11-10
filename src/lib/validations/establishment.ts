@@ -11,6 +11,7 @@ export const establishmentSchema = z.object({
       message: "O nome do estabelecimento deve ter no máximo 100 caracteres",
     }),
   theme: z.string().min(1, { message: "O tema é obrigatório" }),
+  slug: z.string(),
   about: z
     .string()
     .min(10, { message: "A descrição deve ter no mínimo 10 caracteres" })
