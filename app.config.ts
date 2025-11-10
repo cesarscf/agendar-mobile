@@ -54,6 +54,7 @@ const config: ExpoConfig = {
       {
         ios: {
           useFrameworks: "static",
+          buildReactNativeFromSource: true,
         },
       },
     ],

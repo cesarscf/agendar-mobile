@@ -4,7 +4,7 @@ import { handleApiError } from "@/utils"
 
 export async function createService(inputs: CreateServiceRequest) {
   try {
-    await api.post("/packages", {
+    await api.post("/services", {
       ...inputs,
       durationInMinutes: Number(inputs.durationInMinutes),
       price: inputs.price.replace(",", "."),
