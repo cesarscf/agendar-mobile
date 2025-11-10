@@ -6,6 +6,8 @@ interface ImagePickerControlProps {
   onChange: (uri: string) => void
   disabled?: boolean
   label?: string
+  aspectRatio?: [number, number]
+  quality?: number
 }
 
 export function ImagePickerControl({
@@ -13,15 +15,28 @@ export function ImagePickerControl({
   onChange,
   disabled = false,
   label = "Imagem",
+  aspectRatio = [1, 1],
+  quality = 0.8,
 }: ImagePickerControlProps) {
   async function pickImage() {
     if (disabled) return
 
+    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync()
+
+    if (status !== "granted") {
+      alert("Desculpe, precisamos de permissão para acessar suas fotos!")
+      return
+    }
+
     const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ["images"],
       allowsEditing: true,
-      aspect: [4, 3],
-      quality: 1,
+      aspect: aspectRatio,
+      quality,
+      allowsMultipleSelection: false,
+      exif: false,
+      base64: false,
+      selectionLimit: 1,
     })
 
     if (!result.canceled) {
