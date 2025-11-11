@@ -1,7 +1,4 @@
-import {
-  type UpdateServiceRequest,
-  updateServiceSchema,
-} from "@/lib/validations/service"
+import { updateServiceSchema } from "@/lib/validations/service"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Controller, useForm } from "react-hook-form"
 import {
@@ -18,6 +15,7 @@ import { AppButton } from "../button"
 import { ImagePickerControl } from "../image-picker"
 import { StorageEntity, uploadImageToFirebase } from "@/lib/upload-image"
 import { useRouter } from "expo-router"
+import { formatCentsToReal, formatCurrencyInput } from "@/utils/currency"
 
 import { useUpdateService } from "@/hooks/data/services"
 import React from "react"
@@ -39,7 +37,9 @@ export function EditServiceForm({ service }: EditServiceFormProps) {
     reValidateMode: "onBlur",
     defaultValues: {
       ...service,
-      price: service.price?.replace(".", ","),
+      price: service.price
+        ? formatCentsToReal(Number(service.price))
+        : undefined,
       durationInMinutes: String(service.durationInMinutes),
     },
   })
@@ -64,16 +64,10 @@ export function EditServiceForm({ service }: EditServiceFormProps) {
     }
 
     try {
-      const payload = {
+      await mutateAsync({
         ...inputs,
         image: imageUrl,
-        durationInMinutes: inputs.durationInMinutes
-          ? Number(inputs.durationInMinutes)
-          : undefined,
-        price: inputs.price ? inputs.price.replace(",", ".") : undefined,
-      } as UpdateServiceRequest
-
-      await mutateAsync(payload)
+      })
 
       router.back()
     } catch (_) {
@@ -127,10 +121,13 @@ export function EditServiceForm({ service }: EditServiceFormProps) {
               name="price"
               render={({ field }) => (
                 <Input
-                  placeholder="Preço"
+                  placeholder="Ex: 20,99 ou 1.000,00"
                   keyboardType="numeric"
                   {...field}
-                  onChangeText={field.onChange}
+                  onChangeText={value => {
+                    const formatted = formatCurrencyInput(value)
+                    field.onChange(formatted)
+                  }}
                 />
               )}
             />

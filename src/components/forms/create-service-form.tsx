@@ -15,6 +15,7 @@ import { ImagePickerControl } from "../image-picker"
 import { useCreateService } from "@/hooks/data/services"
 import { router } from "expo-router"
 import { StorageEntity, uploadImageToFirebase } from "@/lib/upload-image"
+import { formatCurrencyInput } from "@/utils/currency"
 import React from "react"
 
 type Inputs = z.infer<typeof createServiceSchema>
@@ -28,7 +29,7 @@ export function CreateServiceForm() {
     reValidateMode: "onBlur",
     defaultValues: {
       name: "",
-      price: "",
+      price: "0,00",
       active: true,
       durationInMinutes: "",
       description: "",
@@ -113,11 +114,14 @@ export function CreateServiceForm() {
               name="price"
               render={({ field }) => (
                 <Input
-                  placeholder="Preço"
+                  placeholder="Ex: 20,99 ou 1.000,00"
                   keyboardType="numeric"
                   {...field}
                   onBlur={field.onBlur}
-                  onChangeText={field.onChange}
+                  onChangeText={value => {
+                    const formatted = formatCurrencyInput(value)
+                    field.onChange(formatted)
+                  }}
                   value={field.value}
                 />
               )}

@@ -10,6 +10,7 @@ import {
   View,
 } from "react-native"
 import { Empty } from "@/components/empty"
+import { formatCentsToReal } from "@/utils/currency"
 
 export default function Packages() {
   const { data: packages, isLoading } = usePackages()
@@ -88,7 +89,9 @@ export default function Packages() {
                     Comissão: {pkg.commission}%
                   </Text>
 
-                  <Text className="text-sm text-gray-500">R$ {pkg.price}</Text>
+                  <Text className="text-sm text-gray-500">
+                    R$ {formatCentsToReal(Number(pkg.price))}
+                  </Text>
                 </View>
               </View>
 

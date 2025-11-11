@@ -10,6 +10,7 @@ import {
   View,
 } from "react-native"
 import { Empty } from "@/components/empty"
+import { formatCentsToReal } from "@/utils/currency"
 
 export default function Services() {
   const { data: services, isLoading } = useServices()
@@ -82,7 +83,8 @@ export default function Services() {
                     </View>
 
                     <Text className="text-sm text-gray-500">
-                      {service.durationInMinutes} min • R$ {service.price}
+                      {service.durationInMinutes} min • R${" "}
+                      {formatCentsToReal(Number(service.price))}
                     </Text>
                   </View>
                 </View>

@@ -1,13 +1,16 @@
 import { api } from "../api-client"
 import type { CreateServiceRequest } from "@/lib/validations/service"
 import { handleApiError } from "@/utils"
+import { parseBRLToCents } from "@/utils/currency"
 
 export async function createService(inputs: CreateServiceRequest) {
   try {
+    const price = parseBRLToCents(inputs.price)
+    console.log(price)
     await api.post("/services", {
       ...inputs,
       durationInMinutes: Number(inputs.durationInMinutes),
-      price: inputs.price.replace(",", "."),
+      price,
     })
 
     return {

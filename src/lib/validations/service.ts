@@ -6,7 +6,16 @@ export const serviceSchema = z.object({
   price: z
     .string()
     .min(1, "Preço obrigatório")
-    .regex(/^\d+(,\d{1,2})?$/, "Preço inválido. Ex: 10 ou 10,99"),
+    .refine(
+      value => {
+        // Aceita formatos: 10, 10,5, 10,50, 1.000,00
+        const regex = /^(\d{1,3}(\.\d{3})*|\d+)(,\d{1,2})?$/
+        return regex.test(value)
+      },
+      {
+        message: "Preço inválido. Use formato: 10, 10,50 ou 1.000,00",
+      }
+    ),
   active: z.boolean().optional(),
   durationInMinutes: z
     .string()

@@ -8,6 +8,11 @@ import { ImagePickerControl } from "../image-picker"
 import { uploadImageToFirebase, StorageEntity } from "@/lib/upload-image"
 import { useUpdatePackage } from "@/hooks/data/packages/use-update-package"
 import { useRouter } from "expo-router"
+import {
+  formatCentsToReal,
+  formatCurrencyInput,
+  formatPercentageInput,
+} from "@/utils/currency"
 import type { z } from "zod"
 import React from "react"
 
@@ -22,7 +27,8 @@ export function EditPackageForm({ data }: Props) {
     resolver: zodResolver(updatePackageSchema),
     defaultValues: {
       ...data,
-      price: data.price?.replace(".", ","),
+      price: data.price ? formatCentsToReal(Number(data.price)) : undefined,
+      commission: data.commission ? String(data.commission) : undefined,
     },
   })
 
@@ -48,13 +54,19 @@ export function EditPackageForm({ data }: Props) {
       imageUrl = uploaded
     }
 
-    await mutateAsync({
-      ...values,
-      image: imageUrl,
-      price: values.price?.replace(",", "."),
-    })
+    try {
+      await mutateAsync({
+        ...values,
+        image: imageUrl,
+      })
 
-    setLoading(false)
+      Alert.alert("Sucesso", "Pacote atualizado com sucesso!")
+      _router.back()
+    } catch (_error) {
+      Alert.alert("Erro", "Não foi possível atualizar o pacote.")
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
@@ -75,16 +87,19 @@ export function EditPackageForm({ data }: Props) {
       </View>
 
       <View>
-        <Text>Comissão</Text>
+        <Text>Comissão (%)</Text>
         <Controller
           control={form.control}
           name="commission"
           render={({ field }) => (
             <Input
-              placeholder="Comissão"
-              keyboardType="numeric"
+              placeholder="Ex: 50, 50.5 ou 50.55"
+              keyboardType="decimal-pad"
               {...field}
-              onChangeText={field.onChange}
+              onChangeText={value => {
+                const formatted = formatPercentageInput(value)
+                field.onChange(formatted)
+              }}
             />
           )}
         />
@@ -97,10 +112,13 @@ export function EditPackageForm({ data }: Props) {
           name="price"
           render={({ field }) => (
             <Input
-              placeholder="Preço"
+              placeholder="Ex: 20,99 ou 1.000,00"
               keyboardType="numeric"
               {...field}
-              onChangeText={field.onChange}
+              onChangeText={value => {
+                const formatted = formatCurrencyInput(value)
+                field.onChange(formatted)
+              }}
             />
           )}
         />

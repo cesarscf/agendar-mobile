@@ -18,6 +18,7 @@ import { checkinSchema, type CheckinFormData } from "@/lib/validations/checkin"
 import { useCheckBonus } from "@/hooks/data/appointment/use-check-bonus"
 import { useCreateCheckin } from "@/hooks/data/appointment/use-create-checkin"
 import type { Appointment } from "@/hooks/data/appointment/use-appointments"
+import { formatCentsToReal } from "@/utils/currency"
 
 interface CheckinDialogProps {
   visible: boolean
@@ -82,8 +83,8 @@ export function CheckinDialog({
       paymentType: "pix",
       paymentAmount:
         isFirstPackageSession && appointment.package
-          ? appointment.package.price
-          : appointment.service.servicePrice,
+          ? String(appointment.package.price)
+          : String(appointment.service.servicePrice),
       notes:
         isFirstPackageSession && appointment.package
           ? `Pagamento do pacote "${appointment.package.name}" - Primeiro serviço`
@@ -140,8 +141,8 @@ export function CheckinDialog({
     } else if (value !== "package") {
       const correctAmount =
         isFirstPackageSession && appointment?.package
-          ? appointment.package.price
-          : appointment?.service.servicePrice || "0"
+          ? String(appointment.package.price)
+          : String(appointment?.service.servicePrice || "0")
       form.setValue("paymentAmount", correctAmount)
 
       // Clear notes if not first package session
@@ -233,8 +234,9 @@ export function CheckinDialog({
                 </Text>
                 <Text className="text-amber-700 text-sm">
                   Esta é a primeira sessão do pacote "{appointment.package.name}
-                  ". O valor total do pacote (R$ {appointment.package.price})
-                  deve ser pago agora.
+                  ". O valor total do pacote (R${" "}
+                  {formatCentsToReal(Number(appointment.package.price))}) deve
+                  ser pago agora.
                 </Text>
               </View>
             ) : (

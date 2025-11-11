@@ -13,6 +13,7 @@ import { AppButton } from "../button"
 import { ImagePickerControl } from "../image-picker"
 import { router } from "expo-router"
 import { StorageEntity, uploadImageToFirebase } from "@/lib/upload-image"
+import { formatCurrencyInput, formatPercentageInput } from "@/utils/currency"
 import React from "react"
 import { useCreatePackage } from "@/hooks/data/packages/use-create-package"
 import { createPackageSchema } from "@/lib/validations/packages"
@@ -27,9 +28,9 @@ export function CreatePackageForm() {
     resolver: zodResolver(createPackageSchema),
     reValidateMode: "onBlur",
     defaultValues: {
-      commission: "0",
+      commission: "",
       image: "",
-      price: "",
+      price: "0,00",
       active: true,
       name: "",
     },
@@ -111,10 +112,14 @@ export function CreatePackageForm() {
               name="price"
               render={({ field }) => (
                 <Input
-                  placeholder="R$ 10,00"
+                  placeholder="Ex: 20,99 ou 1.000,00"
+                  keyboardType="numeric"
                   {...field}
                   onBlur={field.onBlur}
-                  onChangeText={field.onChange}
+                  onChangeText={value => {
+                    const formatted = formatCurrencyInput(value)
+                    field.onChange(formatted)
+                  }}
                   value={field.value}
                 />
               )}
@@ -127,19 +132,20 @@ export function CreatePackageForm() {
           </View>
 
           <View className="gap-1">
-            <Text className="text-sm font-medium">Comissão</Text>
+            <Text className="text-sm font-medium">Comissão (%)</Text>
             <Controller
               control={form.control}
               name="commission"
               render={({ field }) => (
                 <Input
-                  placeholder="Comissão do pacote"
-                  multiline
-                  numberOfLines={5}
-                  className="h-40"
+                  placeholder="Ex: 50, 50.5 ou 50.55"
+                  keyboardType="decimal-pad"
                   {...field}
                   onBlur={field.onBlur}
-                  onChangeText={field.onChange}
+                  onChangeText={value => {
+                    const formatted = formatPercentageInput(value)
+                    field.onChange(formatted)
+                  }}
                   value={field.value}
                 />
               )}
