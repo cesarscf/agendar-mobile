@@ -12,6 +12,7 @@ import type { z } from "zod"
 import { Input } from "../input"
 import { AppButton } from "../button"
 import { ImagePickerControl } from "../image-picker"
+import { CategorySelector } from "../category-selector"
 import { useCreateService } from "@/hooks/data/services"
 import { router } from "expo-router"
 import { StorageEntity, uploadImageToFirebase } from "@/lib/upload-image"
@@ -23,6 +24,9 @@ type Inputs = z.infer<typeof createServiceSchema>
 export function CreateServiceForm() {
   const { mutateAsync, isPending } = useCreateService()
   const [loading, setLoading] = React.useState(false)
+  const [selectedCategoryIds, setSelectedCategoryIds] = React.useState<
+    string[]
+  >([])
 
   const form = useForm<Inputs>({
     resolver: zodResolver(createServiceSchema),
@@ -34,6 +38,7 @@ export function CreateServiceForm() {
       durationInMinutes: "",
       description: "",
       image: "",
+      categoryIds: [],
     },
   })
 
@@ -58,11 +63,13 @@ export function CreateServiceForm() {
       await mutateAsync({
         ...inputs,
         image: imageUrl,
+        categoryIds:
+          selectedCategoryIds.length > 0 ? selectedCategoryIds : undefined,
       })
 
       router.back()
     } catch {
-      Alert.alert("Erro ao atualizar serviço.")
+      Alert.alert("Erro ao criar serviço.")
     } finally {
       setLoading(false)
     }
@@ -155,6 +162,11 @@ export function CreateServiceForm() {
               </Text>
             )}
           </View>
+
+          <CategorySelector
+            selectedCategoryIds={selectedCategoryIds}
+            onSelectionChange={setSelectedCategoryIds}
+          />
 
           <View className="gap-1">
             <Text className="text-sm font-medium">Descrição</Text>

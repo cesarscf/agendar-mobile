@@ -1,5 +1,11 @@
 import { z } from "zod"
 
+// Schema de categoria simplificado para uso em serviços
+export const serviceCategorySchema = z.object({
+  id: z.string(),
+  name: z.string(),
+})
+
 export const serviceSchema = z.object({
   id: z.string(),
   name: z.string().min(1, "Nome obrigatório"),
@@ -23,14 +29,23 @@ export const serviceSchema = z.object({
     .regex(/^\d+$/, "Duração deve ser um número inteiro em minutos"),
   description: z.string().optional(),
   image: z.string().optional(),
+  categories: z.array(serviceCategorySchema).optional(),
+  categoryIds: z.array(z.string()).optional(),
 })
 
-export const createServiceSchema = serviceSchema.omit({ id: true })
-
-export const updateServiceSchema = serviceSchema.partial().extend({
-  id: z.string().min(1, "ID obrigatório"),
+export const createServiceSchema = serviceSchema.omit({
+  id: true,
+  categories: true,
 })
 
+export const updateServiceSchema = serviceSchema
+  .partial()
+  .extend({
+    id: z.string().min(1, "ID obrigatório"),
+  })
+  .omit({ categories: true })
+
+export type ServiceCategory = z.infer<typeof serviceCategorySchema>
 export type Service = z.infer<typeof serviceSchema>
 export type CreateServiceRequest = z.infer<typeof createServiceSchema>
 export type UpdateServiceRequest = z.infer<typeof updateServiceSchema>

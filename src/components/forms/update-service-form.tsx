@@ -13,22 +13,27 @@ import type { z } from "zod"
 import { Input } from "../input"
 import { AppButton } from "../button"
 import { ImagePickerControl } from "../image-picker"
+import { CategorySelector } from "../category-selector"
 import { StorageEntity, uploadImageToFirebase } from "@/lib/upload-image"
 import { useRouter } from "expo-router"
 import { formatCentsToReal, formatCurrencyInput } from "@/utils/currency"
 
 import { useUpdateService } from "@/hooks/data/services"
 import React from "react"
+import type { Service } from "@/lib/validations/service"
 
 type Inputs = z.infer<typeof updateServiceSchema>
 
 type EditServiceFormProps = {
-  service: Inputs
+  service: Service
 }
 
 export function EditServiceForm({ service }: EditServiceFormProps) {
   const { mutateAsync, isPending } = useUpdateService()
   const [loading, setLoading] = React.useState(false)
+  const [selectedCategoryIds, setSelectedCategoryIds] = React.useState<
+    string[]
+  >(service.categories?.map(cat => cat.id) || [])
 
   const router = useRouter()
 
@@ -36,11 +41,15 @@ export function EditServiceForm({ service }: EditServiceFormProps) {
     resolver: zodResolver(updateServiceSchema),
     reValidateMode: "onBlur",
     defaultValues: {
-      ...service,
+      id: service.id,
+      name: service.name,
       price: service.price
         ? formatCentsToReal(Number(service.price))
         : undefined,
       durationInMinutes: String(service.durationInMinutes),
+      description: service.description,
+      image: service.image ?? "",
+      active: service.active,
     },
   })
 
@@ -67,6 +76,8 @@ export function EditServiceForm({ service }: EditServiceFormProps) {
       await mutateAsync({
         ...inputs,
         image: imageUrl,
+        categoryIds:
+          selectedCategoryIds.length > 0 ? selectedCategoryIds : undefined,
       })
 
       router.back()
@@ -158,6 +169,11 @@ export function EditServiceForm({ service }: EditServiceFormProps) {
               </Text>
             )}
           </View>
+
+          <CategorySelector
+            selectedCategoryIds={selectedCategoryIds}
+            onSelectionChange={setSelectedCategoryIds}
+          />
 
           <View className="gap-1">
             <Text className="text-sm font-medium">Descrição</Text>

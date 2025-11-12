@@ -86,6 +86,21 @@ export default function Services() {
                       {service.durationInMinutes} min • R${" "}
                       {formatCentsToReal(Number(service.price))}
                     </Text>
+
+                    {service.categories && service.categories.length > 0 && (
+                      <View className="flex-row flex-wrap gap-1 mt-1">
+                        {service.categories.map(category => (
+                          <View
+                            key={category.id}
+                            className="bg-gray-200 px-2 py-0.5 rounded-full"
+                          >
+                            <Text className="text-xs text-gray-700">
+                              {category.name}
+                            </Text>
+                          </View>
+                        ))}
+                      </View>
+                    )}
                   </View>
                 </View>
 
