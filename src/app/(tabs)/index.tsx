@@ -2,6 +2,7 @@ import { useAppointments } from "@/hooks/data/appointment/use-appointments"
 import type { Appointment } from "@/hooks/data/appointment/use-appointments"
 import { useEmployees } from "@/hooks/data/employees/use-employees"
 import { useServices } from "@/hooks/data/services/use-services"
+import { useEstablishment } from "@/hooks/data/establishment/use-establishment"
 import { AppointmentCard } from "@/components/appointment-card"
 import { CheckinDialog } from "@/components/checkin-dialog"
 import { Empty } from "@/components/empty"
@@ -15,6 +16,7 @@ import {
   ScrollView,
   SafeAreaView,
   FlatList,
+  Image,
 } from "react-native"
 import { ChevronDown, ChevronUp, CalendarX } from "lucide-react-native"
 import { useState } from "react"
@@ -46,6 +48,7 @@ export default function Appointments() {
 
   const { data: employees } = useEmployees()
   const { data: services } = useServices()
+  const { data: establishment } = useEstablishment()
 
   const now = new Date()
   const dateRange =
@@ -74,6 +77,26 @@ export default function Appointments() {
   return (
     <SafeAreaView className="flex-1 bg-white pt-10">
       <ScrollView contentContainerStyle={{ padding: 16, flexGrow: 1 }}>
+        {/* Header com Logo e Nome do Establishment */}
+        <View className="flex-row items-center mb-6">
+          {establishment?.logoUrl ? (
+            <Image
+              source={{ uri: establishment.logoUrl }}
+              className="w-12 h-12 rounded-full mr-3"
+              resizeMode="cover"
+            />
+          ) : (
+            <View className="w-12 h-12 rounded-full bg-gray-200 mr-3 items-center justify-center">
+              <Text className="text-gray-500 text-lg font-bold">
+                {establishment?.name?.charAt(0).toUpperCase()}
+              </Text>
+            </View>
+          )}
+          <Text className="text-xl font-bold text-gray-800">
+            {establishment?.name || "Carregando..."}
+          </Text>
+        </View>
+
         <View className="flex-row justify-around mb-4">
           <TouchableOpacity onPress={() => setFilter("today")}>
             <Text
