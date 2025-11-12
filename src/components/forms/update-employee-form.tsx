@@ -172,7 +172,7 @@ export function EditEmployeeForm({ employee }: EditEmployeeFormProps) {
               name="address"
               render={({ field }) => (
                 <Input
-                  placeholder="Descrição do serviço"
+                  placeholder="Endereço completo"
                   multiline
                   numberOfLines={5}
                   className="h-40"
