@@ -85,21 +85,24 @@ export function EditPackageItemsForm({ packageId, items, services }: Props) {
               )}
             />
 
-            <Controller
-              control={control}
-              name={`items.${index}.quantity`}
-              render={({ field }) => (
-                <Input
-                  placeholder="Quantidade"
-                  keyboardType="numeric"
-                  value={String(field.value)}
-                  onChangeText={text => {
-                    const parsed = parseInt(text, 10)
-                    field.onChange(Number.isNaN(parsed) ? 0 : parsed)
-                  }}
-                />
-              )}
-            />
+            <View className="gap-1">
+              <Text className="text-sm font-medium">Quantidade</Text>
+              <Controller
+                control={control}
+                name={`items.${index}.quantity`}
+                render={({ field }) => (
+                  <Input
+                    placeholder="Quantidade"
+                    keyboardType="numeric"
+                    value={String(field.value)}
+                    onChangeText={text => {
+                      const parsed = parseInt(text, 10)
+                      field.onChange(Number.isNaN(parsed) ? 0 : parsed)
+                    }}
+                  />
+                )}
+              />
+            </View>
           </View>
         ))}
 
