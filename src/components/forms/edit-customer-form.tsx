@@ -11,10 +11,12 @@ import {
 } from "react-native"
 import { Input } from "../input"
 import { AppButton } from "../button"
+import { IconButton } from "../icon-button"
 
 import { router } from "expo-router"
 import type { z } from "zod"
 import { useUpdateCustomer } from "@/hooks/data/customers/use-update-customer"
+import { useDeleteCustomer } from "@/hooks/data/customers/use-delete-customer"
 import {
   formatDate,
   formatDateToString,
@@ -30,6 +32,8 @@ interface Props {
 
 export function EditCustomerForm({ customer }: Props) {
   const { mutateAsync, isPending } = useUpdateCustomer()
+  const { mutateAsync: deleteAsync, isPending: isDeleting } =
+    useDeleteCustomer()
   const [loading, setLoading] = React.useState(false)
 
   const form = useForm<Inputs>({
@@ -74,6 +78,31 @@ export function EditCustomerForm({ customer }: Props) {
     } finally {
       setLoading(false)
     }
+  }
+
+  async function handleDelete() {
+    Alert.alert(
+      "Confirmar exclusão",
+      "Tem certeza que deseja excluir este cliente?",
+      [
+        {
+          text: "Cancelar",
+          style: "cancel",
+        },
+        {
+          text: "Excluir",
+          style: "destructive",
+          onPress: async () => {
+            try {
+              await deleteAsync(customer.id)
+              router.back()
+            } catch {
+              Alert.alert("Erro ao excluir cliente.")
+            }
+          },
+        },
+      ]
+    )
   }
 
   return (
@@ -303,13 +332,23 @@ export function EditCustomerForm({ customer }: Props) {
           </View>
         </ScrollView>
 
-        <View className="p-4 border-t border-gray-200 bg-white">
-          <AppButton
-            disabled={isPending || loading}
-            loading={isPending || loading}
-            title="Atualizar Cliente"
-            theme="primary"
-            onPress={form.handleSubmit(onSubmit)}
+        <View className="p-4 border-t border-gray-200 bg-white flex-row gap-2">
+          <View className="flex-1">
+            <AppButton
+              disabled={isPending || loading || isDeleting}
+              loading={isPending || loading}
+              title="Salvar"
+              theme="primary"
+              onPress={form.handleSubmit(onSubmit)}
+              className="py-2"
+            />
+          </View>
+          <IconButton
+            disabled={isPending || loading || isDeleting}
+            loading={isDeleting}
+            onPress={handleDelete}
+            variant="danger"
+            className="self-start"
           />
         </View>
       </View>

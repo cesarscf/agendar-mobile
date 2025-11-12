@@ -9,7 +9,7 @@ import { cn } from "../utils/cn"
 type AppButtonProps = {
   title: string
   onPress?: () => void
-  theme?: "primary" | "secondary" | "tertiary"
+  theme?: "primary" | "secondary" | "tertiary" | "danger"
   disabled?: boolean
   loading?: boolean
 } & PressableProps
@@ -31,6 +31,7 @@ export function AppButton({
         theme === "primary" && "bg-[#fbdd65] border-[#f7d139]",
         theme === "secondary" && "bg-white border-gray-300",
         theme === "tertiary" && "bg-transparent border-transparent",
+        theme === "danger" && "bg-red-500 border-red-600",
         disabled && "opacity-50",
         className
       )}
@@ -42,7 +43,8 @@ export function AppButton({
           "font-semibold text-lg tracking-wider",
           theme === "secondary" && "text-black",
           theme === "primary" && "text-black",
-          theme === "tertiary" && "text-gray-800"
+          theme === "tertiary" && "text-gray-800",
+          theme === "danger" && "text-white"
         )}
       >
         {loading ? <ActivityIndicator className="size-6" /> : title}

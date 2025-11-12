@@ -11,9 +11,11 @@ import {
 import type { z } from "zod"
 import { Input } from "../input"
 import { AppButton } from "../button"
+import { IconButton } from "../icon-button"
 import { useRouter } from "expo-router"
 
 import { useUpdateCategory } from "@/hooks/data/category/use-update-category"
+import { useDeleteCategory } from "@/hooks/data/category/use-delete-category"
 type Inputs = z.infer<typeof categorySchema>
 
 type EditCategoryFormProps = {
@@ -22,6 +24,8 @@ type EditCategoryFormProps = {
 
 export function EditCategoryForm({ category }: EditCategoryFormProps) {
   const { mutateAsync, isPending } = useUpdateCategory()
+  const { mutateAsync: deleteAsync, isPending: isDeleting } =
+    useDeleteCategory()
   const router = useRouter()
 
   const form = useForm<Inputs>({
@@ -39,6 +43,31 @@ export function EditCategoryForm({ category }: EditCategoryFormProps) {
     } catch {
       Alert.alert("Erro ao atualizar categoria.")
     }
+  }
+
+  async function handleDelete() {
+    Alert.alert(
+      "Confirmar exclusão",
+      "Tem certeza que deseja excluir esta categoria?",
+      [
+        {
+          text: "Cancelar",
+          style: "cancel",
+        },
+        {
+          text: "Excluir",
+          style: "destructive",
+          onPress: async () => {
+            try {
+              await deleteAsync(category.id)
+              router.back()
+            } catch {
+              Alert.alert("Erro ao excluir categoria.")
+            }
+          },
+        },
+      ]
+    )
   }
 
   return (
@@ -72,13 +101,23 @@ export function EditCategoryForm({ category }: EditCategoryFormProps) {
           )}
         </View>
 
-        <View className="mt-4">
-          <AppButton
-            disabled={isPending}
-            loading={isPending}
-            title="Salvar Alterações"
-            theme="primary"
-            onPress={form.handleSubmit(onSubmit)}
+        <View className="mt-4 flex-row gap-2">
+          <View className="flex-1">
+            <AppButton
+              disabled={isPending || isDeleting}
+              loading={isPending}
+              title="Salvar"
+              theme="primary"
+              onPress={form.handleSubmit(onSubmit)}
+              className="py-2"
+            />
+          </View>
+          <IconButton
+            disabled={isPending || isDeleting}
+            loading={isDeleting}
+            onPress={handleDelete}
+            variant="danger"
+            className="self-start"
           />
         </View>
       </ScrollView>

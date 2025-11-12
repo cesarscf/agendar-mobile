@@ -11,6 +11,7 @@ import {
 import type { z } from "zod"
 import { Input } from "../input"
 import { AppButton } from "../button"
+import { IconButton } from "../icon-button"
 import { ImagePickerControl } from "../image-picker"
 import { StorageEntity, uploadImageToFirebase } from "@/lib/upload-image"
 import { useRouter } from "expo-router"
@@ -18,6 +19,7 @@ import { formatPhoneNumber } from "@/utils"
 import React from "react"
 import { updateEmployeeSchema } from "@/lib/validations/employee"
 import { useUpdateEmployee } from "@/hooks/data/employees"
+import { useDeleteEmployee } from "@/hooks/data/employees/use-delete-employee"
 
 type Inputs = z.infer<typeof updateEmployeeSchema>
 
@@ -27,6 +29,8 @@ type EditEmployeeFormProps = {
 
 export function EditEmployeeForm({ employee }: EditEmployeeFormProps) {
   const { mutateAsync, isPending } = useUpdateEmployee()
+  const { mutateAsync: deleteAsync, isPending: isDeleting } =
+    useDeleteEmployee()
   const [loading, setLoading] = React.useState(false)
 
   const router = useRouter()
@@ -78,6 +82,31 @@ export function EditEmployeeForm({ employee }: EditEmployeeFormProps) {
 
   function onImageChange(uri: string) {
     form.setValue("avatarUrl", uri, { shouldValidate: true })
+  }
+
+  async function handleDelete() {
+    Alert.alert(
+      "Confirmar exclusão",
+      "Tem certeza que deseja excluir este funcionário?",
+      [
+        {
+          text: "Cancelar",
+          style: "cancel",
+        },
+        {
+          text: "Excluir",
+          style: "destructive",
+          onPress: async () => {
+            try {
+              await deleteAsync(employee.id)
+              router.back()
+            } catch {
+              Alert.alert("Erro ao excluir funcionário.")
+            }
+          },
+        },
+      ]
+    )
   }
 
   return (
@@ -233,13 +262,23 @@ export function EditEmployeeForm({ employee }: EditEmployeeFormProps) {
           />
         </ScrollView>
 
-        <View className="p-4 border-t border-gray-200 bg-white">
-          <AppButton
-            disabled={isPending || loading}
-            loading={isPending || loading}
-            title="Salvar Alterações"
-            theme="primary"
-            onPress={form.handleSubmit(onSubmit)}
+        <View className="p-4 border-t border-gray-200 bg-white flex-row gap-2">
+          <View className="flex-1">
+            <AppButton
+              disabled={isPending || loading || isDeleting}
+              loading={isPending || loading}
+              title="Salvar"
+              theme="primary"
+              onPress={form.handleSubmit(onSubmit)}
+              className="py-2"
+            />
+          </View>
+          <IconButton
+            disabled={isPending || loading || isDeleting}
+            loading={isDeleting}
+            onPress={handleDelete}
+            variant="danger"
+            className="self-start"
           />
         </View>
       </View>

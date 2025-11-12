@@ -4,9 +4,11 @@ import { Controller, useForm } from "react-hook-form"
 import { Alert, ScrollView, Text, View } from "react-native"
 import { Input } from "../input"
 import { AppButton } from "../button"
+import { IconButton } from "../icon-button"
 import { ImagePickerControl } from "../image-picker"
 import { uploadImageToFirebase, StorageEntity } from "@/lib/upload-image"
 import { useUpdatePackage } from "@/hooks/data/packages/use-update-package"
+import { useDeletePackage } from "@/hooks/data/packages/use-delete-package"
 import { useRouter } from "expo-router"
 import {
   formatCentsToReal,
@@ -33,6 +35,7 @@ export function EditPackageForm({ data }: Props) {
   })
 
   const { mutateAsync, isPending } = useUpdatePackage()
+  const { mutateAsync: deleteAsync, isPending: isDeleting } = useDeletePackage()
   const [loading, setLoading] = React.useState(false)
   const _router = useRouter()
   const currentImage = form.watch("image")
@@ -67,6 +70,31 @@ export function EditPackageForm({ data }: Props) {
     } finally {
       setLoading(false)
     }
+  }
+
+  async function handleDelete() {
+    Alert.alert(
+      "Confirmar exclusão",
+      "Tem certeza que deseja excluir este pacote?",
+      [
+        {
+          text: "Cancelar",
+          style: "cancel",
+        },
+        {
+          text: "Excluir",
+          style: "destructive",
+          onPress: async () => {
+            try {
+              await deleteAsync(data.id)
+              _router.back()
+            } catch {
+              Alert.alert("Erro ao excluir pacote.")
+            }
+          },
+        },
+      ]
+    )
   }
 
   return (
@@ -130,11 +158,24 @@ export function EditPackageForm({ data }: Props) {
         label="Imagem do pacote"
       />
 
-      <AppButton
-        title="Salvar Alterações"
-        onPress={form.handleSubmit(onSubmit)}
-        loading={loading || isPending}
-      />
+      <View className="flex-row gap-2">
+        <View className="flex-1">
+          <AppButton
+            title="Salvar"
+            onPress={form.handleSubmit(onSubmit)}
+            loading={loading || isPending}
+            disabled={loading || isPending || isDeleting}
+            className="py-2"
+          />
+        </View>
+        <IconButton
+          disabled={loading || isPending || isDeleting}
+          loading={isDeleting}
+          onPress={handleDelete}
+          variant="danger"
+          className="self-start"
+        />
+      </View>
     </ScrollView>
   )
 }
