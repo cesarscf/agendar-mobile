@@ -1,4 +1,7 @@
-import { updatePackageSchema, updatePackageItemsSchema } from "@/lib/validations/packages"
+import {
+  updatePackageSchema,
+  updatePackageItemsSchema,
+} from "@/lib/validations/packages"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Controller, useFieldArray, useForm } from "react-hook-form"
 import { Alert, ScrollView, Text, TouchableOpacity, View } from "react-native"
@@ -61,7 +64,8 @@ export function EditPackageForm({ data, services }: Props) {
 
   const { mutateAsync, isPending } = useUpdatePackage()
   const { mutateAsync: deleteAsync, isPending: isDeleting } = useDeletePackage()
-  const { mutateAsync: updateItemsAsync, isPending: isUpdatingItems } = useUpdatePackageItem()
+  const { mutateAsync: updateItemsAsync, isPending: isUpdatingItems } =
+    useUpdatePackageItem()
   const [loading, setLoading] = React.useState(false)
   const _router = useRouter()
   const currentImage = form.watch("image")
