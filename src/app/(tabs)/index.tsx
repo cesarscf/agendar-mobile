@@ -78,23 +78,30 @@ export default function Appointments() {
     <SafeAreaView className="flex-1 bg-white pt-10">
       <ScrollView contentContainerStyle={{ padding: 16, flexGrow: 1 }}>
         {/* Header com Logo e Nome do Establishment */}
-        <View className="flex-row items-center mb-6">
-          {establishment?.logoUrl ? (
-            <Image
-              source={{ uri: establishment.logoUrl }}
-              className="w-12 h-12 rounded-full mr-3"
-              resizeMode="cover"
-            />
-          ) : (
-            <View className="w-12 h-12 rounded-full bg-gray-200 mr-3 items-center justify-center">
-              <Text className="text-gray-500 text-lg font-bold">
-                {establishment?.name?.charAt(0).toUpperCase()}
-              </Text>
-            </View>
-          )}
-          <Text className="text-xl font-bold text-gray-800">
-            {establishment?.name || "Carregando..."}
-          </Text>
+        <View className="flex-row items-center justify-between mb-6">
+          <View className="flex-row items-center flex-1">
+            {establishment?.logoUrl ? (
+              <Image
+                source={{ uri: establishment.logoUrl }}
+                className="w-12 h-12 rounded-full mr-3"
+                resizeMode="cover"
+              />
+            ) : (
+              <View className="w-12 h-12 rounded-full bg-gray-200 mr-3 items-center justify-center">
+                <Text className="text-gray-500 text-lg font-bold">
+                  {establishment?.name?.charAt(0).toUpperCase()}
+                </Text>
+              </View>
+            )}
+            <Text className="text-xl font-bold text-gray-800 flex-1">
+              {establishment?.name || "Carregando..."}
+            </Text>
+          </View>
+          <Image
+            source={require("../../../assets/agendar-logo.png")}
+            className="w-10 h-10"
+            resizeMode="contain"
+          />
         </View>
 
         <View className="flex-row justify-around mb-4">
