@@ -26,7 +26,7 @@ export function TopServicesChart({
 
   return (
     <PieChartCard
-      title="Top Serviços por Receita"
+      title="Serviços mais rentáveis"
       data={chartData}
       isLoading={isLoading}
       formatValue={value => formatPriceFromCents(value * 100)}
