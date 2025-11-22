@@ -6,8 +6,9 @@ import { useEstablishment } from "@/hooks/data/establishment/use-establishment"
 import { AppointmentCard } from "@/components/appointment-card"
 import { CheckinDialog } from "@/components/checkin-dialog"
 import { Empty } from "@/components/empty"
+import { DashboardFilters } from "@/components/dashboard/dashboard-filters"
+import { useAgendaFilters } from "@/hooks/use-agenda-filters"
 
-import { format, startOfDay, endOfDay, startOfWeek, endOfWeek } from "date-fns"
 import {
   View,
   Text,
@@ -22,7 +23,6 @@ import { ChevronDown, ChevronUp, CalendarX } from "lucide-react-native"
 import { useState } from "react"
 
 export default function Appointments() {
-  const [filter, setFilter] = useState<"today" | "week">("today")
   const [selectedEmployee, setSelectedEmployee] = useState<string>("")
   const [selectedService, setSelectedService] = useState<string>("")
   const [selectedStatus, setSelectedStatus] = useState<
@@ -32,6 +32,15 @@ export default function Appointments() {
   const [checkinDialogVisible, setCheckinDialogVisible] = useState(false)
   const [selectedAppointment, setSelectedAppointment] =
     useState<Appointment | null>(null)
+
+  const {
+    startDate,
+    endDate,
+    setStartDate,
+    setEndDate,
+    clearFilters,
+    isLoading: isLoadingFilters,
+  } = useAgendaFilters()
 
   const handleCheckIn = (appointmentId: string) => {
     const appointment = data?.appointments.find(a => a.id === appointmentId)
@@ -50,27 +59,21 @@ export default function Appointments() {
   const { data: services } = useServices()
   const { data: establishment } = useEstablishment()
 
-  const now = new Date()
-  const dateRange =
-    filter === "today"
-      ? {
-          startDate: format(startOfDay(now), "yyyy-MM-dd"),
-          endDate: format(endOfDay(now), "yyyy-MM-dd"),
-        }
-      : {
-          startDate: format(
-            startOfWeek(now, { weekStartsOn: 1 }),
-            "yyyy-MM-dd"
-          ),
-          endDate: format(endOfWeek(now, { weekStartsOn: 1 }), "yyyy-MM-dd"),
-        }
-
   const { data, isLoading, error } = useAppointments({
-    ...dateRange,
+    startDate,
+    endDate,
     status: selectedStatus || undefined,
     employeeId: selectedEmployee || undefined,
     serviceId: selectedService || undefined,
   })
+
+  if (isLoadingFilters) {
+    return (
+      <View className="flex-1 bg-white items-center justify-center">
+        <ActivityIndicator size="large" color="#000" />
+      </View>
+    )
+  }
 
   return (
     <SafeAreaView className="flex-1 bg-white pt-10">
@@ -102,24 +105,15 @@ export default function Appointments() {
           />
         </View>
 
-        <View className="flex-row justify-around mb-4">
-          <TouchableOpacity onPress={() => setFilter("today")}>
-            <Text
-              className={filter === "today" ? "font-bold text-blue-600" : ""}
-            >
-              Hoje
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => setFilter("week")}>
-            <Text
-              className={filter === "week" ? "font-bold text-blue-600" : ""}
-            >
-              Semana
-            </Text>
-          </TouchableOpacity>
-        </View>
+        <DashboardFilters
+          startDate={startDate}
+          endDate={endDate}
+          onStartDateChange={setStartDate}
+          onEndDateChange={setEndDate}
+          onClearFilters={clearFilters}
+        />
 
-        <View className="mb-4">
+        <View className="mb-4 mt-4">
           <TouchableOpacity
             onPress={() => setShowFilters(!showFilters)}
             className="flex-row items-center justify-between bg-gray-100 p-3 rounded-lg"
