@@ -3,7 +3,7 @@ import { useState } from "react"
 import DateTimePicker from "@react-native-community/datetimepicker"
 import { format, parse } from "date-fns"
 import { ptBR } from "date-fns/locale"
-import { Calendar, X } from "lucide-react-native"
+import { Calendar, X, RefreshCw } from "lucide-react-native"
 
 type DashboardFiltersProps = {
   startDate: string
@@ -11,6 +11,8 @@ type DashboardFiltersProps = {
   onStartDateChange: (date: string) => void
   onEndDateChange: (date: string) => void
   onClearFilters: () => void
+  onRefresh?: () => void
+  isRefreshing?: boolean
 }
 
 export function DashboardFilters({
@@ -19,6 +21,8 @@ export function DashboardFilters({
   onStartDateChange,
   onEndDateChange,
   onClearFilters,
+  onRefresh,
+  isRefreshing = false,
 }: DashboardFiltersProps) {
   const [showStartPicker, setShowStartPicker] = useState(false)
   const [showEndPicker, setShowEndPicker] = useState(false)
@@ -105,15 +109,35 @@ export function DashboardFilters({
         </View>
       </View>
 
-      <Pressable
-        onPress={onClearFilters}
-        className="flex-row items-center justify-center gap-2 h-10 rounded-lg border border-gray-300 bg-gray-50"
-      >
-        <X size={16} color="#6B7280" />
-        <Text className="text-sm font-medium text-gray-700">
-          Limpar Filtros
-        </Text>
-      </Pressable>
+      <View className="flex-row gap-3">
+        <Pressable
+          onPress={onClearFilters}
+          className="flex-1 flex-row items-center justify-center gap-2 h-10 rounded-lg border border-gray-300 bg-gray-50"
+        >
+          <X size={16} color="#6B7280" />
+          <Text className="text-sm font-medium text-gray-700">
+            Limpar Filtros
+          </Text>
+        </Pressable>
+
+        {onRefresh && (
+          <Pressable
+            onPress={onRefresh}
+            disabled={isRefreshing}
+            className="flex-1 flex-row items-center justify-center gap-2 h-10 rounded-lg border border-gray-300 bg-gray-50"
+          >
+            <RefreshCw
+              size={16}
+              color={isRefreshing ? "#9CA3AF" : "#6B7280"}
+            />
+            <Text
+              className={`text-sm font-medium ${isRefreshing ? "text-gray-400" : "text-gray-700"}`}
+            >
+              Atualizar
+            </Text>
+          </Pressable>
+        )}
+      </View>
 
       {showStartPicker && Platform.OS === "ios" && (
         <Modal transparent animationType="slide">

@@ -61,7 +61,7 @@ export default function Appointments() {
   const { data: services } = useServices()
   const { data: establishment } = useEstablishment()
 
-  const { data, isLoading, error } = useAppointments({
+  const { data, isLoading, error, refetch, isRefetching } = useAppointments({
     startDate,
     endDate,
     status: selectedStatus || undefined,
@@ -119,6 +119,8 @@ export default function Appointments() {
           onStartDateChange={setStartDate}
           onEndDateChange={setEndDate}
           onClearFilters={clearFilters}
+          onRefresh={() => refetch()}
+          isRefreshing={isRefetching}
         />
 
         <View className="mb-4 mt-4">
