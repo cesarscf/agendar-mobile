@@ -10,7 +10,7 @@ import {
   UserSquare,
   Gift,
 } from "lucide-react-native"
-import { SafeAreaView, View } from "react-native"
+import { SafeAreaView, ScrollView, View } from "react-native"
 
 export default function Establishment() {
   const items = [
@@ -66,17 +66,19 @@ export default function Establishment() {
 
   return (
     <SafeAreaView className="flex-1 bg-white">
-      <View className="mt-2 px-4">
-        {items.map(item => (
-          <ListItem
-            key={item.label}
-            Icon={item.icon}
-            description={item.description}
-            label={item.label}
-            route={item.route}
-          />
-        ))}
-      </View>
+      <ScrollView>
+        <View className="mt-2 px-4">
+          {items.map(item => (
+            <ListItem
+              key={item.label}
+              Icon={item.icon}
+              description={item.description}
+              label={item.label}
+              route={item.route}
+            />
+          ))}
+        </View>
+      </ScrollView>
     </SafeAreaView>
   )
 }
