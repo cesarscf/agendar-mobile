@@ -21,7 +21,6 @@ export const packageSchema = z.object({
     .min(1, "Preço obrigatório")
     .refine(
       value => {
-        // Aceita formatos: 10, 10,5, 10,50, 1.000,00
         const regex = /^(\d{1,3}(\.\d{3})*|\d+)(,\d{1,2})?$/
         return regex.test(value)
       },
@@ -30,6 +29,10 @@ export const packageSchema = z.object({
       }
     ),
   image: z.string().optional(),
+  description: z
+    .string()
+    .max(500, { message: "Descrição deve ter no máximo 500 caracteres" })
+    .optional(),
 })
 
 export const createPackageSchema = packageSchema.omit({ id: true })

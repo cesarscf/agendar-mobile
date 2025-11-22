@@ -33,6 +33,7 @@ export function CreatePackageForm() {
       price: "0,00",
       active: true,
       name: "",
+      description: "",
     },
   })
 
@@ -60,7 +61,7 @@ export function CreatePackageForm() {
 
       router.push(`/(tabs)/establishment/packages/${packageCreated.id}`)
     } catch (_e) {
-      Alert.alert("Erro ao atualizar serviço.")
+      Alert.alert("Erro ao cadastrar pacote.")
     } finally {
       setLoading(false)
     }
@@ -90,7 +91,7 @@ export function CreatePackageForm() {
               name="name"
               render={({ field }) => (
                 <Input
-                  placeholder="Nome do serviço"
+                  placeholder="Nome do pacote"
                   {...field}
                   onBlur={field.onBlur}
                   onChangeText={field.onChange}
@@ -157,10 +158,35 @@ export function CreatePackageForm() {
             )}
           </View>
 
+          <View className="gap-1">
+            <Text className="text-sm font-medium">Descrição</Text>
+            <Controller
+              control={form.control}
+              name="description"
+              render={({ field }) => (
+                <Input
+                  placeholder="Descrição do pacote (opcional)"
+                  multiline
+                  numberOfLines={4}
+                  className="h-24"
+                  {...field}
+                  onBlur={field.onBlur}
+                  onChangeText={field.onChange}
+                  value={field.value}
+                />
+              )}
+            />
+            {form.formState.errors.description && (
+              <Text className="text-red-500 text-xs">
+                {form.formState.errors.description.message}
+              </Text>
+            )}
+          </View>
+
           <ImagePickerControl
             value={currentImage}
             onChange={onImageChange}
-            label="Imagem do serviço"
+            label="Imagem do pacote"
           />
         </ScrollView>
 
@@ -168,7 +194,7 @@ export function CreatePackageForm() {
           <AppButton
             disabled={isPending || loading}
             loading={isPending || loading}
-            title="Cadastrar Serviço"
+            title="Cadastrar Pacote"
             theme="primary"
             onPress={form.handleSubmit(onSubmit)}
           />

@@ -9,6 +9,7 @@ import { Input } from "../input"
 import { AppButton } from "../button"
 import { IconButton } from "../icon-button"
 import { ImagePickerControl } from "../image-picker"
+import { Switch } from "../switch"
 import { uploadImageToFirebase, StorageEntity } from "@/lib/upload-image"
 import { useUpdatePackage } from "@/hooks/data/packages/use-update-package"
 import { useDeletePackage } from "@/hooks/data/packages/use-delete-package"
@@ -185,6 +186,44 @@ export function EditPackageForm({ data, services }: Props) {
                 const formatted = formatCurrencyInput(value)
                 field.onChange(formatted)
               }}
+            />
+          )}
+        />
+      </View>
+
+      <View>
+        <Text className="text-sm font-medium mb-2">Descrição</Text>
+        <Controller
+          control={form.control}
+          name="description"
+          render={({ field }) => (
+            <Input
+              placeholder="Descrição do pacote (opcional)"
+              multiline
+              numberOfLines={4}
+              className="h-24"
+              {...field}
+              onChangeText={field.onChange}
+              value={field.value}
+            />
+          )}
+        />
+        {form.formState.errors.description && (
+          <Text className="text-red-500 text-xs mt-1">
+            {form.formState.errors.description.message}
+          </Text>
+        )}
+      </View>
+
+      <View>
+        <Controller
+          control={form.control}
+          name="active"
+          render={({ field }) => (
+            <Switch
+              label="Pacote Ativo"
+              value={field.value}
+              onValueChange={field.onChange}
             />
           )}
         />
