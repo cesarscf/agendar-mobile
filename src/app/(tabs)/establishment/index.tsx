@@ -2,12 +2,13 @@ import { ListItem } from "@/components/list-item"
 import type { Href } from "expo-router"
 import {
   DoorOpen,
-  HammerIcon,
-  Package,
+  Scissors,
+  Box,
   Store,
-  Tag,
+  FolderTree,
   UserCog,
-  Users,
+  UserSquare,
+  Gift,
 } from "lucide-react-native"
 import { SafeAreaView, View } from "react-native"
 
@@ -17,13 +18,13 @@ export default function Establishment() {
       label: "Serviços",
       description: "Gerencie os serviços oferecidos",
       route: "/(tabs)/establishment/services" as Href,
-      icon: HammerIcon,
+      icon: Scissors,
     },
     {
       label: "Categorias",
       description: "Adicione ou edite as categories",
       route: "/(tabs)/establishment/categories" as Href,
-      icon: Tag,
+      icon: FolderTree,
     },
     {
       label: "Profissionais",
@@ -35,19 +36,19 @@ export default function Establishment() {
       label: "Pacotes de serviços",
       description: "Adicione ou edite pacotes de serviços",
       route: "/(tabs)/establishment/packages" as Href,
-      icon: Package,
+      icon: Box,
     },
     {
       label: "Programas de fidelidade",
       description: "Adicione ou edite programas de fidelidade",
       route: "/(tabs)/establishment/loyalties" as Href,
-      icon: Package,
+      icon: Gift,
     },
     {
       label: "Clientes",
       description: "Configurações clientes de sua loja",
       route: "/(tabs)/establishment/customers" as Href,
-      icon: Users,
+      icon: UserSquare,
     },
     {
       label: "Geral",

@@ -1,4 +1,4 @@
-import { Calendar, ChartArea, Settings, Store } from "lucide-react-native"
+import { CalendarDays, Activity, Settings, ShoppingBag } from "lucide-react-native"
 import { Tabs } from "expo-router"
 import { Image, View } from "react-native"
 
@@ -22,16 +22,16 @@ export default function Layout() {
         options={{
           title: "Agenda",
           headerShown: false,
-          tabBarIcon: ({ color }) => <Calendar color={color} />,
+          tabBarIcon: ({ color }) => <CalendarDays color={color} />,
         }}
       />
       <Tabs.Screen
         name="dashboard"
         options={{
-          title: "Dashboard",
+          title: "Relatórios",
           headerShown: true,
           headerRight: () => <HeaderRight />,
-          tabBarIcon: ({ color }) => <ChartArea color={color} />,
+          tabBarIcon: ({ color }) => <Activity color={color} />,
         }}
       />
       <Tabs.Screen
@@ -39,7 +39,7 @@ export default function Layout() {
         options={{
           title: "Loja",
           headerShown: false,
-          tabBarIcon: ({ color }) => <Store color={color} />,
+          tabBarIcon: ({ color }) => <ShoppingBag color={color} />,
         }}
       />
       <Tabs.Screen
