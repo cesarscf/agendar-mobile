@@ -31,10 +31,13 @@ type UpdateEstablishmentFormProps = {
   data: Inputs
 }
 
-const themeOptions = [
-  { label: "Verde", value: "green" },
-  { label: "Azul", value: "blue" },
-  { label: "Vermelho", value: "red" },
+export const themeOptions = [
+  { label: "Vermelho", value: "red", color: "#ef4444" },
+  { label: "Verde", value: "green", color: "#22c55e" },
+  { label: "Azul", value: "blue", color: "#3b82f6" },
+  { label: "Roxo", value: "purple", color: "#8b5cf6" },
+  { label: "Amarelo", value: "yellow", color: "#eab308" },
+  { label: "Laranja", value: "orange", color: "#ff6900" },
 ]
 
 export function UpdateEstablishmentForm({
@@ -126,7 +129,7 @@ export function UpdateEstablishmentForm({
           keyboardShouldPersistTaps="handled"
         >
           <View className="gap-1">
-            <Text className="text-sm font-medium">Nome</Text>
+            <Text className="text-sm font-medium">Nome da loja</Text>
             <Controller
               control={form.control}
               name="name"
@@ -181,7 +184,7 @@ export function UpdateEstablishmentForm({
               control={form.control}
               name="theme"
               render={({ field }) => (
-                <View className="flex-row gap-4">
+                <View className="grid grid-cols-2 gap-4">
                   {themeOptions.map(option => (
                     <Pressable
                       key={option.value}
@@ -207,7 +210,7 @@ export function UpdateEstablishmentForm({
           </View>
 
           <View className="gap-1">
-            <Text className="text-sm font-medium">Sobre</Text>
+            <Text className="text-sm font-medium">Sobre Nós</Text>
             <Controller
               control={form.control}
               name="about"
