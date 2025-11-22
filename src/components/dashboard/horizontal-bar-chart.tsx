@@ -67,14 +67,16 @@ export function HorizontalBarChart({
                 </Text>
               </View>
               <View className="h-8 bg-gray-100 rounded-lg overflow-hidden">
-                <View
-                  className="h-full bg-[#3B82F6] rounded-lg justify-center px-2"
-                  style={{ width: `${Math.max(percentage, 5)}%` }}
-                >
-                  <Text className="text-xs text-white font-medium">
-                    {percentage.toFixed(0)}%
-                  </Text>
-                </View>
+                {item.value > 0 && (
+                  <View
+                    className="h-full bg-[#3B82F6] rounded-lg justify-center px-2"
+                    style={{ width: `${Math.max(percentage, 5)}%` }}
+                  >
+                    <Text className="text-xs text-white font-medium">
+                      {percentage.toFixed(0)}%
+                    </Text>
+                  </View>
+                )}
               </View>
             </View>
           )
