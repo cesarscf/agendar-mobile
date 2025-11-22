@@ -87,7 +87,7 @@ export function EditEmployeeForm({ employee }: EditEmployeeFormProps) {
   async function handleDelete() {
     Alert.alert(
       "Confirmar exclusão",
-      "Tem certeza que deseja excluir este funcionário?",
+      "Tem certeza que deseja excluir este profissional?",
       [
         {
           text: "Cancelar",
@@ -101,7 +101,7 @@ export function EditEmployeeForm({ employee }: EditEmployeeFormProps) {
               await deleteAsync(employee.id)
               router.back()
             } catch {
-              Alert.alert("Erro ao excluir funcionário.")
+              Alert.alert("Erro ao excluir profissional.")
             }
           },
         },
@@ -242,7 +242,7 @@ export function EditEmployeeForm({ employee }: EditEmployeeFormProps) {
               name="biography"
               render={({ field }) => (
                 <Input
-                  placeholder="Sobre o funcionário"
+                  placeholder="Sobre o profissional"
                   multiline
                   numberOfLines={5}
                   className="h-40"

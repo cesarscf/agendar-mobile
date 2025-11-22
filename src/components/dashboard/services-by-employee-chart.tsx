@@ -26,7 +26,7 @@ export function ServicesByEmployeeChart({
 
   return (
     <PieChartCard
-      title="Serviços por Funcionário"
+      title="Serviços por Profissional"
       data={chartData}
       isLoading={isLoading}
       formatValue={formatNumber}

@@ -76,7 +76,7 @@ export default function Dashboard() {
                 activeTab === "employees" ? "text-white" : "text-gray-600"
               )}
             >
-              Funcionários
+              Profissionais
             </Text>
           </Pressable>
         </View>

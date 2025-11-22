@@ -65,7 +65,7 @@ export function CreateEmployeeForm() {
 
       router.back()
     } catch (_e) {
-      Alert.alert("Erro ao cadastrar funcionário.")
+      Alert.alert("Erro ao cadastrar profissional.")
     } finally {
       setLoading(false)
     }
@@ -95,7 +95,7 @@ export function CreateEmployeeForm() {
               name="name"
               render={({ field }) => (
                 <Input
-                  placeholder="Nome do funcionário"
+                  placeholder="Nome do profissional"
                   {...field}
                   onBlur={field.onBlur}
                   onChangeText={field.onChange}
@@ -193,7 +193,7 @@ export function CreateEmployeeForm() {
               name="biography"
               render={({ field }) => (
                 <Input
-                  placeholder="Sobre o funcionário"
+                  placeholder="Sobre o profissional"
                   multiline
                   numberOfLines={5}
                   className="h-40"
@@ -227,7 +227,7 @@ export function CreateEmployeeForm() {
           <ImagePickerControl
             value={currentImage}
             onChange={onImageChange}
-            label="Foto do funcionário"
+            label="Foto do profissional"
           />
         </ScrollView>
 
@@ -235,7 +235,7 @@ export function CreateEmployeeForm() {
           <AppButton
             disabled={isPending || loading}
             loading={isPending || loading}
-            title="Cadastrar Funcionário"
+            title="Cadastrar Profissional"
             theme="primary"
             onPress={form.handleSubmit(onSubmit)}
           />

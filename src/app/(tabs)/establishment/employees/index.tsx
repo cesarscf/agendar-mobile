@@ -1,6 +1,6 @@
 import { useEmployees } from "@/hooks/data/employees"
 import { Link } from "expo-router"
-import { ChevronRight, Users } from "lucide-react-native"
+import { ChevronRight, Hammer } from "lucide-react-native"
 import {
   ActivityIndicator,
   Image,
@@ -26,8 +26,8 @@ export default function Employees() {
     return (
       <SafeAreaView className="flex-1 bg-white">
         <Empty
-          message="Nenhum colaborador cadastrado"
-          icon={<Users size={48} color="#9CA3AF" />}
+          message="Nenhum profissional cadastrado"
+          icon={<Hammer size={48} color="#9CA3AF" />}
         />
       </SafeAreaView>
     )

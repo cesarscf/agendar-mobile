@@ -2,11 +2,11 @@ import { ListItem } from "@/components/list-item"
 import type { Href } from "expo-router"
 import {
   DoorOpen,
-  Hammer,
   HammerIcon,
   Package,
   Store,
   Tag,
+  UserCog,
   Users,
 } from "lucide-react-native"
 import { SafeAreaView, View } from "react-native"
@@ -26,10 +26,10 @@ export default function Establishment() {
       icon: Tag,
     },
     {
-      label: "Funcionários",
+      label: "Profissionais",
       description: "Adicione ou edite sua equipe",
       route: "/(tabs)/establishment/employees" as Href,
-      icon: Hammer,
+      icon: UserCog,
     },
     {
       label: "Pacotes de serviços",

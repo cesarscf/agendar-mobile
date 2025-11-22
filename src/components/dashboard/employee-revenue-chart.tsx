@@ -26,7 +26,7 @@ export function EmployeeRevenueChart({
 
   return (
     <HorizontalBarChart
-      title="Receita por Funcionário"
+      title="Receita por Profissional"
       data={chartData}
       isLoading={isLoading}
     />

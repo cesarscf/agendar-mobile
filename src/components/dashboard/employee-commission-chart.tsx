@@ -26,7 +26,7 @@ export function EmployeeCommissionChart({
 
   return (
     <HorizontalBarChart
-      title="Comissão por Funcionário"
+      title="Comissão por Profissional"
       data={chartData}
       isLoading={isLoading}
     />
