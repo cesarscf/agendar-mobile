@@ -4,13 +4,16 @@ import { View, Text, Pressable } from "react-native"
 
 import { EditCustomerForm } from "@/components/forms/edit-customer-form"
 import { CustomerPackages } from "@/components/customer-packages"
+import { CustomerLoyaltyPrograms } from "@/components/customer-loyalty-programs"
 import { useCustomer } from "@/hooks/data/customers/use-customer"
 import { cn } from "@/utils/cn"
 
 export default function EditServiceScreen() {
   const { id } = useLocalSearchParams()
   const customerId = Array.isArray(id) ? id[0] : (id as string)
-  const [activeTab, setActiveTab] = useState<"general" | "packages">("general")
+  const [activeTab, setActiveTab] = useState<
+    "general" | "packages" | "loyalty"
+  >("general")
 
   if (!customerId) return null
 
@@ -61,11 +64,31 @@ export default function EditServiceScreen() {
               Pacotes
             </Text>
           </Pressable>
+
+          <Pressable
+            onPress={() => setActiveTab("loyalty")}
+            className={cn(
+              "flex-1 py-3 rounded-lg mx-1",
+              activeTab === "loyalty" ? "bg-[#fbdd65]" : "bg-gray-100"
+            )}
+          >
+            <Text
+              className={cn(
+                "text-center font-semibold",
+                activeTab === "loyalty" ? "text-black" : "text-gray-600"
+              )}
+            >
+              Fidelidade
+            </Text>
+          </Pressable>
         </View>
       </View>
 
       {activeTab === "general" && <EditCustomerForm customer={customer} />}
       {activeTab === "packages" && <CustomerPackages customerId={customerId} />}
+      {activeTab === "loyalty" && (
+        <CustomerLoyaltyPrograms customerPhone={customer.phoneNumber} />
+      )}
     </View>
   )
 }
