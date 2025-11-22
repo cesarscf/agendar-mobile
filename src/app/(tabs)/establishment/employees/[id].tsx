@@ -5,11 +5,14 @@ import { useEmployee } from "@/hooks/data/employees"
 import { cn } from "@/utils/cn"
 import { EditEmployeeForm } from "@/components/forms/update-employee-form"
 import { EmployeeBlocksTab } from "../../../../components/forms/blocks"
+import { UpdateEmployeeServiceForm } from "@/components/forms/update-employee-service-form"
 
 export default function EmployeeDetailScreen() {
   const { id } = useLocalSearchParams()
   const employeeId = Array.isArray(id) ? id[0] : (id as string)
-  const [activeTab, setActiveTab] = useState<"general" | "blocks">("general")
+  const [activeTab, setActiveTab] = useState<"general" | "blocks" | "services">(
+    "general"
+  )
 
   if (!employeeId) return null
 
@@ -45,6 +48,23 @@ export default function EmployeeDetailScreen() {
           </Pressable>
 
           <Pressable
+            onPress={() => setActiveTab("services")}
+            className={cn(
+              "flex-1 py-3 rounded-lg mx-1",
+              activeTab === "services" ? "bg-[#fbdd65]" : "bg-gray-100"
+            )}
+          >
+            <Text
+              className={cn(
+                "text-center font-semibold",
+                activeTab === "services" ? "text-black" : "text-gray-600"
+              )}
+            >
+              Serviços
+            </Text>
+          </Pressable>
+
+          <Pressable
             onPress={() => setActiveTab("blocks")}
             className={cn(
               "flex-1 py-3 rounded-lg mx-1",
@@ -65,6 +85,9 @@ export default function EmployeeDetailScreen() {
 
       {activeTab === "general" && <EditEmployeeForm employee={employee} />}
       {activeTab === "blocks" && <EmployeeBlocksTab employeeId={employeeId} />}
+      {activeTab === "services" && (
+        <UpdateEmployeeServiceForm employee={employee} />
+      )}
     </View>
   )
 }

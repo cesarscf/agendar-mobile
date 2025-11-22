@@ -1,5 +1,12 @@
 import { z } from "zod"
 
+export const employeeServiceSchema = z.object({
+  serviceId: z.string(),
+  serviceName: z.string(),
+  commission: z.string(),
+  active: z.boolean(),
+})
+
 export const employeeSchema = z.object({
   id: z.string().uuid(),
   name: z
@@ -20,6 +27,7 @@ export const employeeSchema = z.object({
     .string()
     .max(500, { message: "Biografia deve ter no máximo 500 caracteres" })
     .optional(),
+  services: z.array(employeeServiceSchema).optional(),
 })
 
 export const createEmployeeSchema = employeeSchema.omit({ id: true })
@@ -28,6 +36,15 @@ export const updateEmployeeSchema = employeeSchema.partial().extend({
   id: z.string().min(1, "ID obrigatório"),
 })
 
+export const updateEmployeeServicesSchema = z.object({
+  employeeId: z.string(),
+  services: z.array(employeeServiceSchema),
+})
+
 export type Employee = z.infer<typeof employeeSchema>
 export type CreateEmployeeRequest = z.infer<typeof createEmployeeSchema>
 export type UpdateEmployeeRequest = z.infer<typeof updateEmployeeSchema>
+export type EmployeeService = z.infer<typeof employeeServiceSchema>
+export type UpdateEmployeeServicesRequest = z.infer<
+  typeof updateEmployeeServicesSchema
+>
