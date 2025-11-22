@@ -3,8 +3,10 @@ import type { Appointment } from "@/hooks/data/appointment/use-appointments"
 import { useEmployees } from "@/hooks/data/employees/use-employees"
 import { useServices } from "@/hooks/data/services/use-services"
 import { useEstablishment } from "@/hooks/data/establishment/use-establishment"
+import { useCancelAppointment } from "@/hooks/data/appointment/use-cancel-appointment"
 import { AppointmentCard } from "@/components/appointment-card"
 import { CheckinDialog } from "@/components/checkin-dialog"
+import { CancelAppointmentDialog } from "@/components/cancel-appointment-dialog"
 import { Empty } from "@/components/empty"
 import { DashboardFilters } from "@/components/dashboard/dashboard-filters"
 import { useAgendaFilters } from "@/hooks/use-agenda-filters"
@@ -32,6 +34,7 @@ export default function Appointments() {
   >("scheduled")
   const [showFilters, setShowFilters] = useState(false)
   const [checkinDialogVisible, setCheckinDialogVisible] = useState(false)
+  const [cancelDialogVisible, setCancelDialogVisible] = useState(false)
   const [selectedAppointment, setSelectedAppointment] =
     useState<Appointment | null>(null)
 
@@ -44,12 +47,40 @@ export default function Appointments() {
     isLoading: isLoadingFilters,
   } = useAgendaFilters()
 
+  const { mutate: cancelAppointment, isPending: isCancelling } =
+    useCancelAppointment()
+
   const handleCheckIn = (appointmentId: string) => {
     const appointment = data?.appointments.find(a => a.id === appointmentId)
     if (appointment) {
       setSelectedAppointment(appointment)
       setCheckinDialogVisible(true)
     }
+  }
+
+  const handleCancel = (appointmentId: string) => {
+    const appointment = data?.appointments.find(a => a.id === appointmentId)
+    if (appointment) {
+      setSelectedAppointment(appointment)
+      setCancelDialogVisible(true)
+    }
+  }
+
+  const handleConfirmCancel = (appointmentId: string, reason: string) => {
+    cancelAppointment(
+      { appointmentId, reason },
+      {
+        onSuccess: () => {
+          setCancelDialogVisible(false)
+          setSelectedAppointment(null)
+        },
+      }
+    )
+  }
+
+  const handleCloseCancelDialog = () => {
+    setCancelDialogVisible(false)
+    setSelectedAppointment(null)
   }
 
   const handleCloseCheckinDialog = () => {
@@ -328,7 +359,11 @@ export default function Appointments() {
               />
             }
             renderItem={({ item }) => (
-              <AppointmentCard appointment={item} onCheckIn={handleCheckIn} />
+              <AppointmentCard
+                appointment={item}
+                onCheckIn={handleCheckIn}
+                onCancel={handleCancel}
+              />
             )}
             scrollEnabled={false}
           />
@@ -342,6 +377,14 @@ export default function Appointments() {
         onSuccess={() => {
           // Dialog already closes on success, just need to trigger any additional logic if needed
         }}
+      />
+
+      <CancelAppointmentDialog
+        visible={cancelDialogVisible}
+        appointment={selectedAppointment}
+        onClose={handleCloseCancelDialog}
+        onConfirm={handleConfirmCancel}
+        isLoading={isCancelling}
       />
     </SafeAreaView>
   )

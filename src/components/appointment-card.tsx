@@ -8,6 +8,7 @@ import type { Appointment } from "@/hooks/data/appointment/use-appointments"
 interface AppointmentCardProps {
   appointment: Appointment
   onCheckIn?: (appointmentId: string) => void
+  onCancel?: (appointmentId: string) => void
 }
 
 const statusLabels: Record<Appointment["status"], string> = {
@@ -19,6 +20,7 @@ const statusLabels: Record<Appointment["status"], string> = {
 export function AppointmentCard({
   appointment,
   onCheckIn,
+  onCancel,
 }: AppointmentCardProps) {
   const formattedDate = format(appointment.startTime, "dd 'de' MMMM", {
     locale: ptBR,
@@ -85,12 +87,20 @@ export function AppointmentCard({
       </View>
 
       {showCheckInButton && (
-        <TouchableOpacity
-          onPress={() => onCheckIn?.(appointment.id)}
-          className="bg-blue-600 py-3 rounded-lg items-center"
-        >
-          <Text className="text-white font-semibold">Fazer Check-in</Text>
-        </TouchableOpacity>
+        <View className="flex-row gap-2">
+          <TouchableOpacity
+            onPress={() => onCheckIn?.(appointment.id)}
+            className="flex-1 bg-blue-600 py-3 rounded-lg items-center"
+          >
+            <Text className="text-white font-semibold">Fazer Check-in</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => onCancel?.(appointment.id)}
+            className="flex-1 bg-red-600 py-3 rounded-lg items-center"
+          >
+            <Text className="text-white font-semibold">Cancelar</Text>
+          </TouchableOpacity>
+        </View>
       )}
     </View>
   )
