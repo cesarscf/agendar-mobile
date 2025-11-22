@@ -38,6 +38,12 @@ export default function Establishment() {
       icon: Package,
     },
     {
+      label: "Programas de fidelidade",
+      description: "Adicione ou edite programas de fidelidade",
+      route: "/(tabs)/establishment/loyalties" as Href,
+      icon: Package,
+    },
+    {
       label: "Clientes",
       description: "Configurações clientes de sua loja",
       route: "/(tabs)/establishment/customers" as Href,

@@ -63,6 +63,13 @@ export default function Layout() {
         }}
       />
       <Stack.Screen
+        name="loyalties"
+        options={{
+          title: "PROGRAMAS DE FIDELIDADE",
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
         name="customers"
         options={{
           title: "CLIENTES",
