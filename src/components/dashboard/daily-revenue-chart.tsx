@@ -23,7 +23,7 @@ export function DailyRevenueChart({
     return data.items.map(item => ({
       value: item.value / 100,
       label: format(parseISO(item.date), "dd/MM", { locale: ptBR }),
-      frontColor: "#000",
+      frontColor: "#EF4444",
     }))
   }, [data])
 
@@ -84,8 +84,8 @@ export function DailyRevenueChart({
         isAnimated
         animationDuration={500}
         showGradient
-        gradientColor="#000"
-        frontColor="#000"
+        gradientColor="#EF4444"
+        frontColor="#EF4444"
       />
     </View>
   )
