@@ -126,10 +126,7 @@ export function DashboardFilters({
             disabled={isRefreshing}
             className="flex-1 flex-row items-center justify-center gap-2 h-10 rounded-lg border border-gray-300 bg-gray-50"
           >
-            <RefreshCw
-              size={16}
-              color={isRefreshing ? "#9CA3AF" : "#6B7280"}
-            />
+            <RefreshCw size={16} color={isRefreshing ? "#9CA3AF" : "#6B7280"} />
             <Text
               className={`text-sm font-medium ${isRefreshing ? "text-gray-400" : "text-gray-700"}`}
             >

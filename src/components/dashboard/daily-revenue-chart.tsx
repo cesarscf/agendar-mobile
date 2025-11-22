@@ -1,5 +1,5 @@
 import { View, Text, ActivityIndicator, Dimensions } from "react-native"
-import { useMemo } from "react"
+import { useMemo, useState } from "react"
 import { BarChart } from "react-native-gifted-charts"
 import { format, parseISO } from "date-fns"
 import { ptBR } from "date-fns/locale"
@@ -16,6 +16,10 @@ export function DailyRevenueChart({
   endDate,
 }: DailyRevenueChartProps) {
   const { data, isLoading } = useDailyRevenue({ startDate, endDate })
+  const [selectedBar, setSelectedBar] = useState<{
+    value: number
+    label: string
+  } | null>(null)
 
   const chartData = useMemo(() => {
     if (!data?.items) return []
@@ -24,6 +28,12 @@ export function DailyRevenueChart({
       value: item.value / 100,
       label: format(parseISO(item.date), "dd/MM", { locale: ptBR }),
       frontColor: "#EF4444",
+      onPress: () => {
+        setSelectedBar({
+          value: item.value,
+          label: format(parseISO(item.date), "dd/MM", { locale: ptBR }),
+        })
+      },
     }))
   }, [data])
 
@@ -60,6 +70,14 @@ export function DailyRevenueChart({
         <Text className="text-2xl font-bold text-black mt-1">
           {formatPriceFromCents(total)}
         </Text>
+        {selectedBar && (
+          <View className="mt-2 bg-red-50 p-2 rounded-lg border border-red-200">
+            <Text className="text-xs text-gray-600">{selectedBar.label}</Text>
+            <Text className="text-lg font-bold text-red-600">
+              {formatPriceFromCents(selectedBar.value)}
+            </Text>
+          </View>
+        )}
       </View>
 
       <BarChart

@@ -148,9 +148,7 @@ function PackageCard({ package: pkg }: PackageCardProps) {
           </Text>
         </View>
         <View className="flex-1 bg-gray-50 p-3 rounded-lg">
-          <Text className="text-xs text-gray-600 mb-1">
-            Serviços restantes
-          </Text>
+          <Text className="text-xs text-gray-600 mb-1">Serviços restantes</Text>
           <Text className="text-xl font-bold text-gray-900">
             {pkg.remainingSessions}
           </Text>

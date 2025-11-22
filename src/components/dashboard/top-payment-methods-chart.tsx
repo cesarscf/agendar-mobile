@@ -7,6 +7,17 @@ type TopPaymentMethodsChartProps = {
   endDate: string
 }
 
+const paymentMethodTranslations: Record<string, string> = {
+  cash: "Dinheiro",
+  credit_card: "Cartão de Crédito",
+  debit_card: "Cartão de Débito",
+  pix: "PIX",
+  bank_transfer: "Transferência Bancária",
+  check: "Cheque",
+  voucher: "Voucher",
+  other: "Outro",
+}
+
 export function TopPaymentMethodsChart({
   startDate,
   endDate,
@@ -18,7 +29,7 @@ export function TopPaymentMethodsChart({
 
     return data.items.map(item => ({
       value: item.usage,
-      label: item.method,
+      label: paymentMethodTranslations[item.method] || item.method,
       color: "",
     }))
   }, [data])
