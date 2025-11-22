@@ -12,7 +12,7 @@ export function TopPaymentMethodsChart({
   endDate,
 }: TopPaymentMethodsChartProps) {
   const { data, isLoading } = useTopPaymentMethods({ startDate, endDate })
-  console.log(data)
+
   const chartData = useMemo(() => {
     if (!data?.items) return []
 

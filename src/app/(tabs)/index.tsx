@@ -72,8 +72,6 @@ export default function Appointments() {
     serviceId: selectedService || undefined,
   })
 
-  console.log(data)
-
   return (
     <SafeAreaView className="flex-1 bg-white pt-10">
       <ScrollView contentContainerStyle={{ padding: 16, flexGrow: 1 }}>
