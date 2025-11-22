@@ -1,17 +1,22 @@
+import { useState } from "react"
 import { useLocalSearchParams } from "expo-router"
-import { View, Text } from "react-native"
+import { View, Text, Pressable } from "react-native"
 
 import { EditCustomerForm } from "@/components/forms/edit-customer-form"
+import { CustomerPackages } from "@/components/customer-packages"
 import { useCustomer } from "@/hooks/data/customers/use-customer"
+import { cn } from "@/utils/cn"
 
 export default function EditServiceScreen() {
   const { id } = useLocalSearchParams()
+  const customerId = Array.isArray(id) ? id[0] : (id as string)
+  const [activeTab, setActiveTab] = useState<"general" | "packages">("general")
 
-  if (!id) return null
+  if (!customerId) return null
 
-  const { data: customer } = useCustomer(id as string)
+  const { data: customer, isLoading } = useCustomer(customerId)
 
-  if (!customer) {
+  if (isLoading || !customer) {
     return (
       <View className="flex-1 items-center justify-center bg-white">
         <Text>Carregando...</Text>
@@ -19,5 +24,48 @@ export default function EditServiceScreen() {
     )
   }
 
-  return <EditCustomerForm customer={customer} />
+  return (
+    <View className="flex-1 bg-white">
+      <View className="border-b border-gray-200 bg-white">
+        <View className="flex-row p-2">
+          <Pressable
+            onPress={() => setActiveTab("general")}
+            className={cn(
+              "flex-1 py-3 rounded-lg mx-1",
+              activeTab === "general" ? "bg-[#fbdd65]" : "bg-gray-100"
+            )}
+          >
+            <Text
+              className={cn(
+                "text-center font-semibold",
+                activeTab === "general" ? "text-black" : "text-gray-600"
+              )}
+            >
+              Geral
+            </Text>
+          </Pressable>
+
+          <Pressable
+            onPress={() => setActiveTab("packages")}
+            className={cn(
+              "flex-1 py-3 rounded-lg mx-1",
+              activeTab === "packages" ? "bg-[#fbdd65]" : "bg-gray-100"
+            )}
+          >
+            <Text
+              className={cn(
+                "text-center font-semibold",
+                activeTab === "packages" ? "text-black" : "text-gray-600"
+              )}
+            >
+              Pacotes
+            </Text>
+          </Pressable>
+        </View>
+      </View>
+
+      {activeTab === "general" && <EditCustomerForm customer={customer} />}
+      {activeTab === "packages" && <CustomerPackages customerId={customerId} />}
+    </View>
+  )
 }
