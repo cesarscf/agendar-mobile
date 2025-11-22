@@ -16,5 +16,27 @@ export const loyaltyProgramSchema = z.object({
   rules: z.array(pointRuleSchema),
 })
 
+export const createLoyaltyProgramRuleSchema = z.object({
+  serviceId: z.string().min(1, "Selecione um serviço"),
+  points: z.number().min(1, "Os pontos devem ser pelo menos 1"),
+})
+
+export const createLoyaltyProgramSchema = z.object({
+  serviceRewardId: z.string().min(1, "Selecione um serviço de recompensa"),
+  name: z.string().min(1, "O nome é obrigatório"),
+  requiredPoints: z
+    .number()
+    .min(1, "Os pontos necessários devem ser pelo menos 1"),
+  rules: z
+    .array(createLoyaltyProgramRuleSchema)
+    .min(1, "Adicione pelo menos uma regra"),
+})
+
 export type PointRule = z.infer<typeof pointRuleSchema>
 export type LoyaltyProgram = z.infer<typeof loyaltyProgramSchema>
+export type CreateLoyaltyProgramRule = z.infer<
+  typeof createLoyaltyProgramRuleSchema
+>
+export type CreateLoyaltyProgramRequest = z.infer<
+  typeof createLoyaltyProgramSchema
+>
