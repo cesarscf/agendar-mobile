@@ -18,6 +18,8 @@ import {
   SafeAreaView,
   FlatList,
   Image,
+  Pressable,
+  Linking,
 } from "react-native"
 import { ChevronDown, ChevronUp, CalendarX } from "lucide-react-native"
 import { useState } from "react"
@@ -78,9 +80,14 @@ export default function Appointments() {
   return (
     <SafeAreaView className="flex-1 bg-white pt-10">
       <ScrollView contentContainerStyle={{ padding: 16, flexGrow: 1 }}>
-        {/* Header com Logo e Nome do Establishment */}
         <View className="flex-row items-center justify-between mb-6">
-          <View className="flex-row items-center flex-1">
+          <Pressable
+            onPress={() => {
+              const url = `https://agendar-web-omega.vercel.app/${establishment?.slug}`
+              Linking.openURL(url)
+            }}
+            className="flex-row items-center flex-1"
+          >
             {establishment?.logoUrl ? (
               <Image
                 source={{ uri: establishment.logoUrl }}
@@ -94,10 +101,11 @@ export default function Appointments() {
                 </Text>
               </View>
             )}
+
             <Text className="text-xl font-bold text-gray-800 flex-1">
               {establishment?.name || "Carregando..."}
             </Text>
-          </View>
+          </Pressable>
           <Image
             source={require("../../../assets/agendar-logo.png")}
             className="w-10 h-10"

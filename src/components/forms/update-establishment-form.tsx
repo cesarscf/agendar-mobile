@@ -184,7 +184,7 @@ export function UpdateEstablishmentForm({
               control={form.control}
               name="theme"
               render={({ field }) => (
-                <View className="grid grid-cols-2 gap-4">
+                <View className="grid gri gap-4">
                   {themeOptions.map(option => (
                     <Pressable
                       key={option.value}
@@ -370,7 +370,7 @@ export function UpdateEstablishmentForm({
             onChange={uri =>
               form.setValue("bannerUrl", uri, { shouldValidate: true })
             }
-            label="Imagem do Banner"
+            label="Banner da loja"
           />
 
           <ImagePickerControl
@@ -378,7 +378,7 @@ export function UpdateEstablishmentForm({
             onChange={uri =>
               form.setValue("logoUrl", uri, { shouldValidate: true })
             }
-            label="Logo do Estabelecimento"
+            label="Logo da loja"
           />
         </ScrollView>
 
