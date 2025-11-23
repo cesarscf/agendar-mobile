@@ -18,6 +18,7 @@ export function NetRevenueCard({ startDate, endDate }: NetRevenueCardProps) {
     <MetricCard
       title="Receita Líquida"
       value={formatPriceFromCents(data?.value ?? 0)}
+      subtitle="Receita Total - Comissões"
       icon={TrendingUp}
       isLoading={isLoading}
       isError={isError}
