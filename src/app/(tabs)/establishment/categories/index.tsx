@@ -5,6 +5,7 @@ import {
   ActivityIndicator,
   Pressable,
   SafeAreaView,
+  ScrollView,
   Text,
   View,
 } from "react-native"
@@ -34,23 +35,25 @@ export default function Categories() {
 
   return (
     <SafeAreaView className="flex-1 bg-white">
-      <View className="mt-4 px-4">
-        {categories?.map(category => (
-          <Link
-            href={`/(tabs)/establishment/categories/${category.id}`}
-            key={category.id}
-            asChild
-          >
-            <Pressable
-              className="flex-row items-center justify-between p-4 border-b border-gray-200"
-              android_ripple={{ color: "#ddd" }}
+      <ScrollView>
+        <View className="mt-4 px-4">
+          {categories?.map(category => (
+            <Link
+              href={`/(tabs)/establishment/categories/${category.id}`}
+              key={category.id}
+              asChild
             >
-              <Text className="text-base text-gray-900">{category.name}</Text>
-              <ChevronRight size={24} className="text-gray-400" />
-            </Pressable>
-          </Link>
-        ))}
-      </View>
+              <Pressable
+                className="flex-row items-center justify-between p-4 border-b border-gray-200"
+                android_ripple={{ color: "#ddd" }}
+              >
+                <Text className="text-base text-gray-900">{category.name}</Text>
+                <ChevronRight size={24} className="text-gray-400" />
+              </Pressable>
+            </Link>
+          ))}
+        </View>
+      </ScrollView>
     </SafeAreaView>
   )
 }
