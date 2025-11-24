@@ -1,4 +1,4 @@
-import { View, Text, ActivityIndicator, ScrollView } from "react-native"
+import { View, Text, ActivityIndicator } from "react-native"
 import { PieChart } from "react-native-gifted-charts"
 
 type PieChartData = {
@@ -83,7 +83,7 @@ export function PieChartCard({
         />
       </View>
 
-      <ScrollView className="max-h-[200px]">
+      <View>
         {data.map((item, index) => {
           const percentage = ((item.value / total) * 100).toFixed(1)
           return (
@@ -115,7 +115,7 @@ export function PieChartCard({
             </View>
           )
         })}
-      </ScrollView>
+      </View>
     </View>
   )
 }
